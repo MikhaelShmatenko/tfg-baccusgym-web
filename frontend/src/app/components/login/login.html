@@ -1,0 +1,75 @@
+<div class="login-page">
+  <div class="login-container">
+    <div class="login-side side-image">
+      <img src="images/login_image_copy.jpeg" alt="Baccus Gym" class="login-main-img" />
+    </div>
+
+    <div class="login-side side-form">
+      <div class="form-wrapper">
+        <h2>Iniciar sesión</h2>
+        <p class="subtitle">Inicia sesión para acceder a todas nuestras funcionalidades</p>
+
+        @if (errorMessage) {
+          <div class="alert-error">
+            {{ errorMessage }}
+          </div>
+        }
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              [class.input-error]="
+                loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+              "
+              formControlName="email"
+              placeholder="Introduce tu email"
+            />
+            @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+              <small class="error-text">
+                @if (loginForm.get('email')?.errors?.['required']) {
+                  El email es obligatorio.
+                }
+              </small>
+            }
+          </div>
+
+          <div class="form-group">
+            <label>Contraseña</label>
+            <div class="password-wrapper">
+              <input
+                [type]="showPassword ? 'text' : 'password'"
+                formControlName="password"
+                placeholder="********"
+                class="password-input"
+                [class.input-error]="
+                  loginForm.get('password')?.invalid && loginForm.get('password')?.touched
+                "
+              />
+
+              <button type="button" class="toggle-btn" (click)="showPassword = !showPassword">
+                <span>{{ showPassword ? '🙈' : '👁️' }}</span>
+              </button>
+            </div>
+            @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+              <small class="error-text">
+                @if (loginForm.get('password')?.errors?.['required']) {
+                  La contraseña es obligatoria.
+                }
+              </small>
+            }
+          </div>
+
+          <div class="form-options">
+            <a routerLink="/baccus-gym/user/recover-password" class="forgot-link"
+              >¿Contraseña olvidada?</a
+            >
+          </div>
+
+          <button type="submit" class="btn-entrar">ENTRAR</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

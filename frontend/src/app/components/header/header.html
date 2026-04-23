@@ -1,0 +1,30 @@
+<header class="navbar">
+  <div class="container">
+    <div class="logo">
+      <img src="images/logo.png" alt="Baccus Gym" routerLink="/baccus-gym" />
+    </div>
+
+    <input type="checkbox" id="menu-toggle" class="menu-toggle" />
+    <label for="menu-toggle" class="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </label>
+
+    <nav class="nav-links">
+      <a routerLink="/baccus-gym/facilities">INSTALACIONES</a>
+      <a routerLink="/baccus-gym/exercises">EJERCICIOS</a>
+      <a routerLink="/baccus-gym/see-plans">PLANES</a>
+      <a routerLink="/baccus-gym/who-we-are">QUIÉNES SOMOS</a>
+      <a routerLink="/baccus-gym/contact">CONTACTO</a>
+
+      <button class="btn-login mobile-only" routerLink="/baccus-gym/user/login">
+        INICIAR SESIÓN
+      </button>
+    </nav>
+
+    <div class="auth-button desktop-only">
+      <button class="btn-login" routerLink="/baccus-gym/user/login">INICIAR SESIÓN</button>
+    </div>
+  </div>
+</header>

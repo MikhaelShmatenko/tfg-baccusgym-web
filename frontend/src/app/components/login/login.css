@@ -1,0 +1,241 @@
+.login-page {
+  background-color: #181717;
+  min-height: calc(100vh - 80px); /* Ajusta según tu header */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Margen mínimo respecto a la pantalla */
+  padding: 0px 0.5%;
+}
+
+.login-container {
+  display: flex;
+  /* El contenedor ocupa prácticamente todo el ancho disponible */
+  width: 99%;
+  max-width: 1800px;
+  /* Ocupa casi toda la altura de la ventana */
+  height: 86vh;
+  background-color: #000;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.5);
+}
+
+.login-side {
+  flex: 0 0 50%;
+  display: flex;
+  align-items: start;
+  justify-content: center;
+}
+
+/* Lado Imagen */
+.side-image {
+  border-right: 2px solid #d62121; /* Línea roja divisoria central */
+  height: 100%;
+}
+
+.login-main-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Lado Formulario */
+.side-form {
+  /* Reducimos el padding para que el form esté más cerca de los bordes del contenedor */
+  padding: 20px 40px;
+  color: #fff;
+  height: 100%;
+}
+
+.form-wrapper {
+  width: 100%;
+  /* Ensanchamos el formulario interno */
+  max-width: 550px;
+  margin: 0 auto;
+}
+
+h2 {
+  font-size: 3.5rem; /* Título mucho más grande */
+  font-weight: 900;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: -2px;
+  margin-top: 0;
+}
+
+.subtitle {
+  color: #a8a8a8;
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+}
+
+/* Espaciado muy ajustado entre elementos del form */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 5px;
+  font-size: 0.8rem;
+  color: #a8a8a8;
+  text-transform: uppercase;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 18px;
+  background-color: #0a0a0a;
+  border: 1px solid #222;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 1.1rem;
+  box-sizing: border-box;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    outline 0.3s ease;
+  display: block;
+}
+
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.toggle-btn {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #a8a8a8;
+  font-size: 1.2rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  transition: color 0.3s ease;
+  z-index: 10;
+}
+
+.toggle-btn:hover {
+  color: #d62121; /* Rojo Baccus al pasar el ratón */
+}
+
+.password-wrapper input {
+  padding-right: 50px !important;
+  width: 100%; /* Asegura que ocupe todo el ancho */
+}
+
+.password-wrapper input:focus {
+  outline: none;
+  border-color: #d62121;
+  transform: translateX(-10px);
+}
+
+.form-group input:focus {
+  outline: none; /* Quitamos el borde azul por defecto del navegador */
+  border-color: #d62121; /* Opcional: que el borde se ponga rojo */
+
+  /* Movimiento a la izquierda (valor negativo) */
+  transform: translateX(10px);
+}
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+  margin-bottom: 25px;
+}
+
+.forgot-link {
+  color: #ffffff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.forgot-link:hover {
+  color: #d62121;
+}
+
+.btn-entrar {
+  width: 100%;
+  max-width: 300px;
+  padding: 20px;
+  background-color: #d62121;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-weight: 900;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.btn-entrar:hover {
+  background-color: #700000;
+  transform: scale(1.05);
+}
+
+.btn-entrar:active {
+  transform: scale(0.98);
+}
+
+.error-text {
+  color: #d62121;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-top: 8px;
+  display: block;
+  letter-spacing: 1px;
+  animation: slideIn 0.3s ease;
+}
+
+.alert-error {
+  background-color: #d62121;
+  color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 0.9rem;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive para tablets y móviles */
+@media (max-width: 1310px) {
+  .login-container {
+    height: auto;
+    flex-direction: column;
+    width: 98%;
+    margin: 10px 0;
+  }
+  .side-image {
+    display: none;
+  }
+  .side-form {
+    padding: 40px 20px;
+  }
+}
