@@ -16,6 +16,7 @@ const port = process.env.PORT || 3000;
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
+var plansRouter = require("./routes/plans");
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -28,7 +29,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-app.use("/", usersRouter);
+app.use("/users", usersRouter);
+app.use("/plans", plansRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

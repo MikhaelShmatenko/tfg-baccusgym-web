@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = `${environment.apiUrl}/user`;
+  private apiUrl = `${environment.apiUrl}/users`;
   private currentUserSubject = new BehaviorSubject<User | null>(this.getUserFromLocalStorage());
   public currentUser$ = this.currentUserSubject.asObservable();
   private router = inject(Router);

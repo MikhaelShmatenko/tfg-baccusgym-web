@@ -16,10 +16,8 @@
   max-width: 1800px;
   /* Ocupa casi toda la altura de la ventana */
   height: 86vh;
-  background-color: #000;
   border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.5);
 }
 
 .login-side {
@@ -33,6 +31,7 @@
 .side-image {
   border-left: 2px solid #d62121; /* Línea roja divisoria central */
   height: 100%;
+  box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.5);
 }
 
 .login-main-img {

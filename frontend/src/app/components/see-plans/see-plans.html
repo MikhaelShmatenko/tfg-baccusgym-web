@@ -1,1 +1,55 @@
-<p>see-plans works!</p>
+<section class="plans-container">
+  <header class="plans-header">
+    <h1>Nuestros Planes</h1>
+    <p>Selecciona la suscripción que mejor se adapte a tus objetivos en Baccus Gym</p>
+  </header>
+
+  <div class="plans-grid">
+    @for (plan of plans; track plan.idplan) {
+      <article class="plan-card">
+        <div class="plan-background">
+          @if (plan.image_url) {
+            <img [src]="'images/plans/' + plan.image_url" [alt]="plan.name" />
+          } @else {
+            <img src="images/botella.jpg" alt="Baccus Gym" />
+          }
+        </div>
+
+        <div class="plan-content">
+          <div class="plan-info-top">
+            <h2>{{ plan.name }}</h2>
+          </div>
+
+          <div class="plan-info-bottom">
+            @if (plan.idplan === 1) {
+              <p class="plan-extra-info">Matrícula de 10€ el primer mes</p>
+            } @else if (plan.idplan === 2 || plan.idplan === 3) {
+              <p class="plan-extra-info">Exhento de matricula</p>
+            } @else if (plan.idplan === 4 || plan.idplan === 5) {
+              <p class="plan-extra-info">Gasta los dias sin caducidad</p>
+            }
+            <div class="plan-details">
+              <span class="plan-type"
+                >Tipo: <strong>{{ plan.type }}</strong></span
+              >
+              <span class="plan-duration"
+                >Duración: <strong>{{ plan.duration_days }} días</strong></span
+              >
+            </div>
+
+            <div class="plan-price">
+              <span class="amount">{{ plan.price }}€</span>
+              <span class="period">/pago único</span>
+            </div>
+
+            <button class="btn-solicitar">Solicitar plan</button>
+          </div>
+        </div>
+      </article>
+    } @empty {
+      <div class="no-plans">
+        <p>No hay planes disponibles en este momento.</p>
+      </div>
+    }
+  </div>
+</section>
