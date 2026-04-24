@@ -17,25 +17,31 @@ import { SeePlans } from './components/see-plans/see-plans';
 import { WhoWeAre } from './components/who-we-are/who-we-are';
 import { RecoverPassword } from './components/recover-password/recover-password';
 import { ResetPassword } from './components/reset-password/reset-password';
+import { authGuard } from './guards/auth-guard';
+import { publicGuard } from './guards/public-guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'baccus-gym', pathMatch: 'full' },
   { path: 'baccus-gym', component: Home },
-  { path: 'baccus-gym/user/login', component: Login },
-  { path: 'baccus-gym/user/register', component: Register },
-  { path: 'baccus-gym/user/modify', component: ModifyAccount },
-  { path: 'baccus-gym/user/delete', component: DeleteAccount },
-  { path: 'baccus-gym/user/actual-plan', component: ActualPlan },
-  { path: 'baccus-gym/user/calendar', component: Calendar },
-  { path: 'baccus-gym/user/exercise-templates', component: ExerciseTemplates },
+  { path: 'baccus-gym/user/login', component: Login, canActivate: [publicGuard] },
+  { path: 'baccus-gym/user/register', component: Register, canActivate: [publicGuard] },
+  { path: 'baccus-gym/user/modify', component: ModifyAccount, canActivate: [authGuard] },
+  { path: 'baccus-gym/user/delete', component: DeleteAccount, canActivate: [authGuard] },
+  { path: 'baccus-gym/user/actual-plan', component: ActualPlan, canActivate: [authGuard] },
+  { path: 'baccus-gym/user/calendar', component: Calendar, canActivate: [authGuard] },
+  {
+    path: 'baccus-gym/user/exercise-templates',
+    component: ExerciseTemplates,
+    canActivate: [authGuard],
+  },
   { path: 'baccus-gym/facilities', component: Facilities },
   { path: 'baccus-gym/plan-form', component: PlanForm },
   { path: 'baccus-gym/exercises', component: Exercises },
   { path: 'baccus-gym/see-plans', component: SeePlans },
   { path: 'baccus-gym/contact', component: Contact },
   { path: 'baccus-gym/who-we-are', component: WhoWeAre },
-  { path: 'baccus-gym/admin/manage-users', component: ManageUsers },
-  { path: 'baccus-gym/admin/admin-panel', component: AdminPanel },
+  { path: 'baccus-gym/admin/manage-users', component: ManageUsers, canActivate: [authGuard] },
+  { path: 'baccus-gym/admin/admin-panel', component: AdminPanel, canActivate: [authGuard] },
   { path: 'baccus-gym/user/recover-password', component: RecoverPassword },
   { path: 'baccus-gym/user/reset-password', component: ResetPassword },
 ];

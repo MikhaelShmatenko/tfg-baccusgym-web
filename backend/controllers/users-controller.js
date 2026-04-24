@@ -2,14 +2,12 @@ const UsersService = require("../services/users-service");
 
 const addUser = async (req, res) => {
   try {
-    const { name, email, password, admin, planStatus, idPlan } = req.body;
+    const { name, email, password, admin } = req.body;
     const newUser = await UsersService.addUser({
       name,
       email,
       password,
       admin,
-      planStatus,
-      idPlan,
     });
     res.status(201).json(newUser);
   } catch (error) {

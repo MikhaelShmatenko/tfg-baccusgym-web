@@ -2,10 +2,10 @@ const db = require("../config/db");
 
 class UsersModel {
   async addUser(userData) {
-    const { name, email, password, admin, planStatus, idPlan } = userData;
+    const { name, email, password, admin } = userData;
     const query =
-      "INSERT INTO users (name, email, password, admin, planstatus, idplan) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *";
-    const values = [name, email, password, admin, planStatus, idPlan];
+      "INSERT INTO users (name, email, password, admin) VALUES ($1, $2, $3, $4) RETURNING *";
+    const values = [name, email, password, admin];
     const result = await db.query(query, values);
     return result.rows[0];
   }

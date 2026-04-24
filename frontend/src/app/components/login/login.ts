@@ -42,11 +42,11 @@ export class Login {
         if (response.token) {
           localStorage.setItem('token', response.token);
           localStorage.setItem('user', JSON.stringify(response));
+          this.authService.updateAuthState();
+          console.log('User logged in successfully', response);
+          alert('Sesion iniciada exitosamente.');
+          this.router.navigate(['/baccus-gym']);
         }
-        console.log('User logged in successfully', response);
-        alert('Sesion iniciada exitosamente.');
-        this.router.navigate(['/baccus-gym']);
-        // console.log('User registered successfully', response);
       },
       // Si ocurre un error durante el registro, lo capturamos y mostramos un mensaje de error específico
       error: (error) => {

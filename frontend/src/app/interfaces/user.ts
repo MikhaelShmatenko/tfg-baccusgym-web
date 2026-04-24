@@ -4,6 +4,4 @@ export interface User {
   email: string;
   password?: string;
   admin: boolean;
-  planStatus: boolean;
-  idPlan: number | null;
 }

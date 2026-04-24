@@ -30,8 +30,6 @@ export class Register {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       admin: [false],
-      planStatus: [false],
-      idPlan: [null],
     });
   }
 

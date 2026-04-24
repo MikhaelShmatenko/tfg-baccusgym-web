@@ -31,8 +31,6 @@ class UsersService {
         name: user.name,
         email: user.email,
         admin: user.admin,
-        planStatus: user.planstatus,
-        idPlan: user.idplan,
       },
       process.env.JWT_SECRET,
       { expiresIn: "24h" },
@@ -43,8 +41,6 @@ class UsersService {
       name: user.name,
       email: user.email,
       admin: user.admin,
-      planStatus: user.planstatus,
-      idPlan: user.idplan,
     };
   }
 

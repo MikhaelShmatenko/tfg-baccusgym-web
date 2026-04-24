@@ -77,6 +77,170 @@
   display: none;
 }
 
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-welcome strong {
+  color: #d62121; /* Nombre en rojo Baccus */
+  font-weight: 900;
+}
+
+.user-welcome {
+  color: #ffffff;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.user-trigger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.user-trigger.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.user-icon {
+  font-size: 2rem;
+}
+
+.user-name {
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #d62121;
+}
+
+/* --- Sidebar Lateral (Desktop) --- */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: -350px;
+  width: 300px;
+  height: 100vh;
+  background-color: #000000;
+  border-left: 2px solid #d62121;
+  z-index: 2000;
+  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  /* Aumentamos el padding superior para que la X no choque */
+  padding: 60px 20px 40px 20px;
+}
+
+.sidebar.open {
+  right: 0;
+}
+
+/* Overlay oscuro al abrir sidebar */
+.sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1999;
+}
+
+/* Perfil dentro del Sidebar */
+.sidebar-header {
+  position: relative;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.close-btn {
+  position: absolute;
+  /* Bajamos la X para que no se corte arriba */
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.8rem; /* Un poco más grande para mejor UX */
+  cursor: pointer;
+  transition:
+    transform 0.3s ease,
+    color 0.3s ease;
+}
+
+.user-icon-large {
+  font-size: 4rem;
+  margin-bottom: 10px;
+}
+
+.user-name-large {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #d62121;
+  text-transform: uppercase;
+}
+
+/* Links del Sidebar */
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.sidebar-nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: 700;
+  padding: 15px;
+  border-bottom: 1px solid #222;
+  transition: 0.3s;
+}
+
+.sidebar-nav a:hover {
+  color: #d62121;
+  padding-left: 25px;
+}
+
+.btn-logout-sidebar {
+  margin-top: 5%;
+  background-color: #d62121;
+  color: white;
+  border: 1.5px solid #d62121;
+  padding: 8px 18px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.btn-logout-sidebar:hover {
+  border: 1.5px solid #700000;
+  background-color: #700000;
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+.btn-logout-sidebar:active {
+  transform: scale(0.98);
+}
+
+.user-action-zone {
+  display: flex;
+  align-items: center;
+  z-index: 1001; /* Por encima de los links del menú móvil */
+}
+
 /* --- RESPONSIVE (Móviles y Tablets) --- */
 @media (max-width: 992px) {
   .hamburger {
@@ -113,8 +277,10 @@
     background-color: #000000;
     padding: 0 20px; /* Padding lateral, el vertical lo dará la animación */
     gap: 20px;
-    border-top: 1px solid #d62121;
+    border-top: 2px solid #d62121;
+    border-bottom: 2px solid #d62121;
     box-sizing: border-box;
+    box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.5);
 
     /* --- ANIMACIÓN DE DESLIZAMIENTO --- */
     max-height: 0; /* Empieza cerrado (sin altura) */
@@ -131,13 +297,13 @@
   }
 
   /* Animación de la hamburguesa (X) */
-  .menu-toggle:checked ~ .hamburger span:nth-child(1) {
+  .menu-toggle:checked ~ .user-action-zone .hamburger span:nth-child(1) {
     transform: translateY(8px) rotate(45deg);
   }
-  .menu-toggle:checked ~ .hamburger span:nth-child(2) {
+  .menu-toggle:checked ~ .user-action-zone .hamburger span:nth-child(2) {
     opacity: 0;
   }
-  .menu-toggle:checked ~ .hamburger span:nth-child(3) {
+  .menu-toggle:checked ~ .user-action-zone .hamburger span:nth-child(3) {
     transform: translateY(-8px) rotate(-45deg);
   }
 
@@ -147,5 +313,100 @@
     white-space: nowrap;
     border: 1.5px solid #700000;
     padding: 10px 25px;
+  }
+
+  .user-trigger {
+    display: flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    margin-right: 15px; /* Separación de la hamburguesa */
+  }
+
+  .user-action-zone {
+    gap: 15px; /* Separación entre el usuario y la hamburguesa */
+  }
+
+  .user-trigger.hidden {
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+
+  /* RE-POSICIONAR SIDEBAR EN MÓVIL */
+  .sidebar {
+    position: fixed;
+    /* Forzamos a que empiece desde la esquina superior izquierda */
+    top: -100vh;
+    left: 0;
+    width: 100vw;
+    height: 100vh; /* Ocupa el 100% del alto de la ventana */
+    border-left: none; /* Quitamos el borde lateral para móviles */
+
+    background-color: #000000;
+    z-index: 5000; /* Un valor muy alto para estar por encima del navbar */
+    display: flex;
+    flex-direction: column;
+    padding: 40px 25px;
+    box-sizing: border-box;
+    transition: top 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto; /* Permite scroll si el contenido es muy largo */
+  }
+
+  .sidebar.open {
+    top: 0; /* Al abrirse, cubre todo desde arriba */
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2rem;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 5001;
+  }
+
+  .sidebar-header {
+    margin-top: 40px;
+    margin-bottom: 30px;
+  }
+
+  .user-icon-large {
+    font-size: 5rem;
+  }
+
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 15px;
+    justify-content: center; /* Centra los links verticalmente para que se vea profesional */
+  }
+
+  .sidebar-nav a {
+    font-size: 1.2rem; /* Un poco más grande para facilitar el toque */
+    text-align: center;
+    padding: 20px;
+    border-bottom: 1px solid #1a1a1a;
+  }
+
+  .btn-logout-sidebar {
+    margin-top: 30px;
+    width: 100%;
+    padding: 20px;
+    font-size: 1rem;
+    letter-spacing: 2px;
+  }
+
+  /* Ajuste de links del header para que no se pisen con el usuario */
+  .nav-links {
+    z-index: 999;
+  }
+}
+
+@media (min-width: 993px) {
+  .user-trigger {
+    display: flex;
   }
 }

@@ -5,11 +5,6 @@
     </div>
 
     <input type="checkbox" id="menu-toggle" class="menu-toggle" />
-    <label for="menu-toggle" class="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
-    </label>
 
     <nav class="nav-links">
       <a routerLink="/baccus-gym/facilities">INSTALACIONES</a>
@@ -17,14 +12,46 @@
       <a routerLink="/baccus-gym/see-plans">PLANES</a>
       <a routerLink="/baccus-gym/who-we-are">QUIÉNES SOMOS</a>
       <a routerLink="/baccus-gym/contact">CONTACTO</a>
-
-      <button class="btn-login mobile-only" routerLink="/baccus-gym/user/login">
-        INICIAR SESIÓN
-      </button>
     </nav>
 
-    <div class="auth-button desktop-only">
-      <button class="btn-login" routerLink="/baccus-gym/user/login">INICIAR SESIÓN</button>
+    <div class="user-action-zone">
+      <label for="menu-toggle" class="hamburger"> <span></span><span></span><span></span> </label>
+      @if (authService.currentUser$ | async; as user) {
+        <div class="user-trigger" (click)="toggleSidebar()" [class.hidden]="isSidebarOpen">
+          <span class="material-symbols-outlined user-icon">person</span>
+          <span class="user-name">{{ user.name }}</span>
+        </div>
+
+        <div class="sidebar" [class.open]="isSidebarOpen">
+          <button class="close-btn" (click)="toggleSidebar()">✕</button>
+
+          <div class="sidebar-header">
+            <div class="user-profile-center">
+              <div class="user-icon-large">
+                <span class="material-symbols-outlined" style="font-size: inherit">person</span>
+              </div>
+              <span class="user-name-large">{{ user.name }}</span>
+            </div>
+          </div>
+
+          <nav class="sidebar-nav">
+            <a routerLink="/baccus-gym/user/actual-plan" (click)="toggleSidebar()">PLAN ACTUAL</a>
+            <a routerLink="/baccus-gym/user/calendar" (click)="toggleSidebar()">CALENDARIO</a>
+            <a routerLink="/baccus-gym/user/modify" (click)="toggleSidebar()">MODIFICAR CUENTA</a>
+            <a routerLink="/baccus-gym/user/exercise-templates" (click)="toggleSidebar()"
+              >PLANTILLA DE ENTRENAMIENTO</a
+            >
+
+            <button class="btn-logout-sidebar" (click)="onLogout()">CERRAR SESIÓN</button>
+          </nav>
+        </div>
+
+        @if (isSidebarOpen) {
+          <div class="sidebar-overlay" (click)="toggleSidebar()"></div>
+        }
+      } @else {
+        <button class="btn-login" routerLink="/baccus-gym/user/login">INICIAR SESIÓN</button>
+      }
     </div>
   </div>
 </header>
