@@ -5,15 +5,18 @@ import { User } from '../interfaces/user';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
+import { LocalStorageService } from './local-storage-service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private apiUrl = `${environment.apiUrl}/users`;
-  private currentUserSubject = new BehaviorSubject<User | null>(this.getUserFromLocalStorage());
-  public currentUser$ = this.currentUserSubject.asObservable();
   private router = inject(Router);
+  private localStorageService = inject(LocalStorageService);
+
+  private currentUserSubject = new BehaviorSubject<User | null>(this.localStorageService.getUser());
+  public currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -26,8 +29,7 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
+    this.localStorageService.clearSession();
     this.currentUserSubject.next(null);
     this.router.navigate(['/baccus-gym/user/login']);
   }
@@ -41,11 +43,6 @@ export class AuthService {
   }
 
   updateAuthState() {
-    this.currentUserSubject.next(this.getUserFromLocalStorage());
-  }
-
-  private getUserFromLocalStorage(): User | null {
-    const userData = localStorage.getItem('user');
-    return userData ? JSON.parse(userData) : null;
+    this.currentUserSubject.next(this.localStorageService.getUser());
   }
 }

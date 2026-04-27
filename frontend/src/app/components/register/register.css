@@ -1,59 +1,23 @@
-.login-page {
-  background-color: #181717;
-  min-height: calc(100vh - 80px); /* Ajusta según tu header */
+.background-container {
+  /* Ocupa todo el alto de la ventana menos el header */
+  min-height: calc(100vh - 100px);
+  width: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  /* Margen mínimo respecto a la pantalla */
-  padding: 0px 0.5%;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  padding: 40px 20px; /* Espacio de seguridad para cuando crezca */
+  box-sizing: border-box;
 }
 
-.login-container {
-  display: flex;
-  /* El contenedor ocupa prácticamente todo el ancho disponible */
-  flex-direction: row-reverse;
-  width: 99%;
-  max-width: 1800px;
-  /* Ocupa casi toda la altura de la ventana */
-  height: 86vh;
+.card-forgot {
+  background-color: #000000;
+  width: 100%;
+  max-width: 600px;
+  padding: 50px 40px;
   border-radius: 15px;
-  overflow: hidden;
-}
-
-.login-side {
-  flex: 0 0 50%;
-  display: flex;
-  align-items: start;
-  justify-content: center;
-}
-
-/* Lado Imagen */
-.side-image {
-  border-left: 2px solid #d62121; /* Línea roja divisoria central */
-  height: 100%;
+  color: #ffffff;
+  text-align: center;
   box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.5);
-}
-
-.login-main-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* Lado Formulario */
-.side-form {
-  /* Reducimos el padding para que el form esté más cerca de los bordes del contenedor */
-  padding: 20px 40px;
-  color: #fff;
-  height: 100%;
-}
-
-.form-wrapper {
-  width: 100%;
-  /* Ensanchamos el formulario interno */
-  max-width: 550px;
-  margin: 0 auto;
 }
 
 h2 {
@@ -65,15 +29,23 @@ h2 {
   margin-top: 0;
 }
 
-.subtitle {
+.instruction-text {
   color: #a8a8a8;
   font-size: 1.1rem;
   margin-bottom: 25px;
 }
 
-/* Espaciado muy ajustado entre elementos del form */
+.forgot-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
 .form-group {
-  margin-bottom: 15px;
+  width: 100%;
+  text-align: left;
+  margin-bottom: 30px;
 }
 
 .form-group label {
@@ -101,6 +73,14 @@ h2 {
   display: block;
 }
 
+.form-group input:focus {
+  outline: none; /* Quitamos el borde azul por defecto del navegador */
+  border-color: #d62121; /* Opcional: que el borde se ponga rojo */
+
+  /* Movimiento a la izquierda (valor negativo) */
+  transform: scale(1.02);
+}
+
 .password-wrapper {
   position: relative;
   width: 100%;
@@ -119,52 +99,14 @@ h2 {
   padding: 0;
   display: flex;
   align-items: center;
-  transition: color 0.3s ease;
-  z-index: 10;
-}
-
-.toggle-btn:hover {
-  color: #d62121; /* Rojo Baccus al pasar el ratón */
+  z-index: 10; /* Asegura que esté por encima */
 }
 
 .password-wrapper input {
   padding-right: 50px !important;
-  width: 100%; /* Asegura que ocupe todo el ancho */
 }
 
-.password-wrapper input:focus {
-  outline: none;
-  border-color: #d62121;
-  transform: translateX(-10px);
-}
-
-.form-group input:focus {
-  outline: none; /* Quitamos el borde azul por defecto del navegador */
-  border-color: #d62121; /* Opcional: que el borde se ponga rojo */
-
-  /* Movimiento a la izquierda (valor negativo) */
-  transform: translateX(10px);
-}
-
-.form-options {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 15px;
-  margin-bottom: 25px;
-}
-
-.forgot-link {
-  color: #ffffff;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.forgot-link:hover {
-  color: #d62121;
-}
-
-.btn-entrar {
+.btn-enviar {
   width: 100%;
   max-width: 300px;
   padding: 20px;
@@ -180,12 +122,12 @@ h2 {
     transform 0.3s ease;
 }
 
-.btn-entrar:hover {
+.btn-enviar:hover {
   background-color: #700000;
   transform: scale(1.05);
 }
 
-.btn-entrar:active {
+.btn-enviar:active {
   transform: scale(0.98);
 }
 
@@ -214,29 +156,40 @@ h2 {
   animation: slideIn 0.3s ease;
 }
 
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.alert-success {
+  background-color: #d62121;
+  color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 15px rgba(219, 0, 0, 0.3);
+  animation: slideIn 0.3s ease;
 }
 
-/* Responsive para tablets y móviles */
-@media (max-width: 1310px) {
-  .login-container {
-    height: auto;
-    flex-direction: column;
-    width: 98%;
-    margin: 10px 0;
+/* --- RESPONSIVE --- */
+
+@media (max-width: 768px) {
+  .background-container {
+    min-height: auto;
+    padding: 40px 15px;
+    border-radius: 20px;
   }
-  .side-image {
-    display: none;
+
+  .card-forgot {
+    padding: 30px 20px;
+    border-radius: 30px;
   }
-  .side-form {
-    padding: 40px 20px;
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  .btn-enviar {
+    width: 100%;
+    font-size: 1.2rem;
   }
 }

@@ -68,7 +68,7 @@
 
 .plan-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 15px 40px #d62121; /* Brillo rojo al pasar el cursor */
+  box-shadow: 0 0px 40px #d62121; /* Brillo rojo al pasar el cursor */
 }
 
 /* Imagen de fondo completa */

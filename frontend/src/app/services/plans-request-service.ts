@@ -1,23 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Plan } from '../interfaces/plan';
 import { environment } from '../../environments/environment';
 import { PlanRequest } from '../interfaces/plan-request';
 
 @Injectable({
   providedIn: 'root',
 })
-export class PlansService {
-  private apiUrl = `${environment.apiUrl}/plans`;
-
+export class PlansRequestService {
+  private apiUrl = `${environment.apiUrl}/plans-request`;
   constructor(private http: HttpClient) {}
 
-  getPlans(): Observable<Plan[]> {
-    return this.http.get<Plan[]>(this.apiUrl);
-  }
-
-  getPlanById(id: string): Observable<Plan> {
-    return this.http.get<Plan>(`${this.apiUrl}/${id}`);
+  sendPlanRequest(requestData: PlanRequest): Observable<any> {
+    return this.http.post(`${environment.apiUrl}/plans-request`, requestData);
   }
 }

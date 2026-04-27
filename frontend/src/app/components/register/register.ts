@@ -1,62 +1,87 @@
 // Importaciones de módulos y servicios necesarios
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth-service';
+import { LocalStorageService } from '../../services/local-storage-service';
+import { User } from '../../interfaces/user';
+import { PlanRequest } from '../../interfaces/plan-request';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  // Agregamos ReactiveFormsModule a los imports para usar formularios reactivos
   imports: [ReactiveFormsModule],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })
-export class Register {
-  // Declaramos las variables necesarias para el formulario, la gestión de errores y la visibilidad de la contraseña
+export class Register implements OnInit {
   showPassword = false;
   registerForm: FormGroup;
   errorMessage: string | null = null;
+  pendingPlanData: PlanRequest | null = null;
 
-  // Inyectamos los servicios necesarios en el constructor y configuramos el formulario reactivo
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
     private changeDetectorRef: ChangeDetectorRef,
+    private localStorageService: LocalStorageService,
   ) {
     this.registerForm = this.formBuilder.group({
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      admin: [false],
     });
   }
 
-  // Método para manejar el envío del formulario de registro
+  ngOnInit(): void {
+    this.pendingPlanData = this.localStorageService.getPlanRequest();
+
+    if (this.pendingPlanData?.email) {
+      const emailControl = this.registerForm.get('email');
+
+      emailControl?.setValidators([
+        Validators.required,
+        Validators.email,
+        this.emailMatchValidator(this.pendingPlanData.email),
+      ]);
+
+      emailControl?.updateValueAndValidity();
+    }
+  }
+
+  emailMatchValidator(storedEmail: string) {
+    return (control: any) => {
+      const inputEmail = control.value;
+      return inputEmail === storedEmail ? null : { emailMismatch: true };
+    };
+  }
+
   onSubmit() {
-    // Si el formulario tiene errores, los mostramos todos y paramos
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched();
       this.changeDetectorRef.detectChanges();
       return;
     }
 
-    // Si llegamos aquí, el formulario es válido. Procedemos al registro.
-    // Limpiamos cualquier mensaje de error previo
     this.errorMessage = null;
 
-    // Llamamos al servicio de autenticación para registrar al usuario con los datos del formulario
-    this.authService.register(this.registerForm.value).subscribe({
-      // Si el registro es exitoso, mostramos un mensaje de éxito y redirigimos al usuario a la página de inicio
+    const userData: User = {
+      idUser: null,
+      name: this.registerForm.value.name,
+      email: this.registerForm.value.email,
+      password: this.registerForm.value.password,
+      admin: false,
+      planId: this.pendingPlanData?.planId ?? null,
+    };
+
+    this.authService.register(userData).subscribe({
       next: (response) => {
+        this.localStorageService.clearPlanRequest();
         alert('Registro exitoso. Ahora puedes iniciar sesión.');
         this.router.navigate(['/baccus-gym']);
-        // console.log('User registered successfully', response);
       },
-      // Si ocurre un error durante el registro, lo capturamos y mostramos un mensaje de error específico
       error: (error) => {
-        // console.error('Error registering user', error);
         this.errorMessage = error.error?.message || 'Error al registrar el usuario.';
         this.changeDetectorRef.detectChanges();
       },

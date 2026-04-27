@@ -13,6 +13,8 @@ import { AsyncPipe } from '@angular/common';
 export class Header {
   isSidebarOpen = false;
 
+  constructor(public authService: AuthService) {}
+
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
   }
@@ -21,6 +23,4 @@ export class Header {
     this.isSidebarOpen = false; // Close the sidebar on logout
     this.authService.logout();
   }
-
-  constructor(public authService: AuthService) {}
 }

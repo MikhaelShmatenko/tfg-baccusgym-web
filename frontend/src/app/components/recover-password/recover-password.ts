@@ -50,7 +50,6 @@ export class RecoverPassword {
         this.errorMessage =
           error.error?.message ||
           'Error al enviar el correo de recuperación. Por favor, inténtalo de nuevo.';
-        console.error('Error sending recovery email', error);
         this.changeDetectorRef.detectChanges();
       },
     });

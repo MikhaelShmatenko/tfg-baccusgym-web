@@ -1,0 +1,342 @@
+.background-container {
+  /* Ocupa todo el alto de la ventana menos el header */
+  min-height: calc(100vh - 100px);
+  width: 100%;
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  padding: 40px 20px; /* Espacio de seguridad para cuando crezca */
+  box-sizing: border-box;
+}
+
+.card-forgot {
+  background-color: #000000;
+  width: 100%;
+  max-width: 600px;
+  padding: 50px 40px;
+  border-radius: 15px;
+  color: #ffffff;
+  text-align: center;
+  box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.5);
+}
+
+h2 {
+  font-size: 3.5rem; /* Título mucho más grande */
+  font-weight: 900;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: -2px;
+  margin-top: 0;
+}
+
+h3 {
+  font-size: 1.8rem; /* Título mucho más grande */
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -2px;
+}
+
+h3 {
+  font-size: 1.8rem; /* Título mucho más grande */
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -2px;
+}
+
+.instruction-text {
+  color: #a8a8a8;
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+}
+
+.forgot-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-group {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 5px;
+  font-size: 0.8rem;
+  color: #a8a8a8;
+  text-transform: uppercase;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 18px;
+  background-color: #0a0a0a;
+  border: 1px solid #222;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 1.1rem;
+  box-sizing: border-box;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    outline 0.3s ease;
+  display: block;
+}
+
+.form-group input:focus {
+  outline: none; /* Quitamos el borde azul por defecto del navegador */
+  border-color: #d62121; /* Opcional: que el borde se ponga rojo */
+
+  /* Movimiento a la izquierda (valor negativo) */
+  transform: scale(1.02);
+}
+
+.btn-enviar {
+  width: 100%;
+  max-width: 300px;
+  padding: 20px;
+  background-color: #d62121;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-weight: 900;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.btn-enviar:hover {
+  background-color: #700000;
+  transform: scale(1.05);
+}
+
+.btn-enviar:active {
+  transform: scale(0.98);
+}
+
+.error-text {
+  color: #d62121;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-top: 8px;
+  display: block;
+  letter-spacing: 1px;
+  animation: slideIn 0.3s ease;
+}
+
+.alert-error {
+  background-color: #d62121;
+  color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 15px rgba(219, 0, 0, 0.3);
+  animation: slideIn 0.3s ease;
+}
+
+.alert-success {
+  background-color: #d62121;
+  color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 15px rgba(219, 0, 0, 0.3);
+  animation: slideIn 0.3s ease;
+}
+
+.checkbox-group {
+  margin-bottom: 25px;
+}
+
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center; /* Centrado como tu formulario */
+}
+
+.checkbox-wrapper input[type='checkbox'] {
+  width: 18px; /* Tamaño personalizado */
+  height: 18px;
+  cursor: pointer;
+  accent-color: #d62121; /* Color rojo para el check */
+}
+
+.checkbox-wrapper label {
+  text-transform: none; /* Quitamos el uppercase para que se lea mejor */
+  font-size: 0.95rem;
+  color: #ccc;
+  cursor: pointer;
+  margin-bottom: 0; /* Quitamos el margen inferior de los labels normales */
+}
+
+.checkbox-wrapper a {
+  color: #ffffff;
+  font-size: 0.95rem;
+  text-decoration: underline;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.checkbox-wrapper a:hover {
+  color: #d62121;
+}
+
+/* Modal Overlay (Fondo oscuro) */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+/* Contenido del Modal */
+.modal-content {
+  background-color: #0a0a0a;
+  width: 90%;
+  max-width: 800px;
+  max-height: 80vh;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0px 40px #d62121;
+  animation: modalFall 0.4s ease-out forwards;
+  will-change: transform, opacity;
+}
+
+.modal-header {
+  padding: 20px;
+  border-bottom: 2px solid #d62121;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.8rem;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+/* Cuerpo con Scroll */
+.modal-body {
+  padding: 30px;
+  overflow-y: auto;
+  color: #ffffff;
+  text-align: left;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.modal-body h4,
+.modal-body h5 {
+  color: #d62121;
+  margin-top: 20px;
+  text-transform: uppercase;
+}
+
+/* Scrollbar personalizada para que no rompa la estética */
+.modal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 10px;
+}
+
+.modal-footer {
+  padding: 15px;
+  border-top: 1px solid #222;
+  text-align: right;
+}
+
+.btn-close-modal {
+  padding: 10px 25px;
+  background: #d62121;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.btn-close-modal:hover {
+  background-color: #700000;
+  transform: scale(1.05);
+}
+
+.btn-close-modal:active {
+  transform: scale(0.98);
+}
+
+@keyframes modalFall {
+  0% {
+    opacity: 0;
+    transform: translateY(-100px); /* Empieza 100px más arriba */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0); /* Termina en su posición original */
+  }
+}
+
+/* --- RESPONSIVE --- */
+
+@media (max-width: 768px) {
+  .background-container {
+    min-height: auto;
+    padding: 40px 15px;
+    border-radius: 20px;
+  }
+
+  .card-forgot {
+    padding: 30px 20px;
+    border-radius: 30px;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+
+  .btn-enviar {
+    width: 100%;
+    font-size: 1.2rem;
+  }
+}

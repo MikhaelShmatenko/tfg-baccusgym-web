@@ -37,10 +37,15 @@
           <nav class="sidebar-nav">
             <a routerLink="/baccus-gym/user/actual-plan" (click)="toggleSidebar()">PLAN ACTUAL</a>
             <a routerLink="/baccus-gym/user/calendar" (click)="toggleSidebar()">CALENDARIO</a>
-            <a routerLink="/baccus-gym/user/modify" (click)="toggleSidebar()">MODIFICAR CUENTA</a>
+            <a routerLink="/baccus-gym/user/modify" (click)="toggleSidebar()">DETALLES DE CUENTA</a>
             <a routerLink="/baccus-gym/user/exercise-templates" (click)="toggleSidebar()"
               >PLANTILLA DE ENTRENAMIENTO</a
             >
+            @if ((authService.currentUser$ | async)?.admin) {
+              <a routerLink="/baccus-gym/admin/dashboard" (click)="toggleSidebar()">
+                ADMINISTRACIÓN
+              </a>
+            }
 
             <button class="btn-logout-sidebar" (click)="onLogout()">CERRAR SESIÓN</button>
           </nav>

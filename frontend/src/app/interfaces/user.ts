@@ -3,6 +3,7 @@ export interface User {
   idUser: number | null;
   name: string;
   email: string;
-  password?: string;
+  password: string | null;
   admin: boolean;
+  planId: number | null;
 }

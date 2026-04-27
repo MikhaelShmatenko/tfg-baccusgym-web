@@ -1,25 +1,27 @@
-import { Component, OnInit, ChangeDetectorRef, inject } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { PlansService } from '../../services/plans-service';
 import { Plan } from '../../interfaces/plan';
 
 @Component({
   selector: 'app-see-plans',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './see-plans.html',
   styleUrl: './see-plans.css',
 })
 export class SeePlans implements OnInit {
   plans: Plan[] = [];
-  private changeDetectorRef = inject(ChangeDetectorRef);
 
-  constructor(private plansService: PlansService) {}
+  constructor(
+    private plansService: PlansService,
+    private changeDetectorRef: ChangeDetectorRef,
+  ) {}
 
   ngOnInit(): void {
     this.plansService.getPlans().subscribe({
       next: (data) => {
         this.plans = data;
-        console.log('Datos recibidos:', this.plans);
         this.changeDetectorRef.detectChanges();
       },
       error: (error) => {

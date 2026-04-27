@@ -1,89 +1,88 @@
-<div class="login-page">
-  <div class="login-container">
-    <div class="login-side side-image">
-      <img src="images/register_image.jpg" alt="Baccus Gym" class="login-main-img" />
-    </div>
-    <div class="login-side side-form">
-      <div class="form-wrapper">
-        <h2>Crear cuenta</h2>
-        <p class="subtitle">
-          Crea una cuenta para acceder a todas nuestras funcionalidades y consultar tu plan
-        </p>
+<div class="background-container">
+  <div class="card-forgot">
+    <h2>Crear cuenta</h2>
+    <p class="instruction-text">
+      Crea una cuenta para acceder a todas nuestras funcionalidades y consultar tu plan
+    </p>
 
-        @if (errorMessage) {
-          <div class="alert-error">
-            {{ errorMessage }}
-          </div>
-        }
-
-        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label>Email</label>
-            <input
-              type="email"
-              placeholder="Introduce tu email"
-              formControlName="email"
-              [class.input-error]="
-                registerForm.get('email')?.invalid && registerForm.get('email')?.touched
-              "
-            />
-            @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
-              <small class="error-text">
-                @if (registerForm.get('email')?.errors?.['required']) {
-                  El email es obligatorio.
-                } @else if (registerForm.get('email')?.errors?.['email']) {
-                  Formato de email no válido.
-                }
-              </small>
-            }
-          </div>
-
-          <div class="form-group">
-            <label>Nombre de usuario</label>
-            <input
-              type="text"
-              placeholder="Introduce tu nombre de usuario"
-              formControlName="name"
-              [class.input-error]="
-                registerForm.get('name')?.invalid && registerForm.get('name')?.touched
-              "
-            />
-            @if (registerForm.get('name')?.invalid && registerForm.get('name')?.touched) {
-              <small class="error-text">El nombre es obligatorio.</small>
-            }
-          </div>
-
-          <div class="form-group">
-            <label>Contraseña</label>
-            <div class="password-wrapper">
-              <input
-                [type]="showPassword ? 'text' : 'password'"
-                placeholder="********"
-                class="password-input"
-                formControlName="password"
-                [class.input-error]="
-                  registerForm.get('password')?.invalid && registerForm.get('password')?.touched
-                "
-              />
-
-              <button type="button" class="toggle-btn" (click)="showPassword = !showPassword">
-                <span>{{ showPassword ? '🙈' : '👁️' }}</span>
-              </button>
-            </div>
-            @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
-              <small class="error-text">
-                @if (registerForm.get('password')?.errors?.['required']) {
-                  La contraseña es obligatoria.
-                } @else if (registerForm.get('password')?.errors?.['minlength']) {
-                  Debe tener al menos 6 caracteres.
-                }
-              </small>
-            }
-          </div>
-
-          <button type="submit" class="btn-entrar">CREAR CUENTA</button>
-        </form>
+    @if (errorMessage) {
+      <div class="alert-error">
+        {{ errorMessage }}
       </div>
-    </div>
+    }
+
+    <form class="forgot-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          placeholder="Introduce tu correo electronico"
+          formControlName="email"
+          [class.input-error]="
+            registerForm.get('email')?.invalid && registerForm.get('email')?.touched
+          "
+        />
+
+        @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+          <small class="error-text">
+            @if (registerForm.get('email')?.errors?.['required']) {
+              El email es obligatorio.
+            } @else if (registerForm.get('email')?.errors?.['email']) {
+              Formato de email no válido.
+            } @else if (registerForm.get('email')?.errors?.['emailMismatch']) {
+              El email debe coincidir con el utilizado en la solicitud del plan.
+            }
+          </small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="name">Nombre de usuario</label>
+
+        <input
+          type="text"
+          placeholder="Introduce tu nombre de usuario"
+          formControlName="name"
+          [class.input-error]="
+            registerForm.get('name')?.invalid && registerForm.get('name')?.touched
+          "
+        />
+
+        @if (registerForm.get('name')?.invalid && registerForm.get('name')?.touched) {
+          <small class="error-text">El nombre es obligatorio.</small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+
+        <div class="password-wrapper">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            placeholder="********"
+            formControlName="password"
+            [class.input-error]="
+              registerForm.get('password')?.invalid && registerForm.get('password')?.touched
+            "
+          />
+
+          <button type="button" class="toggle-btn" (click)="showPassword = !showPassword">
+            <span>{{ showPassword ? '🙈' : '👁️' }}</span>
+          </button>
+        </div>
+
+        @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+          <small class="error-text">
+            @if (registerForm.get('password')?.errors?.['required']) {
+              La contraseña es obligatoria.
+            } @else if (registerForm.get('password')?.errors?.['minlength']) {
+              Debe tener al menos 6 caracteres.
+            }
+          </small>
+        }
+      </div>
+
+      <button type="submit" class="btn-enviar">CREAR CUENTA</button>
+    </form>
   </div>
 </div>

@@ -5,4 +5,5 @@ export interface Plan {
   price: number;
   name: string;
   image_url: string | null;
+  image_url_form: string | null;
 }

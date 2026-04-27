@@ -2,16 +2,23 @@ const UsersService = require("../services/users-service");
 
 const addUser = async (req, res) => {
   try {
-    const { name, email, password, admin } = req.body;
+    const { name, email, password, admin, planId } = req.body;
     const newUser = await UsersService.addUser({
       name,
       email,
       password,
       admin,
+      planId,
     });
     res.status(201).json(newUser);
   } catch (error) {
-    res.status(500).json({ message: "Este email ya esta registrado" });
+    if (error.message === "EMAIL_ALREADY_IN_USE") {
+      res.status(409).json({ message: "El email se encuentra en uso" });
+    } else if (error.message === "PLAN_ID_REQUIRED") {
+      res.status(400).json({ message: "Se requiere haber solicitado un plan" });
+    } else {
+      res.status(500).json({ message: "Error interno en el servidor" });
+    }
   }
 };
 
@@ -49,13 +56,7 @@ const resetPassword = async (req, res) => {
     await UsersService.resetPassword(token, newPassword);
     res.status(200).json({ message: "Contraseña restablecida exitosamente" });
   } catch (error) {
-    if (error.message === "INVALID_TOKEN") {
-      res
-        .status(400)
-        .json({ message: "Token de recuperación inválido o expirado" });
-    } else {
-      res.status(500).json({ message: "Error interno del servidor" });
-    }
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };
 

@@ -32,9 +32,15 @@
               <span class="plan-type"
                 >Tipo: <strong>{{ plan.type }}</strong></span
               >
-              <span class="plan-duration"
-                >Duración: <strong>{{ plan.duration_days }} días</strong></span
-              >
+              @if (plan.idplan === 5) {
+                <span class="plan-duration">
+                  Duración: <strong>{{ plan.duration_days }} día</strong>
+                </span>
+              } @else {
+                <span class="plan-duration">
+                  Duración: <strong>{{ plan.duration_days }} días</strong>
+                </span>
+              }
             </div>
 
             <div class="plan-price">
@@ -42,7 +48,13 @@
               <span class="period">/pago único</span>
             </div>
 
-            <button class="btn-solicitar">Solicitar plan</button>
+            <button
+              type="button"
+              [routerLink]="['/baccus-gym/plan-form', plan.idplan]"
+              class="btn-solicitar"
+            >
+              Solicitar plan
+            </button>
           </div>
         </div>
       </article>

@@ -1,1 +1,523 @@
-<p>plan-form works!</p>
+<div class="background-container">
+  <div class="card-forgot">
+    <h2>Solicitar plan</h2>
+    <h3>{{ selectedPlan?.name }} / {{ selectedPlan?.price }}€</h3>
+    @if (selectedPlan?.idplan === 1) {
+      <h4>Matricula de 10€ el primer mes</h4>
+    } @else if (selectedPlan?.idplan === 2) {
+      <h4>Exhento de matricula</h4>
+    } @else if (selectedPlan?.idplan === 3) {
+      <h4>Exhento de matricula</h4>
+    } @else if (selectedPlan?.idplan === 4) {
+      <h4>Gasta los dias sin caducidad</h4>
+    } @else if (selectedPlan?.idplan === 5) {
+      <h4>Gasta los dias sin caducidad</h4>
+    }
+    <p class="instruction-text">
+      Solicita tu plan para poder entrenar en Baccus Gym y crear una cuenta para acceder a todas
+      nuestras funcionalidades
+    </p>
+
+    @if (errorMessage) {
+      <div class="alert-error">{{ errorMessage }}</div>
+    }
+
+    <form class="forgot-form" [formGroup]="planForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">Nombre</label>
+        <input
+          type="name"
+          placeholder="Introduce tu nombre"
+          formControlName="name"
+          [class.input-error]="planForm.get('name')?.invalid && planForm.get('name')?.touched"
+        />
+        @if (planForm.get('name')?.invalid && planForm.get('name')?.touched) {
+          <small class="error-text">El nombre es obligatorio.</small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="last-name">Apellidos</label>
+        <input
+          type="text"
+          placeholder="Introduce tus apellidos"
+          formControlName="lastName"
+          [class.input-error]="
+            planForm.get('lastName')?.invalid && planForm.get('lastName')?.touched
+          "
+        />
+        @if (planForm.get('lastName')?.invalid && planForm.get('lastName')?.touched) {
+          <small class="error-text">Los apellidos son obligatorios.</small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="email"
+          placeholder="Introduce tu correo electronico"
+          formControlName="email"
+          [class.input-error]="planForm.get('email')?.invalid && planForm.get('email')?.touched"
+        />
+        @if (planForm.get('email')?.invalid && planForm.get('email')?.touched) {
+          <small class="error-text">
+            @if (planForm.get('email')?.errors?.['required']) {
+              El email es obligatorio.
+            } @else if (planForm.get('email')?.errors?.['email']) {
+              Formato de email no válido.
+            }
+          </small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="dni">DNI</label>
+        <input
+          type="text"
+          placeholder="Introduce tu DNI"
+          formControlName="dni"
+          [class.input-error]="planForm.get('dni')?.invalid && planForm.get('dni')?.touched"
+        />
+        @if (planForm.get('dni')?.invalid && planForm.get('dni')?.touched) {
+          <small class="error-text">
+            @if (planForm.get('dni')?.errors?.['required']) {
+              El DNI es obligatorio.
+            } @else if (planForm.get('dni')?.errors?.['pattern']) {
+              Formato de DNI no válido (8 números y letra).
+            }
+          </small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="address">Dirección</label>
+        <input
+          type="email"
+          placeholder="Introduce tu dirección"
+          formControlName="address"
+          [class.input-error]="planForm.get('address')?.invalid && planForm.get('address')?.touched"
+        />
+        @if (planForm.get('address')?.invalid && planForm.get('address')?.touched) {
+          <small class="error-text">La dirección es obligatoria.</small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="iban">IBAN</label>
+        <input
+          type="email"
+          placeholder="Introduce el IBAN de tu cuenta bancaria"
+          formControlName="iban"
+          (keydown.space)="$event.preventDefault()"
+          (input)="onIbanInput($event)"
+          [class.input-error]="planForm.get('iban')?.invalid && planForm.get('iban')?.touched"
+        />
+        @if (planForm.get('iban')?.invalid && planForm.get('iban')?.touched) {
+          <small class="error-text">
+            @if (planForm.get('iban')?.errors?.['required']) {
+              El IBAN es obligatorio.
+            } @else if (planForm.get('iban')?.errors?.['pattern']) {
+              Formato de IBAN español no válido.
+            }
+          </small>
+        }
+      </div>
+      <div class="form-group checkbox-group">
+        <div class="checkbox-wrapper">
+          <input
+            type="checkbox"
+            id="acceptTerms"
+            formControlName="acceptTerms"
+            [class.input-error]="
+              planForm.get('acceptTerms')?.invalid && planForm.get('acceptTerms')?.touched
+            "
+          />
+          <label for="acceptTerms">
+            Acepto los
+            <a href="javascript:void(0)" (click)="toggleTerms(); $event.stopPropagation()"
+              >términos y condiciones</a
+            >
+          </label>
+        </div>
+
+        @if (planForm.get('acceptTerms')?.invalid && planForm.get('acceptTerms')?.touched) {
+          <small class="error-text">Debes aceptar los términos para continuar.</small>
+        }
+      </div>
+      <button type="submit" class="btn-enviar">SOLICITAR PLAN</button>
+    </form>
+  </div>
+</div>
+
+@if (showTerms) {
+  <div class="modal-overlay" (click)="toggleTerms()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Términos y Condiciones</h2>
+        <button class="close-btn" (click)="toggleTerms()">×</button>
+      </div>
+      <div class="modal-body">
+        <h4>Condiciones de contratación Baccus Gym Club</h4>
+        <p><strong>TÉRMINOS Y CONDICIONES GENERALES DE LA CONTRATACIÓN</strong></p>
+        <p><strong>USO DE INSTALACIONES Y SERVICIOS BACCUS GYM CLUB</strong></p>
+
+        <h4>1. OBJETO</h4>
+        <p>
+          BACCUS GYM es una instalación deportiva, marca comercial de LUIS PÉREZ NICOLAY (BACCUS
+          GYM, en adelante), con N.I.F. 18.086.945-K y domicilio social en Logroño, en el Polígono
+          Industrial de la Portalada, en la calle Circunde 6, que tiene como fundamento la práctica
+          deportiva especializada en deportes de fuerza, poniendo a disposición de nuestros clientes
+          a profesionales, unas instalaciones y el material específico para el desarrollo de la
+          actividad.
+        </p>
+        <p>
+          Las presentes condiciones generales de la contratación se aplican a todos los contratos
+          celebrados entre BACCUS GYM y sus clientes (o usuarios, indistintamente). La suscripción
+          del presente contrato será de aplicación con independencia de las condiciones particulares
+          que pudieran acordarse con un cliente de forma individual. Será considerado cliente todo
+          aquel que suscriba el presente documento, con el objeto de disfrutar de las instalaciones
+          y servicios de BACCUS GYM.
+        </p>
+
+        <h4>2. ACCESO Y USO DE LAS INSTALACIONES</h4>
+        <p>
+          BACCUS GYM reserva el acceso y uso de sus instalaciones y de sus materiales a todas las
+          personas que adquieran la condición de cliente mediante la formalización del presente
+          contrato. Todo cliente tendrá derecho al uso general de la sala fitness, de los vestuarios
+          y de los servicios habilitados dentro del horario establecido, que será objeto de
+          publicación o notificación mediante las redes sociales de la entidad o vía WhatsApp
+          mediando autorización del cliente. BACCUS GYM, en aras al bienestar de sus clientes, se
+          reserva el derecho de admisión de acuerdo con el aforo y la legalidad, a través de la
+          persona responsable.
+        </p>
+        <p>
+          Para acceder a las instalaciones de BACCUS GYM será necesario estar en posesión de la
+          tarjeta identificativa o en posesión del código de acceso proporcionado por el personal de
+          BACCUS GYM por la vía en la que se haya contactado, que se entregará con el pago de la
+          primera cuota después de la formalización del contrato. En caso de pérdida, extracción o
+          destrucción de la tarjeta, la copia de la misma tendrá un sobrecoste de CINCO EUROS
+          (5.-€).
+        </p>
+        <p>
+          La participación o la introducción no autorizada de personas que no hayan suscrito un
+          contrato con BACCUS GYM será causa de expulsión inmediata, suponiendo la baja definitiva
+          del usuario, sin perjuicio de las acciones que legalmente procedan.
+        </p>
+        <p>No se permitirá la entrada en las instalaciones de ninguna otra manera.</p>
+
+        <h4>3. Inscripción</h4>
+        <p>
+          La inscripción en el BACCUS GYM está sujeta con la aceptación de las normas y reglamentos
+          establecidos por la entidad, a la suscripción de este contrato y al abono de la primera
+          cuota. Dicha cuota dependerá de la tarifa seleccionada por el cliente. El abono de una
+          cuota de preinscripción tiene la consideración de primera cuota a estos efectos.
+        </p>
+        <p>
+          La inscripción será personal e intransferible y no será reembolsable. El mal uso de las
+          instalaciones, de los materiales y de los servicios supondrá la baja definitiva del
+          usuario, sin opción a reembolso, la retirada de los derechos adquiridos como cliente y la
+          posibilidad de prohibición de alta y acceso permanente en BACCUS GYM.
+        </p>
+        <p>
+          Solo podrán inscribirse en BACCUS GYM mayores de 14 años. Los menores de edad (&lt;18
+          años) deberán ser inscritos por sus padre, madre o tutores legales. Con la firma del
+          presente documento, el padre, madre o tutor legal se hace responsable de la aceptación del
+          presente contrato, así como de todos los usos que realice en las instalaciones y de los
+          materiales de BACCUS GYM y manifiesta que reúne las condiciones físicas detalladas en el
+          punto 7 del presente documento, exonerando a BACCUS GYM de cualesquiera daños, lesiones e
+          incluso fallecimientos que se produzca en las instalaciones así como resultado del uso de
+          los materiales puestos a su disposición por parte de BACCUS GYM.
+        </p>
+        <p>
+          El impago de una cuota en el plazo establecido para ello, supone el bloqueo de la tarjeta
+          de entrada y la pérdida del derecho a la matrícula, debiendo ingresar su importe
+          nuevamente en caso de volver a solicitar el alta.
+        </p>
+
+        <h4>4. Cuotas y pago</h4>
+        <p>
+          El pago de la primera cuota es condición indispensable para adquirir la condición de
+          cliente. Las cuotas se pagarán en efectivo, por bizum, mediante cargo por tarjeta y
+          preferentemente mediante domiciliación bancaria. Las cuotas deberán abonarse del día 1 al
+          día 5 de cada mes o por periodo de abono. Su renovación será automática hasta que el
+          cliente avise con una antelación de 10 días antes de que acabe el mes o de que venza el
+          periodo contratado de que solicita la baja. Si el cliente quiere cambiar su modalidad de
+          cuota, deberá comunicarlo con al menos 10 días de antelación a la finalización de su
+          periodo de cobro y abonar la cantidad del nuevo importe del día 1 al día 5 de ese mes o
+          por periodo de abono.
+        </p>
+        <p>
+          La devolución de un recibo, si no se ha solicitado la baja con una antelación de 10 días
+          antes de que acabe el mes o de que venza el periodo contratado de la manera en la que se
+          establece en el punto 9 del presente contrato, así como la devolución de un recibo sin
+          causa justificada, supondrá que se volverá a pasar el recibo con el sobrecoste por los
+          gastos ocasionados. Si persiste en la devolución de dicho recibo, se tomarán las acciones
+          legales oportunas .
+        </p>
+        <p>
+          Las cuotas abonadas no serán reembolsables ni compensables en los periodos no disfrutados.
+          El impago de una cuota en el plazo establecido para ello, supone el bloqueo de la tarjeta
+          de entrada y la pérdida del derecho a la matrícula, debiendo ingresar su importe
+          nuevamente en caso de volver a solicitar el alta. Los servicios y productos adicionales se
+          abonarán en efectivo, por bizum o mediante cargo por tarjeta.
+        </p>
+        <p>
+          En el caso de que el cliente haya abonado un precio de una cuota sujeta a promoción u
+          oferta, ese precio solo será aplicable a la promoción u oferta concreta suscrita y por el
+          periodo establecido en la misma.
+        </p>
+        <p>
+          En el caso de que pertenezcas a un colectivo específico (clubes deportivos con los que
+          BACCUS GYM tenga un acuerdo) deberás acreditar la pertenencia a ese colectivo para
+          beneficiarte de la promoción que sea aplicable.
+        </p>
+        <p>
+          Los precios serán revisables anualmente, pudiendo incrementarse o reducirse de acuerdo a
+          la situación del mercado, así como a la subida del IPC anual.
+        </p>
+
+        <h4>5. Modalidades de contrato</h4>
+        <p>
+          Las cuotas generales o el importe a abonar dependerá de la modalidad que escojas de las
+          disponibles en el momento de inscripción, que serán objeto de publicación en las redes
+          sociales de BACCUS GYM.
+        </p>
+
+        <h4>6. Normas generales de uso y funcionamiento de la instalación</h4>
+        <ol>
+          <li>
+            El usuario deberá utilizar ropa apropiada para la práctica de la modalidad deportiva que
+            practique.
+          </li>
+          <li>
+            Está prohibido el uso de calzado inapropiado para la práctica deportiva y que pueda
+            deteriorar el pavimento de las instalaciones. Asimismo, por seguridad e higiene, está
+            prohibido deambular descalzo y sin calcetines o similares por las instalaciones,
+            incluidos los vestuarios y los baños.
+          </li>
+          <li>
+            Es obligatorio el uso de toallas durante el uso de los materiales (máquinas, bancos,
+            etc.) propiedad de BACCUS GYM.
+          </li>
+          <li>Por seguridad e higiene, es obligatorio el uso de chanclas en la duchas.</li>
+          <li>
+            Por seguridad e higiene, está prohibido afeitarse, depilarse y similares en los baños,
+            vestuarios y el resto de las instalaciones.
+          </li>
+          <li>
+            Se hará un uso correcto de las instalaciones, así como del material puesto a disposición
+            por el BACCUS GYM: máquinas, bancos, mancuernas, agarres, taquillas, etc.
+          </li>
+          <li>
+            El deterioro o rotura de los materiales del BACCUS GYM causados por el mal uso de los
+            mismos deberá ser abonado por el causante.
+          </li>
+          <li>
+            La sustracción o destrucción del material puesto a disposición por el BACCUS GYM
+            supondrá la baja definitiva permanente del usuario en el BACCUS GYM así como la
+            devolución de lo sustraído y/o reposición de los destruido o dañado, o de su valor, sin
+            perjuicio de las acciones que legalmente procedan.
+          </li>
+          <li>
+            El comportamiento inadecuado, ofensivo o agresivo en las instalaciones de BACCUS GYM
+            será causa de expulsión inmediata.
+          </li>
+          <li>
+            El usuario deberá dirigirse con respeto y buen trato al resto de usuarios y al personal
+            de BACCUS GYM.
+          </li>
+          <li>
+            Por seguridad, higiene y respeto al personal de BACCUS GYM, los espacios, máquinas y
+            otros materiales utilizados se dejarán ordenados y limpios, dejando cada cosa en su
+            sitio.
+          </li>
+          <li>
+            El uso de magnesio deberá hacerse de forma diligente e higiénica, procediendo el usuario
+            a limpiar y ordenar la zona y los materiales que se hayan visto afectados.
+          </li>
+          <li>
+            Está permitida la captación de fotografías y vídeos siempre y cuando no implique a
+            usuarios que no hayan prestado su consentimiento, exceptuando las zonas de baños y
+            vestuarios, donde deberá primar el respeto a la intimidad de los demás usuarios.
+          </li>
+          <li>
+            Es obligatorio el uso de las papeleras instaladas en el BACCUS GYM para depositar los
+            desperdicios.
+          </li>
+          <li>Está prohibido fumar dentro de las instalaciones de BACCUS GYM.</li>
+          <li>Por seguridad, está prohibido vapear dentro de las instalaciones de BACCUS GYM.</li>
+          <li>
+            Por higiene y respeto a los demás usuarios, está prohibido el consumo de alimentos en
+            las instalaciones de BACCUS GYM, exceptuando la zona de descanso.
+          </li>
+          <li>
+            Está prohibido ingresar en las instalaciones y cualquier tipo de consumo (oral,
+            intravenoso, etc.) de fármacos que requieran receta sin estar en disposición de esa
+            receta, fármacos anabólicos o cualquier tipo de sustancia estupefaciente, anabolizante o
+            alcohólica. De la misma forma, está terminantemente prohibido ofrecer o distribuir
+            dichos elementos a los demás usuarios a título lucrativo u oneroso, así como servir de
+            intermediario o facilitar su acceso.
+          </li>
+          <li>
+            La sala deberá abandonarse 10 minutos antes de la hora fijada para que los clientes
+            tengan tiempo de recoger sus pertenencias y abandonar las instalaciones.
+          </li>
+          <li>
+            Está prohibida la prestación de cualquier servicio o venta de cualquier producto que no
+            haya sido expresamente autorizada por el personal de BACCUS GYM.
+          </li>
+          <li>
+            Las taquillas son para su uso diario. Su ocupación se limita al tiempo de permanencia
+            diaria del cliente en las instalaciones de BACCUS GYM. Se deberá dejar libre a la
+            finalización de ese tiempo. BACCUS GYM podrá abrir las taquillas y retirar los objetos
+            que no hayan sido retirados a la hora de cierre de las instalaciones, pudiendo
+            remover,sin derecho a reembolso, los candados que hayan sido colocados. Las pertenencias
+            retiradas permanecerán en las instalaciones durante 10 días, que podrán ser reclamadas
+            por el usuario que acredite ser su propietario. Transcurrido el plazo, las pertenencias
+            se presumirán abandonadas, no asumiendo BACCUS GYM responsabilidad alguna.
+          </li>
+          <li>
+            Las taquillas podrán ser alquiladas por meses naturales siempre y cuando al menos la
+            mitad de ellas se encuentren disponibles para el uso diario. El precio del alquiler de
+            taquilla será de DIEZ EUROS (10.-€) y se abonarán mediante los métodos de pago
+            establecidos en el punto cuatro, junto con la cuota contratada para el disfrute del
+            servicio.
+          </li>
+          <li>
+            BACCUS GYM no se hace responsable de los objetos y pertenencias que los clientes traigan
+            a sus instalaciones, en especial ropa y objetos de valor, dinero o documentación. El
+            cliente asume el riesgo del robo, sustracción o pérdida de los mismos. BACCUS GYM
+            recomienda a los usuarios no traer objetos de valor.
+          </li>
+          <li>
+            BACCUS GYM no se hace responsable del uso indebido de las instalaciones por parte de un
+            cliente o invitado.
+          </li>
+          <li>
+            La participación o la introducción no autorizada de personas que no hayan suscrito un
+            contrato con BACCUS GYM será causa de expulsión inmediata, suponiendo la baja definitiva
+            del usuario, sin perjuicio de las acciones que legalmente procedan.
+          </li>
+          <li>
+            BACCUS GYM velará por el cumplimiento de las normas generales de sus instalaciones por
+            parte de todos los clientes e invitados.
+          </li>
+          <li>
+            BACCUS GYM se compromete a conservar y mantener las instalaciones en las mejores
+            condiciones de seguridad e higiene para su disfrute.
+          </li>
+          <li>
+            BACCUS GYM se reserva el derecho de establecer, dictar o cambiar las normas de las
+            instalaciones en aras a la mejora constante del servicio ofrecido a nuestros clientes.
+          </li>
+          <li>
+            La normativa estará expuesta en el interior de las instalaciones para su conocimiento y
+            cumplimiento. 7. ESTADO DE SALUD DEL ABONADO.
+          </li>
+        </ol>
+        <p>
+          El cliente declara estar en condiciones físicas óptimas para la práctica de su modalidad
+          deportiva y no tener conocimiento médico por el que no pueda dedicarse a ejercicios
+          físicos activos o pasivos en las instalaciones de BACCUS GYM.
+        </p>
+        <p>
+          El cliente declara que la práctica de los ejercicios que realiza no serán perjudiciales
+          para su salud, seguridad, confort o estado físico. El cliente declara que la práctica de
+          la modalidad deportiva y el uso de las instalaciones y materiales de BACCUS GYM están bajo
+          su propia responsabilidad.
+        </p>
+        <p>
+          El cliente exime a BACCUS GYM mediante la firma de este contrato de cualquier
+          responsabilidad sobre daños, lesiones e incluso fallecimiento que se produzcan en las
+          instalaciones así como resultado del uso de los materiales puestos a su disposición por
+          parte de BACCUS GYM.LIMITACIÓN DE LA RESPONSABILIDAD.
+        </p>
+        <p>
+          BACCUS GYM no se hace responsable de la pérdida, extracción, robo o daño que se produzca
+          en sus instalaciones, incluidos baños y vestuarios.
+        </p>
+        <p>
+          BACCUS GYM responderá de los daños en las personas y en las cosas que le puedan ser
+          imputadas.
+        </p>
+        <p>
+          BACCUS GYM no se hace responsable por los accidentes que puedan sufrir los clientes o
+          invitados y sus pertenencias como consecuencia de la práctica del deporte en sus
+          instalaciones y mediante el uso de sus materiales.
+        </p>
+        <p>
+          El cliente deberá contratar de forma particular su seguro federativo o de accidentes
+          colectivos conforme a la modalidad deportiva que practique.
+        </p>
+
+        <h4>7. Terminación voluntaria-baja definitiva.</h4>
+        <p>
+          El cliente deberá avisar por escrito a BACCUS GYM mediante los canales de comunicación
+          habilitados: WhatsApp, correo electrónico, redes sociales (Instagram) o la entrega de un
+          escrito al personal de la entidad, al menos con 10 días de antelación al día 1 del mes en
+          el que quiere finalizar su contrato de su baja voluntaria. Formalizada la comunicación, se
+          procederá a dar de baja al cliente el día 1 y a desactivar la tarjeta en la misma fecha.
+          El cliente deberá devolver la tarjeta el último día en que acceda a las instalaciones, o
+          del día 1 al 5 del mes de baja. Si el cliente solicitara la readmisión, estará sujeto a
+          las condiciones generales vigentes de ese momento así como al pago de la matrícula si
+          procede.
+        </p>
+        <h4>9. Resolución de conflictos</h4>
+        <p>
+          En estos términos y condiciones generales se aplicará única y exclusivamente la
+          legislación española. Cualquier litigio que se produzca a raíz del contrato entre el
+          cliente y BACCUS GYM podrá ser juzgado por los juzgados y tribunales de la jurisdicción
+          civil española que resulten competentes.
+        </p>
+        <h4>10. Protección de datos</h4>
+        <p>
+          Le informamos de que, en cumplimiento de la normativa de Protección de Datos, los datos
+          que se recaben relativos a su persona serán tratados como responsable por BACCUS GYM y no
+          se cederán salvo obligación legal. El tratamiento de los mismos tiene como finalidad la
+          gestión y administración de la relación contractual establecida, así como la prestación de
+          los servicios contratados y el envío de información que pudiera resultar de interés.
+          Además, la firma de este documento significa la autorización y, por tanto, el
+          consentimiento expreso para el tratamiento de sus datos con las siguientes finalidades
+          (deberá marcar la casilla):
+        </p>
+        <ul>
+          <li>
+            El uso de la aplicación de mensajería instantánea WhatsApp para su inclusión en un grupo
+            de WhatsApp para el intercambio de opiniones y generar una comunidad fitness.
+          </li>
+          <li>
+            La inclusión de su fotografía o vídeo en Instagram (le informamos sobre la transferencia
+            internacional de datos que puede suponer).
+          </li>
+        </ul>
+        <p>
+          Los datos serán utilizados para administrar la relación contractual, prestar el servicio
+          contratado, enviarle información que pudiera resultar de su interés, fomentar el debate e
+          intercambio de opiniones para mejorar el servicio prestado en caso de que consienta su
+          inclusión en un grupo de WhatsApp y crear publicaciones para mostrar la actividad de
+          BACCUS GYM en Instagram.
+        </p>
+        <p>
+          La legitimación para el tratamiento es la ejecución del contrato, el interés legítimo de
+          BACCUS GYM para mandarle información vía WhatsApp y su consentimiento para su inclusión en
+          un grupo de WhatsApp y la publicación de su fotografía o vídeo en Instagram.
+        </p>
+        <p>
+          Puede ejercer en todo momento sus derechos de acceso, rectificación, supresión y
+          oposición, así como su derecho a solicitar la limitación del tratamiento o realizar la
+          portabilidad de sus datos. Asimismo, tiene derecho a presentar una reclamación ante la
+          Agencia Española de Protección de Datos como Autoridad de Control.
+        </p>
+        <p>
+          Por último, para obtener una información más exhaustiva acerca del tratamiento que BACCUS
+          GYM realiza de sus datos personales, puede consultar nuestra política de tratamiento de
+          datos en las instalaciones sitas en la dirección señalada en el punto 1 del presente
+          contrato.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-close-modal" (click)="toggleTerms()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+}
