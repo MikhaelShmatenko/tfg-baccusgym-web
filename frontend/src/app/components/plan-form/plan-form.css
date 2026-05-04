@@ -220,7 +220,7 @@ h3 {
   border-radius: 15px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 0px 40px #d62121;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   animation: modalFall 0.4s ease-out forwards;
   will-change: transform, opacity;
 }
@@ -245,6 +245,11 @@ h3 {
   color: #fff;
   font-size: 2rem;
   cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+  color: #d62121;
 }
 
 /* Cuerpo con Scroll */
@@ -265,8 +270,10 @@ h3 {
 }
 
 /* Scrollbar personalizada para que no rompa la estética */
+
 .modal-body::-webkit-scrollbar {
-  width: 8px;
+  width: 8px; /* Ancho para scroll vertical */
+  height: 8px; /* ALTO para scroll horizontal (esto es lo que te falta) */
 }
 
 .modal-body::-webkit-scrollbar-track {
@@ -276,6 +283,7 @@ h3 {
 .modal-body::-webkit-scrollbar-thumb {
   background: #333;
   border-radius: 10px;
+  border: 2px solid #0a0a0a; /* Opcional: añade un borde para que se vea más estilizado */
 }
 
 .modal-footer {

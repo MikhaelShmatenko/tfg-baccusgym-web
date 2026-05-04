@@ -1,0 +1,221 @@
+.background-container {
+  /* Ocupa todo el alto de la ventana menos el header */
+  min-height: calc(100vh - 100px);
+  width: 100%;
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  padding: 40px 20px; /* Espacio de seguridad para cuando crezca */
+  box-sizing: border-box;
+}
+
+.card-details {
+  background-color: #000000;
+  width: 50%;
+  padding: 40px 60px;
+  border-radius: 15px;
+  color: #ffffff;
+  box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Títulos con subrayado rojo */
+.main-title,
+.section-title {
+  text-align: left;
+  border-bottom: 2px solid #d62121;
+  display: inline-block;
+  margin-bottom: 5px;
+}
+
+.main-title {
+  font-size: 3rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-top: 0; /* ELIMINA EL ESPACIO SUPERIOR POR DEFECTO */
+  border-bottom: 2px solid #d62121;
+  display: inline-block;
+  margin-bottom: 30px; /* Espacio hacia abajo para separar del grid */
+}
+.section-title {
+  font-size: 2.2rem;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* Grid de dos columnas */
+.details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  text-align: left;
+}
+
+.info-group {
+  margin-bottom: 25px;
+}
+
+.info-group label {
+  display: block;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: #a8a8a8;
+}
+
+/* Estilo de inputs Baccus Gym */
+input {
+  width: 70%;
+  padding: 18px;
+  background-color: #0a0a0a;
+  border: 1px solid #222;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 1.1rem;
+  box-sizing: border-box;
+}
+
+.input-readonly {
+  width: 70%;
+  padding: 18px;
+  background-color: #0a0a0a;
+  border: 1px solid #222;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 1.1rem;
+  box-sizing: border-box;
+}
+
+.row-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 100%;
+}
+
+/* Botones de acción (Enlaces) */
+.action-links {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 0px;
+}
+
+.btn-action {
+  width: fit-content;
+}
+
+/* Sección Plan Actual */
+.plan-info-container {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 5px;
+}
+
+.plan-value {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-top: 10px;
+}
+
+.btn-consultar,
+.btn-action {
+  padding: 10px;
+  background-color: #d62121;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-weight: 900;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.btn-consultar,
+.btn-action:hover {
+  background-color: #700000;
+  transform: scale(1.05);
+}
+
+.btn-consultar,
+.btn-action:hover:active {
+  transform: scale(0.98);
+}
+
+.btn-confirmar-cambio {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #d62121;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-weight: 900;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.btn-confirmar-cambio:hover {
+  transform: scale(1.05);
+}
+
+.btn-confirmar-cambio:active {
+  transform: scale(0.98);
+}
+
+a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.label-row {
+  display: flex;
+  justify-content: space-between;
+  width: 70%;
+  margin-bottom: 10px;
+}
+
+.edit-link {
+  color: #ffffff;
+  font-size: 0.85rem;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+
+.edit-link:hover {
+  color: #d62121;
+}
+
+input {
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    outline 0.3s ease;
+}
+
+.editable-active {
+  outline: none; /* Quitamos el borde azul por defecto del navegador */
+  border-color: #d62121; /* Opcional: que el borde se ponga rojo */
+
+  /* Movimiento a la izquierda (valor negativo) */
+  transform: scale(1.02);
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1050px) {
+  .details-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .card-details {
+    padding: 30px;
+    width: 100%;
+  }
+  .main-title {
+    font-size: 2rem;
+  }
+}

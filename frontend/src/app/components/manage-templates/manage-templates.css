@@ -1,0 +1,572 @@
+/* Contenedor Principal */
+.templates-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  color: white;
+}
+
+/* Header Centrado */
+.templates-header {
+  text-align: center; /* Centra el h1 y el p */
+  margin-bottom: 30px;
+}
+
+.templates-header h1 {
+  position: relative;
+  display: inline-block;
+  font-size: 3rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.templates-header h1::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  transform: translateX(-50%);
+  width: 100%; /* La línea se ajusta al tamaño del texto */
+  max-width: 1100px;
+  height: 2px;
+  background-color: #d62121;
+}
+
+.templates-header p {
+  color: #a8a8a8;
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+/* Buscador (Alineado a la izquierda dentro del flujo estándar) */
+.search-box {
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 15px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.search-box input {
+  padding: 18px;
+  width: 30%;
+  background-color: #0a0a0a;
+  border: 1px solid #222;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 1.1rem;
+  box-sizing: border-box;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    outline 0.3s ease;
+  display: block;
+}
+
+.search-box input:focus {
+  outline: none; /* Quitamos el borde azul por defecto del navegador */
+  border-color: #d62121;
+  transform: scale(1.02);
+}
+
+.add-btn {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  background-color: #d62121;
+  color: #fff;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.add-btn:hover {
+  background-color: #700000;
+  transform: scale(1.05);
+}
+
+.add-btn:active {
+  transform: scale(0.98);
+}
+
+.custom-select-wrapper {
+  position: relative;
+  width: 200px;
+  user-select: none;
+}
+
+.custom-select-trigger {
+  padding: 18px;
+  background-color: #0a0a0a;
+  border: 1px solid #222;
+  border-radius: 5px; /* Más redondeado como pediste */
+  color: #fff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: border-color 0.3s ease;
+}
+
+.custom-select-wrapper.active .custom-select-trigger {
+  border-color: #d62121;
+}
+
+.arrow {
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: rotate(45deg);
+  transition: transform 0.3s ease;
+  margin-bottom: 5px;
+}
+
+.custom-select-wrapper.active .arrow {
+  transform: rotate(-135deg);
+  margin-bottom: -5px;
+}
+
+.custom-options {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  right: 0;
+  background-color: #0a0a0a;
+  border: 1px solid #d62121;
+  border-radius: 5px; /* Bordes muy redondeados */
+  overflow: hidden;
+  z-index: 100;
+
+  /* Estado inicial para la animación */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-20px); /* Empieza un poco más arriba */
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Efecto rebote/caída */
+}
+
+.custom-select-wrapper.active .custom-options {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0); /* Cae a su posición original */
+}
+
+.option {
+  padding: 15px 20px;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-weight: 500;
+}
+
+.option:hover {
+  background-color: #d62121; /* El azul ahora es ROJO */
+  color: white;
+}
+
+/* Grid de Plantillas */
+.templates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 30px;
+  width: 100%;
+}
+
+/* Card con Gradiente Rojo a Negro */
+.template-card {
+  background: linear-gradient(135deg, #000000 0%, #4d0000 100%);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  text-align: left; /* Alineación estándar a la izquierda */
+}
+
+.template-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0px 40px #d62121;
+}
+
+/* Información de la Plantilla */
+.template-badge {
+  display: inline-block;
+  background-color: #d62121;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 15px;
+}
+
+.template-info h2 {
+  font-size: 2rem;
+  font-weight: 900;
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.template-info .description {
+  color: #a8a8a8;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 25px;
+}
+
+/* Listado de Ejercicios y Tabla */
+.exercises-list h3 {
+  font-size: 1.2rem;
+  border-left: 2px solid #d62121;
+  padding-left: 10px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th {
+  text-align: left;
+  color: #d62121;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #333;
+}
+
+.table-container::-webkit-scrollbar {
+  width: 8px; /* Ancho para scroll vertical */
+  height: 8px; /* ALTO para scroll horizontal (esto es lo que te falta) */
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 10px;
+  border: 2px solid #0a0a0a; /* Opcional: añade un borde para que se vea más estilizado */
+}
+
+td {
+  padding: 12px 5px;
+  border-bottom: 1px solid #1a1a1a;
+  font-size: 0.95rem;
+}
+
+.ex-name {
+  font-weight: bold;
+  color: #eee;
+}
+
+.click-indicator {
+  margin-top: auto;
+  font-size: 0.8rem;
+  color: #d62121;
+  text-transform: uppercase;
+  font-weight: bold;
+  opacity: 0.6;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background: linear-gradient(135deg, #000000 0%, #4d0000 100%);
+  width: 100%;
+  max-width: 800px;
+  max-height: 90vh;
+  margin: 0 auto;
+  border-radius: 15px;
+  position: relative;
+  padding: 30px 20px;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  animation: modalIn 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-sizing: border-box;
+}
+
+.modal-content::-webkit-scrollbar {
+  width: 8px; /* Ancho para scroll vertical */
+  height: 8px; /* ALTO para scroll horizontal (esto es lo que te falta) */
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 10px;
+  border: 2px solid #0a0a0a; /* Opcional: añade un borde para que se vea más estilizado */
+}
+
+.managment-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: auto; /* Empuja los botones hacia abajo */
+}
+
+@keyframes modalIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2.5rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+  color: #d62121;
+}
+
+.modal-header {
+  display: flex;
+  flex-direction: column; /* Apila los elementos uno sobre otro */
+  align-items: flex-start; /* Alinea todo a la izquierda */
+  gap: 10px; /* Espacio entre el badge y el título */
+  margin-bottom: 20px;
+}
+
+.modal-header .template-badge {
+  margin-bottom: 0; /* Quitamos margen extra ya que usamos gap */
+  font-size: 0.9rem;
+  padding: 6px 15px;
+}
+
+.modal-header h1 {
+  font-size: 2.8rem;
+  text-transform: uppercase;
+  margin: 0; /* Quitamos márgenes para controlarlos con el gap del padre */
+  border-bottom: 2px solid #d62121;
+  display: inline-block;
+  line-height: 1.1;
+}
+
+.modal-description {
+  margin-top: 15px;
+  color: #a8a8a8;
+  font-size: 1.1rem;
+}
+
+.table-container {
+  background: rgba(255, 255, 255, 0.03);
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  display: block;
+  border-radius: 10px;
+  margin-top: 15px;
+  padding: 5px;
+  width: 100%; /* Asegura que ocupe el total del modal */
+  box-sizing: border-box;
+}
+
+.table-container table {
+  width: 100%;
+  min-width: 450px; /* IMPORTANTE: Esto evita que la tabla se "apriete" y se corte en el móvil */
+  border-collapse: collapse;
+}
+
+/* Estado Vacío */
+.no-templates {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 100px;
+  border: 2px dashed #333;
+  border-radius: 15px;
+  color: #666;
+}
+
+.modal-body .form-group {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 25px;
+}
+
+.modal-body .form-group label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 8px;
+  font-size: 0.8rem;
+  color: #a8a8a8;
+  text-transform: uppercase;
+}
+
+.modal-body .form-group input,
+.modal-body .form-group textarea {
+  width: 100%;
+  padding: 18px;
+  background-color: #0a0a0a;
+  border: 1px solid #222;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 1.1rem;
+  box-sizing: border-box;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease;
+  display: block;
+  font-family: inherit;
+}
+
+.modal-body .form-group input:focus,
+.modal-body .form-group textarea:focus {
+  outline: none;
+  border-color: #d62121;
+  transform: scale(1.02); /* El efecto de crecimiento que pediste */
+}
+
+.error-text {
+  color: #d62121;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-top: 8px;
+  display: block;
+  letter-spacing: 1px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 15px;
+  width: 100%;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.btn-enviar {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  background-color: #d62121;
+  color: #fff;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.btn-enviar:hover {
+  background-color: #700000;
+  transform: scale(1.05);
+}
+
+.btn-enviar:active {
+  transform: scale(0.98);
+}
+.alert-error {
+  background-color: #d62121;
+  color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 15px rgba(219, 0, 0, 0.3);
+  animation: slideIn 0.3s ease;
+}
+
+.delete-btn {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  background-color: #d62121;
+  color: #fff;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+.delete-btn:hover {
+  background-color: #700000;
+  transform: scale(1.05);
+}
+.delete-btn:active {
+  transform: scale(0.98);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .templates-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .templates-header h1 {
+    font-size: 2.2rem;
+  }
+
+  .search-box {
+    flex-direction: column;
+  }
+
+  .search-box input {
+    width: 100%;
+  }
+
+  .modal-content {
+    width: 90%; /* Casi todo el ancho, pero sin pasarse */
+    padding: 40px 15px 20px;
+    margin: 0 auto;
+  }
+
+  .modal-header h1 {
+    font-size: 1.5rem;
+  }
+  td,
+  th {
+    font-size: 0.8rem;
+    padding: 8px 4px;
+  }
+}

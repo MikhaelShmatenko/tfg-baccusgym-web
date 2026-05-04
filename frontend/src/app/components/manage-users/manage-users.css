@@ -1,0 +1,536 @@
+/* Contenedor Principal */
+.manage-users-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  color: white;
+}
+
+/* Header Estilo Plantillas */
+.manage-users-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.manage-users-header h1 {
+  position: relative;
+  display: inline-block;
+  font-size: 3rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.manage-users-header h1::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 2px;
+  background-color: #d62121;
+}
+
+.manage-users-header p {
+  color: #a8a8a8;
+  font-size: 1.2rem;
+}
+
+/* Buscador con efecto de escala */
+.search-box {
+  display: flex;
+  justify-content: left;
+  margin-top: 30px;
+  gap: 30px;
+}
+
+.search-input {
+  padding: 18px;
+  width: 100%;
+  max-width: 600px;
+  background-color: #0a0a0a;
+  border: 1px solid #222;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 1.1rem;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #d62121;
+  transform: scale(1.02);
+}
+
+/* Tabla y Contenedor */
+.table-container {
+  background: linear-gradient(135deg, #000000 0%, #1a0000 100%);
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  overflow-x: auto;
+  border: 1px solid #222;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1000px; /* Asegura legibilidad */
+}
+
+.table-container::-webkit-scrollbar {
+  width: 8px; /* Ancho para scroll vertical */
+  height: 8px; /* ALTO para scroll horizontal (esto es lo que te falta) */
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 10px;
+  border: 2px solid #0a0a0a; /* Opcional: añade un borde para que se vea más estilizado */
+}
+
+th {
+  text-align: left;
+  color: #d62121;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  padding: 15px 10px;
+  border-bottom: 2px solid #333;
+  letter-spacing: 1px;
+}
+
+td {
+  padding: 15px 10px;
+  border-bottom: 1px solid #1a1a1a;
+  font-size: 0.95rem;
+  color: #ccc;
+}
+
+tr:hover td {
+  background: rgba(214, 33, 33, 0.05);
+  color: #fff;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+/* Detalles específicos de la tabla */
+.user-important {
+  font-weight: bold;
+  color: #fff;
+}
+
+.plan-badge {
+  background: #d62121;
+  font-weight: bold;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: #fff;
+}
+
+.days-count {
+  color: white;
+  font-weight: bold;
+}
+
+/* Estados */
+.status-active {
+  color: #00ff88;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  background: rgba(0, 255, 136, 0.1);
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+
+.status-inactive {
+  color: #ff4444;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  background: rgba(255, 68, 68, 0.1);
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+
+/* Botones de Acción */
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.btn-action {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  background-color: #d62121;
+  color: #fff;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.btn-action:hover {
+  background-color: #700000;
+  transform: scale(1.05);
+}
+
+.btn-action:active {
+  transform: scale(0.98);
+}
+
+.empty-row {
+  text-align: center;
+  padding: 50px !important;
+  color: #666;
+  font-style: italic;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background: linear-gradient(135deg, #000000 0%, #4d0000 100%);
+  width: 100%;
+  max-width: 800px;
+  max-height: 90vh;
+  margin: 0 auto;
+  border-radius: 15px;
+  position: relative;
+  padding: 30px 20px;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  animation: modalIn 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-sizing: border-box;
+}
+
+@keyframes modalIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.modal-header .template-badge {
+  margin-bottom: 0; /* Quitamos margen extra ya que usamos gap */
+  font-size: 0.9rem;
+  padding: 6px 15px;
+}
+
+.modal-header {
+  display: flex;
+  flex-direction: column; /* Apila los elementos uno sobre otro */
+  align-items: flex-start; /* Alinea todo a la izquierda */
+  gap: 10px; /* Espacio entre el badge y el título */
+  margin-bottom: 20px;
+}
+
+.modal-header h1 {
+  font-size: 2.8rem;
+  text-transform: uppercase;
+  margin: 0; /* Quitamos márgenes para controlarlos con el gap del padre */
+  border-bottom: 2px solid #d62121;
+  display: inline-block;
+  line-height: 1.1;
+}
+
+.modal-description {
+  margin-top: 15px;
+  color: #a8a8a8;
+  font-size: 1.1rem;
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2.5rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+  color: #d62121;
+}
+
+.modal-content::-webkit-scrollbar {
+  width: 8px; /* Ancho para scroll vertical */
+  height: 8px; /* ALTO para scroll horizontal (esto es lo que te falta) */
+}
+
+.modal-content::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 10px;
+  border: 2px solid #0a0a0a; /* Opcional: añade un borde para que se vea más estilizado */
+}
+
+.modal-body .form-group {
+  width: 100%;
+  text-align: left;
+  margin-bottom: 25px;
+}
+
+/* Form Groups */
+
+.modal-body .form-group label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 8px;
+  font-size: 0.8rem;
+  color: #a8a8a8;
+  text-transform: uppercase;
+}
+
+.modal-body .form-group select,
+.modal-body .form-group input {
+  width: 100%;
+  padding: 18px;
+  background-color: #0a0a0a;
+  border: 1px solid #222;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 1.1rem;
+  box-sizing: border-box;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease;
+  display: block;
+  font-family: inherit;
+}
+
+.modal-body .form-group input[type='date']::-webkit-calendar-picker-indicator {
+  filter: invert(1); /* Hace que el icono del calendario sea blanco */
+  cursor: pointer;
+}
+
+.modal-body .form-group input:focus,
+.modal-body .form-group select:focus {
+  outline: none;
+  border-color: #d62121;
+  transform: scale(1.02); /* El efecto de crecimiento que pediste */
+}
+
+.custom-select-wrapper {
+  position: relative;
+  width: 100%; /* Ajustado al 100% del form-group */
+  user-select: none;
+}
+
+.arrow {
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: rotate(45deg);
+  transition: transform 0.3s ease;
+  margin-bottom: 5px;
+}
+
+.custom-select-wrapper.active .arrow {
+  transform: rotate(-135deg);
+  margin-bottom: -5px;
+}
+
+.custom-select-trigger {
+  padding: 18px;
+  background-color: #0a0a0a;
+  border: 1px solid #222;
+  border-radius: 5px; /* Más redondeado como pediste */
+  color: #fff;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: border-color 0.3s ease;
+}
+
+/* Efecto cuando el formulario da error */
+.input-error + .custom-select-wrapper .custom-select-trigger {
+  border-color: #d62121;
+}
+
+.custom-options {
+  position: absolute;
+  top: 105%;
+  left: 0;
+  right: 0;
+  background-color: #0d0d0d;
+  border: 1px solid #d62121;
+  border-radius: 5px;
+  overflow: hidden;
+  z-index: 1000;
+  cursor: pointer;
+
+  /* --- CAMBIOS AQUÍ --- */
+  opacity: 0;
+  visibility: hidden;
+  max-height: 0; /* Colapsa el alto para que no ocupe espacio */
+  pointer-events: none; /* Evita interacciones accidentales */
+  transform: translateY(-10px);
+  transition:
+    all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+    max-height 0s 0.4s;
+  /* El retraso en max-height permite que la animación de salida se vea */
+}
+
+.custom-select-wrapper.active .custom-options {
+  opacity: 1;
+  visibility: visible;
+  max-height: 500px; /* Un valor lo suficientemente grande para tus opciones */
+  pointer-events: auto;
+  transform: translateY(0);
+  transition:
+    all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+    max-height 0s;
+}
+
+.option {
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #1a1a1a;
+  transition: background 0.3s ease;
+}
+
+.option-type {
+  font-size: 0.75rem;
+  background: #d62121;
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: white;
+  transition: background 0.3s ease;
+}
+
+.option:hover {
+  background: #d62121;
+}
+
+.option:hover .option-type {
+  background: white;
+  color: #d62121;
+}
+
+.error-text {
+  color: #d62121;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-top: 8px;
+  display: block;
+  letter-spacing: 1px;
+}
+
+/* Actions */
+.form-actions {
+  display: flex;
+  gap: 15px;
+  width: 100%;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.btn-enviar {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  background-color: #d62121;
+  color: #fff;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.btn-enviar:hover {
+  background-color: #700000;
+  transform: scale(1.05);
+}
+
+.btn-enviar:active {
+  transform: scale(0.98);
+}
+
+.alert-error {
+  background-color: #d62121;
+  color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 15px rgba(219, 0, 0, 0.3);
+  animation: slideIn 0.3s ease;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .manage-users-header h1 {
+    font-size: 2rem;
+  }
+
+  .search-input {
+    width: 90%;
+  }
+
+  th,
+  td {
+    font-size: 0.8rem;
+    padding: 10px 5px;
+  }
+
+  .modal-content {
+    width: 90%; /* Casi todo el ancho, pero sin pasarse */
+    padding: 40px 15px 20px;
+    margin: 0 auto;
+  }
+
+  .modal-header h1 {
+    font-size: 1.5rem;
+  }
+}

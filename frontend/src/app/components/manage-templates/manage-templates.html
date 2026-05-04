@@ -1,0 +1,261 @@
+<section class="templates-container">
+  <!-- CABECERA CENTRADA -->
+  <header class="templates-header">
+    <h1>Gestión de Plantillas de Entrenamiento</h1>
+    <p>Modifica las plantillas de entrenamiento existentes o crea nuevas</p>
+
+    <!-- BUSCADOR Y SELECTOR PERSONALIZADO -->
+    <div class="search-box">
+      <div class="custom-select-wrapper" [class.active]="isSelectOpen">
+        <div class="custom-select-trigger" (click)="toggleSelect()">
+          <span>{{ searchCriteria === 'name' ? 'Nombre' : 'Tipo' }}</span>
+          <div class="arrow"></div>
+        </div>
+
+        <div class="custom-options">
+          <div class="option" (click)="selectOption('name')">Nombre</div>
+          <div class="option" (click)="selectOption('type')">Tipo</div>
+        </div>
+      </div>
+
+      <input
+        type="text"
+        placeholder="Buscar rutina..."
+        [(ngModel)]="searchText"
+        (input)="onSearchChange()"
+      />
+      <button class="add-btn" (click)="openAddModal()">AGREGAR PLANTILLA</button>
+    </div>
+  </header>
+
+  <!-- GRID DE TARJETAS -->
+  <div class="templates-grid">
+    @for (template of filteredTemplates; track template.idtemplate) {
+      <article class="template-card" (click)="openModal(template)">
+        <div class="template-info">
+          <div class="template-badge">{{ template.type }}</div>
+          <h2>{{ template.name }}</h2>
+          <p class="description">{{ template.description }}</p>
+        </div>
+        <div class="click-indicator">Ver ejercicios detallados</div>
+        <div class="managment-buttons">
+          <button class="delete-btn" (click)="deleteTemplate($event, template.idtemplate)">
+            Eliminar plantilla
+          </button>
+          <button class="delete-btn" (click)="openAddExerciseModal($event, template)">
+            Agregar Ejercicio
+          </button>
+        </div>
+      </article>
+    } @empty {
+      <div class="no-templates">
+        <p>No se han encontrado plantillas que coincidan con tu búsqueda.</p>
+      </div>
+    }
+  </div>
+
+  <!-- MODAL DETALLES (RENDERIZADO CONDICIONAL) -->
+  @if (isModalOpen && selectedTemplate) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <button class="close-btn" (click)="closeModal()">&times;</button>
+
+        <header class="modal-header">
+          <div class="template-badge">{{ selectedTemplate.type }}</div>
+          <h1>{{ selectedTemplate.name }}</h1>
+          <p class="modal-description">{{ selectedTemplate.description }}</p>
+        </header>
+
+        <div class="modal-body">
+          <h3>Ejercicios de la rutina</h3>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nº</th>
+                  <th>Ejercicio</th>
+                  <th>Series</th>
+                  <th>Reps</th>
+                  <th>Descanso</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (ex of selectedTemplate.exercises; track ex.idtemplate_exercise) {
+                  <tr>
+                    <td>{{ ex.order_number }}</td>
+                    <td class="ex-name">{{ ex.exercise_name }}</td>
+                    <td>{{ ex.series }}</td>
+                    <td>{{ ex.reps }}</td>
+                    <td>{{ ex.resting_time }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+  @if (isAddModalOpen) {
+    <div class="modal-overlay" (click)="closeAddModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <button class="close-btn" (click)="closeAddModal()">&times;</button>
+
+        <header class="modal-header">
+          <h1>Nueva Plantilla</h1>
+          <p class="modal-description">Configura los detalles básicos de la rutina</p>
+        </header>
+
+        @if (errorMessage) {
+          <div class="alert-error">
+            {{ errorMessage }}
+          </div>
+        }
+
+        <div class="modal-body">
+          <form [formGroup]="addTemplateForm" (ngSubmit)="submitTemplate()" class="forgot-form">
+            <div class="form-group">
+              <label>Nombre de la rutina</label>
+              <input
+                type="text"
+                formControlName="name"
+                placeholder="Ej: Hipertrofia Pierna"
+                [class.input-error]="
+                  addTemplateForm.get('name')?.invalid && addTemplateForm.get('name')?.touched
+                "
+              />
+              @if (addTemplateForm.get('name')?.invalid && addTemplateForm.get('name')?.touched) {
+                <small class="error-text">
+                  @if (addTemplateForm.get('name')?.errors?.['required']) {
+                    El nombre es obligatorio.
+                  } @else if (addTemplateForm.get('name')?.errors?.['minlength']) {
+                    Mínimo 3 caracteres.
+                  }
+                </small>
+              }
+            </div>
+
+            <div class="form-group">
+              <label>Tipo de rutina</label>
+              <input
+                type="text"
+                formControlName="type"
+                placeholder="Ej: Fuerza / HIIT"
+                [class.input-error]="
+                  addTemplateForm.get('type')?.invalid && addTemplateForm.get('type')?.touched
+                "
+              />
+              @if (addTemplateForm.get('type')?.invalid && addTemplateForm.get('type')?.touched) {
+                <small class="error-text">Debes seleccionar un tipo.</small>
+              }
+            </div>
+
+            <div class="form-group">
+              <label>Descripción</label>
+              <textarea
+                formControlName="description"
+                rows="3"
+                placeholder="Explica el objetivo de esta rutina..."
+                [class.input-error]="
+                  addTemplateForm.get('description')?.invalid &&
+                  addTemplateForm.get('description')?.touched
+                "
+              ></textarea>
+              @if (
+                addTemplateForm.get('description')?.invalid &&
+                addTemplateForm.get('description')?.touched
+              ) {
+                <small class="error-text">La descripción es obligatoria.</small>
+              }
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-enviar">CREAR PLANTILLA</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  }
+  @if (isAddExerciseModalOpen) {
+    <div class="modal-overlay" (click)="closeAddExerciseModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <button class="close-btn" (click)="closeAddExerciseModal()">&times;</button>
+
+        <header class="modal-header">
+          <h1>Nuevo Ejercicio</h1>
+          <p class="modal-description">Añade un ejercicio a la plantilla seleccionada</p>
+        </header>
+
+        @if (errorMessage) {
+          <div class="alert-error">{{ errorMessage }}</div>
+        }
+
+        <div class="modal-body">
+          <form [formGroup]="addExerciseForm" (ngSubmit)="submitExercise()" class="forgot-form">
+            <div class="form-group">
+              <label>Nombre del ejercicio</label>
+              <input type="text" formControlName="exercise_name" placeholder="Ej: Press de Banca" />
+              @if (
+                addExerciseForm.get('exercise_name')?.invalid &&
+                addExerciseForm.get('exercise_name')?.touched
+              ) {
+                <small class="error-text">El nombre es obligatorio.</small>
+              }
+            </div>
+
+            <!-- Dos columnas para Series y Reps -->
+            <div style="display: flex; gap: 15px">
+              <div class="form-group" style="flex: 1">
+                <label>Series</label>
+                <input type="number" formControlName="series" placeholder="4" />
+                @if (
+                  addExerciseForm.get('series')?.invalid && addExerciseForm.get('series')?.touched
+                ) {
+                  <small class="error-text">Obligatorio.</small>
+                }
+              </div>
+              <div class="form-group" style="flex: 1">
+                <label>Repeticiones</label>
+                <input type="text" formControlName="reps" placeholder="10-12 o al fallo" />
+                @if (addExerciseForm.get('reps')?.invalid && addExerciseForm.get('reps')?.touched) {
+                  <small class="error-text">Obligatorio.</small>
+                }
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Tiempo de descanso</label>
+              <input type="text" formControlName="resting_time" placeholder="Ej: 90s o 2 min" />
+              @if (
+                addExerciseForm.get('resting_time')?.invalid &&
+                addExerciseForm.get('resting_time')?.touched
+              ) {
+                <small class="error-text">Obligatorio.</small>
+              }
+            </div>
+
+            <div class="form-group">
+              <label>Número de orden</label>
+              <input
+                type="number"
+                formControlName="order_number"
+                placeholder="Ej: 1 (posición en la tabla)"
+              />
+              @if (
+                addExerciseForm.get('order_number')?.invalid &&
+                addExerciseForm.get('order_number')?.touched
+              ) {
+                <small class="error-text">El orden es necesario para organizar la rutina.</small>
+              }
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-enviar">GUARDAR EJERCICIO</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  }
+</section>

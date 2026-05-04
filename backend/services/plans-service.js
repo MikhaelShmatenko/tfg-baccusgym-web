@@ -14,7 +14,13 @@ class PlansService {
     return plans;
   }
   async getPlanById(idPlan) {
-    const plan = await PlansModel.getPlanById(idPlan);
+    let plan;
+    try {
+      plan = await PlansModel.getPlanById(idPlan);
+    } catch (error) {
+      throw new Error("GETTING_PLAN_FAILED");
+    }
+
     if (!plan) {
       throw new Error("PLAN_NOT_FOUND");
     }

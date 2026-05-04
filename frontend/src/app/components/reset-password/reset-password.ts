@@ -69,7 +69,7 @@ export class ResetPassword implements OnInit {
           this.router.navigate(['/baccus-gym/user/login']);
         },
         error: (error) => {
-          this.errorMessage = 'Error al restablecer la contraseña.';
+          this.errorMessage = error.error?.message || 'Error al restablecer la contraseña';
           this.changeDetectorRef.detectChanges();
         },
       });

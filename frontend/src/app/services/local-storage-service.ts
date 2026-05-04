@@ -39,4 +39,16 @@ export class LocalStorageService {
     const userData = localStorage.getItem(this.USER_KEY);
     return userData ? JSON.parse(userData) : null;
   }
+
+  getToken(): string | null {
+    return localStorage.getItem(this.TOKEN_KEY);
+  }
+
+  updateUser(newData: Partial<User>): void {
+    const currentUser = this.getUser();
+    if (currentUser) {
+      const updatedUser = { ...currentUser, ...newData };
+      localStorage.setItem(this.USER_KEY, JSON.stringify(updatedUser));
+    }
+  }
 }

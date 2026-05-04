@@ -1,1 +1,30 @@
-<p>delete-account works!</p>
+<div class="background-container">
+  <div class="card-forgot">
+    <h2>Borrar cuenta</h2>
+    <p class="instruction-text">Escribe "ELIMINAR" para confirmar la eliminación de tu cuenta</p>
+
+    @if (errorMessage) {
+      <div class="alert-error">
+        {{ errorMessage }}
+      </div>
+    }
+
+    <form class="forgot-form" (ngSubmit)="onDelete()">
+      <div class="form-group">
+        <label for="delete-account">Eliminar cuenta</label>
+
+        <input
+          type="text"
+          name="confirmDelete"
+          placeholder="ELIMINAR"
+          [(ngModel)]="confirmationText"
+          (input)="errorMessage = ''"
+        />
+
+        <small class="error-text"> </small>
+      </div>
+
+      <button type="submit" class="btn-enviar">ELIMINAR</button>
+    </form>
+  </div>
+</div>

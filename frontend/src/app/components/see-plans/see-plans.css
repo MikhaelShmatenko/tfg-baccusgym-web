@@ -29,7 +29,7 @@
   left: 50%;
   bottom: -10px; /* Ajusta qué tan pegada está la línea al texto */
   transform: translateX(-50%); /* Centra la línea perfectamente */
-  width: 500px; /* Largo de la línea roja */
+  width: 100%; /* Largo de la línea roja */
   height: 2px; /* Grosor de la línea */
   background-color: #d62121; /* El rojo característico de Baccus */
 }
@@ -45,7 +45,7 @@
   flex-wrap: wrap;
   justify-content: center;
   /* Reducimos un poco el gap si quieres que las cards estén más juntas entre sí */
-  gap: 30px;
+  gap: 50px;
   width: 100%;
 }
 

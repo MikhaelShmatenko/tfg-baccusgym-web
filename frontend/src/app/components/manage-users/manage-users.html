@@ -1,1 +1,143 @@
-<p>manage-users works!</p>
+<section class="manage-users-container">
+  <header class="manage-users-header">
+    <h1>Gestión de Usuarios</h1>
+    <p>Administra las suscripciones, planes y estados de los usuarios registrados</p>
+
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Buscar por nombre o email..."
+        [(ngModel)]="searchText"
+        (input)="onSearchChange()"
+        class="search-input"
+      />
+    </div>
+  </header>
+
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Email</th>
+          <th>Plan</th>
+          <th>Tipo</th>
+          <th>Inicio</th>
+          <th>Fin</th>
+          <th class="text-center">Días Restantes</th>
+          <th>Estado</th>
+          <th>Opciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (user of filteredUsers; track user.iduser) {
+          <tr>
+            <td>{{ user.iduser }}</td>
+            <td class="user-important">{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>
+              <span class="plan-badge">{{ user.plan_name }}</span>
+            </td>
+            <td>{{ user.plan_type }}</td>
+            <td>
+              {{ user.start_date ? (user.start_date | date: 'dd/MM/yyyy') : 'No disponible' }}
+            </td>
+            <td>{{ user.end_date ? (user.end_date | date: 'dd/MM/yyyy') : 'No disponible' }}</td>
+            <td class="days-count text-center">
+              {{ user.remaining_days !== null ? user.remaining_days : 'No disponible' }}
+            </td>
+            <td>
+              @if (user.is_active) {
+                <span class="status-active">Activado</span>
+              } @else {
+                <span class="status-inactive">Desactivado</span>
+              }
+            </td>
+            <td>
+              <div class="action-buttons">
+                @if (user.is_active) {
+                  <button class="btn-action" (click)="deactivatePlan(user)">Desactivar plan</button>
+                }
+                @if (user.plan_type === 'Bono' && user.is_active) {
+                  <button class="btn-action" (click)="substractDay(user)">Canjear dia</button>
+                }
+                <button class="btn-action" (click)="openPlanModal(user)">
+                  Modificar o activar plan
+                </button>
+              </div>
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="10" class="empty-row">No se encontraron usuarios registrados.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  @if (isPlanModalOpen && selectedUser) {
+    <div class="modal-overlay" (click)="closePlanModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <button class="close-btn" (click)="closePlanModal()">&times;</button>
+
+        <header class="modal-header">
+          <h1>{{ selectedUser.name }}</h1>
+          <p class="modal-description">Asigna un nuevo plan o modifica el actual</p>
+        </header>
+
+        @if (errorMessage) {
+          <div class="alert-error">{{ errorMessage }}</div>
+        }
+
+        <div class="modal-body">
+          <form [formGroup]="planForm" (ngSubmit)="submitPlanChange()" class="forgot-form">
+            <div class="form-group">
+              <label>Seleccionar Plan</label>
+              <div class="custom-select-wrapper" [class.active]="isSelectOpen">
+                <div class="custom-select-trigger" (click)="isSelectOpen = !isSelectOpen">
+                  <span>{{ getSelectedPlanName() }}</span>
+                  <div class="arrow"></div>
+                </div>
+
+                <!-- Opciones: Mapeo de tus planes -->
+                <div class="custom-options">
+                  @for (plan of plans; track plan.idplan) {
+                    <div class="option" (click)="selectPlan(plan)">
+                      <span class="option-name">{{ plan.name }}</span>
+                      <span class="option-type">{{ plan.type }}</span>
+                    </div>
+                  } @empty {
+                    <div class="option">Cargando planes...</div>
+                  }
+                </div>
+              </div>
+
+              @if (planForm.get('idplan')?.invalid && planForm.get('idplan')?.touched) {
+                <small class="error-text">Debes seleccionar un plan válido.</small>
+              }
+            </div>
+
+            <div class="form-group">
+              <label>Fecha de inicio</label>
+              <input
+                type="date"
+                formControlName="start_date"
+                [class.input-error]="
+                  planForm.get('start_date')?.invalid && planForm.get('start_date')?.touched
+                "
+              />
+              @if (planForm.get('start_date')?.invalid && planForm.get('start_date')?.touched) {
+                <small class="error-text">La fecha de inicio es necesaria.</small>
+              }
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-enviar">ACTUALIZAR PLAN</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  }
+</section>

@@ -12,11 +12,16 @@ import { AsyncPipe } from '@angular/common';
 })
 export class Header {
   isSidebarOpen = false;
+  isMenuOpen = false;
 
   constructor(public authService: AuthService) {}
 
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  closeMenu() {
+    this.isMenuOpen = false;
   }
 
   onLogout() {

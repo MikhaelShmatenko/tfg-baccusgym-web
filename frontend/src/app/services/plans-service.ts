@@ -3,7 +3,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Plan } from '../interfaces/plan';
 import { environment } from '../../environments/environment';
-import { PlanRequest } from '../interfaces/plan-request';
 
 @Injectable({
   providedIn: 'root',

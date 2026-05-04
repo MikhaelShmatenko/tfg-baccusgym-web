@@ -6,43 +6,38 @@ const transporter = require("../config/mailer");
 
 class UsersService {
   async addUser(userData) {
-    if (!userData.planId) {
-      throw new Error("PLAN_ID_REQUIRED");
-    }
-
-    let existingUser;
     try {
-      existingUser = await UsersModel.findByEmail(userData.email);
+      if (!userData.planId) {
+        throw new Error("PLAN_ID_REQUIRED");
+      }
+
+      const existingUser = await UsersModel.findByEmail(userData.email);
+      if (existingUser) {
+        throw new Error("EMAIL_ALREADY_IN_USE");
+      }
+
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(userData.password, saltRounds);
+      const userDataWithHashedPassword = {
+        ...userData,
+        password: hashedPassword,
+      };
+
+      const newUser = await UsersModel.addUser(userDataWithHashedPassword);
+
+      await UsersPlansModel.linkUserToPlan(newUser.iduser, userData.planId);
+
+      delete newUser.password;
+      return newUser;
     } catch (error) {
-      throw new Error("GETTING_MAIL_FAILED");
-    }
-
-    if (existingUser) {
-      throw new Error("EMAIL_ALREADY_IN_USE");
-    }
-
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(userData.password, saltRounds);
-    const userDataWithHashedPassword = {
-      ...userData,
-      password: hashedPassword,
-    };
-
-    let newUser;
-    try {
-      newUser = await UsersModel.addUser(userDataWithHashedPassword);
-    } catch (error) {
+      if (
+        error.message === "PLAN_ID_REQUIRED" ||
+        error.message === "EMAIL_ALREADY_IN_USE"
+      ) {
+        throw error;
+      }
       throw new Error("USER_CREATION_FAILED");
     }
-
-    try {
-      await UsersPlansModel.linkUserToPlan(newUser.iduser, userData.planId);
-    } catch (error) {
-      throw new Error("PLAN_LINK_FAILED");
-    }
-
-    delete newUser.password;
-    return newUser;
   }
 
   async login(email, password) {
@@ -87,7 +82,7 @@ class UsersService {
       throw new Error("USER_NOT_FOUND");
     }
     const recoveryToken = jwt.sign(
-      { email: user.email },
+      { email: user.email, type: "recovery" },
       process.env.JWT_SECRET,
       { expiresIn: "1h" },
     );
@@ -105,13 +100,119 @@ class UsersService {
   }
 
   async resetPassword(token, newPassword) {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
     try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+      if (decoded.type !== "recovery") {
+        throw new Error("INVALID_TOKEN_TYPE");
+      }
+
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+
       await UsersModel.updatePassword(decoded.email, hashedPassword);
     } catch (error) {
-      throw new Error("UPDATE_PASSWORD_FAILED");
+      if (error.name === "TokenExpiredError") throw new Error("TOKEN_EXPIRED");
+      if (error.name === "JsonWebTokenError") throw new Error("INVALID_TOKEN");
+      throw error;
+    }
+  }
+
+  async getUserDetails(idUser) {
+    let userDetails;
+    try {
+      userDetails = await UsersModel.getUserFullDetails(idUser);
+    } catch (error) {
+      throw new Error("GETTING_USER_DETAILS_FAILED");
+    }
+
+    if (!userDetails) {
+      throw new Error("USER_NOT_FOUND");
+    }
+    return userDetails;
+  }
+
+  async getAllUsersDetails() {
+    try {
+      const users = await UsersModel.getAllUsersFullDetails();
+      if (!users) {
+        throw new Error("USERS_NOT_FOUND");
+      }
+      return users;
+    } catch (error) {
+      if (error.message === "USERS_NOT_FOUND") {
+        throw error;
+      }
+      throw new Error("GETTING_ALL_USERS_DETAILS_FAILED");
+    }
+  }
+
+  async deleteAccount(idUser) {
+    let deleted;
+    try {
+      deleted = await UsersModel.deleteUser(idUser);
+    } catch (error) {
+      throw new Error("DELETE_USER_FAILED");
+    }
+
+    if (!deleted) {
+      throw new Error("USER_NOT_FOUND");
+    }
+
+    return { message: "Cuenta eliminada correctamente" };
+  }
+
+  async changePassword(idUser, currentPassword, newPassword) {
+    try {
+      const user = await UsersModel.findById(idUser);
+      if (!user) {
+        throw new Error("USER_NOT_FOUND");
+      }
+
+      const isMatch = await bcrypt.compare(currentPassword, user.password);
+      if (!isMatch) {
+        throw new Error("INVALID_CURRENT_PASSWORD");
+      }
+
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+
+      await UsersModel.updatePasswordById(idUser, hashedPassword);
+
+      return { message: "Contraseña actualizada correctamente" };
+    } catch (error) {
+      if (
+        error.message === "USER_NOT_FOUND" ||
+        error.message === "INVALID_CURRENT_PASSWORD"
+      ) {
+        throw error;
+      }
+      throw new Error("CHANGE_PASSWORD_FAILED");
+    }
+  }
+
+  async updateUserName(idUser, password, newName) {
+    try {
+      const user = await UsersModel.findById(idUser);
+      if (!user) {
+        throw new Error("USER_NOT_FOUND");
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        throw new Error("INVALID_PASSWORD");
+      }
+
+      const updatedUser = await UsersModel.updateName(idUser, newName);
+      return updatedUser;
+    } catch (error) {
+      if (
+        error.message === "USER_NOT_FOUND" ||
+        error.message === "INVALID_PASSWORD"
+      ) {
+        throw error;
+      }
+      throw new Error("UPDATE_NAME_FAILED");
     }
   }
 }

@@ -4,14 +4,20 @@
       <img src="images/logo.png" alt="Baccus Gym" routerLink="/baccus-gym" />
     </div>
 
-    <input type="checkbox" id="menu-toggle" class="menu-toggle" />
+    <input
+      type="checkbox"
+      id="menu-toggle"
+      class="menu-toggle"
+      [checked]="isMenuOpen"
+      (change)="isMenuOpen = !isMenuOpen"
+    />
 
     <nav class="nav-links">
-      <a routerLink="/baccus-gym/facilities">INSTALACIONES</a>
-      <a routerLink="/baccus-gym/exercises">EJERCICIOS</a>
-      <a routerLink="/baccus-gym/see-plans">PLANES</a>
-      <a routerLink="/baccus-gym/who-we-are">QUIÉNES SOMOS</a>
-      <a routerLink="/baccus-gym/contact">CONTACTO</a>
+      <a routerLink="/baccus-gym/facilities" (click)="closeMenu()">INSTALACIONES</a>
+      <a routerLink="/baccus-gym/exercises" (click)="closeMenu()">EJERCICIOS</a>
+      <a routerLink="/baccus-gym/see-plans" (click)="closeMenu()">PLANES</a>
+      <a routerLink="/baccus-gym/who-we-are" (click)="closeMenu()">QUIÉNES SOMOS</a>
+      <a routerLink="/baccus-gym/contact" (click)="closeMenu()">CONTACTO</a>
     </nav>
 
     <div class="user-action-zone">
@@ -35,14 +41,15 @@
           </div>
 
           <nav class="sidebar-nav">
-            <a routerLink="/baccus-gym/user/actual-plan" (click)="toggleSidebar()">PLAN ACTUAL</a>
             <a routerLink="/baccus-gym/user/calendar" (click)="toggleSidebar()">CALENDARIO</a>
-            <a routerLink="/baccus-gym/user/modify" (click)="toggleSidebar()">DETALLES DE CUENTA</a>
+            <a routerLink="/baccus-gym/user/account-details" (click)="toggleSidebar()"
+              >DETALLES DE CUENTA</a
+            >
             <a routerLink="/baccus-gym/user/exercise-templates" (click)="toggleSidebar()"
               >PLANTILLA DE ENTRENAMIENTO</a
             >
             @if ((authService.currentUser$ | async)?.admin) {
-              <a routerLink="/baccus-gym/admin/dashboard" (click)="toggleSidebar()">
+              <a routerLink="baccus-gym/admin/admin-panel" (click)="toggleSidebar()">
                 ADMINISTRACIÓN
               </a>
             }

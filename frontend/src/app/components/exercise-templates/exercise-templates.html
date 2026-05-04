@@ -1,1 +1,90 @@
-<p>exercise-templates works!</p>
+<section class="templates-container">
+  <!-- CABECERA CENTRADA -->
+  <header class="templates-header">
+    <h1>Plantillas de Entrenamiento</h1>
+    <p>Explora nuestras rutinas diseñadas por expertos para optimizar tu progreso</p>
+
+    <!-- BUSCADOR Y SELECTOR PERSONALIZADO -->
+    <div class="search-box">
+      <div class="custom-select-wrapper" [class.active]="isSelectOpen">
+        <div class="custom-select-trigger" (click)="toggleSelect()">
+          <span>{{ searchCriteria === 'name' ? 'Nombre' : 'Tipo' }}</span>
+          <div class="arrow"></div>
+        </div>
+
+        <div class="custom-options">
+          <div class="option" (click)="selectOption('name')">Nombre</div>
+          <div class="option" (click)="selectOption('type')">Tipo</div>
+        </div>
+      </div>
+
+      <input
+        type="text"
+        placeholder="Buscar rutina..."
+        [(ngModel)]="searchText"
+        (input)="onSearchChange()"
+      />
+    </div>
+  </header>
+
+  <!-- GRID DE TARJETAS -->
+  <div class="templates-grid">
+    @for (template of filteredTemplates; track template.idtemplate) {
+      <article class="template-card" (click)="openModal(template)">
+        <div class="template-info">
+          <div class="template-badge">{{ template.type }}</div>
+          <h2>{{ template.name }}</h2>
+          <p class="description">{{ template.description }}</p>
+        </div>
+        <div class="click-indicator">Ver ejercicios detallados</div>
+      </article>
+    } @empty {
+      <div class="no-templates">
+        <p>No se han encontrado plantillas que coincidan con tu búsqueda.</p>
+      </div>
+    }
+  </div>
+
+  <!-- MODAL DETALLES (RENDERIZADO CONDICIONAL) -->
+  @if (isModalOpen && selectedTemplate) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <button class="close-btn" (click)="closeModal()">&times;</button>
+
+        <header class="modal-header">
+          <div class="template-badge">{{ selectedTemplate.type }}</div>
+          <h1>{{ selectedTemplate.name }}</h1>
+          <p class="modal-description">{{ selectedTemplate.description }}</p>
+        </header>
+
+        <div class="modal-body">
+          <h3>Ejercicios de la rutina</h3>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Nº</th>
+                  <th>Ejercicio</th>
+                  <th>Series</th>
+                  <th>Reps</th>
+                  <th>Descanso</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (ex of selectedTemplate.exercises; track ex.idtemplate_exercise) {
+                  <tr>
+                    <td>{{ ex.order_number }}</td>
+                    <td class="ex-name">{{ ex.exercise_name }}</td>
+                    <td>{{ ex.series }}</td>
+                    <td>{{ ex.reps }}</td>
+                    <td>{{ ex.resting_time }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</section>

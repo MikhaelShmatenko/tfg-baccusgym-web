@@ -46,3 +46,21 @@ html {
   width: 100%;
   min-height: 100vh;
 }
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 8px; /* Ancho para scroll vertical */
+  height: 8px; /* ALTO para scroll horizontal (esto es lo que te falta) */
+}
+
+html::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 10px;
+  border: 2px solid #0a0a0a; /* Opcional: añade un borde para que se vea más estilizado */
+}

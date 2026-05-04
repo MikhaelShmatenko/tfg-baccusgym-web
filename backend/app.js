@@ -11,6 +11,7 @@ var app = express();
 app.use(cors());
 
 const db = require("./config/db");
+const startPlanCleanup = require("./tasks/plan-cleanup");
 
 const port = process.env.PORT || 3000;
 
@@ -18,6 +19,7 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var plansRouter = require("./routes/plans");
 var plansRequestRouter = require("./routes/plans-request");
+var adminRouter = require("./routes/admin");
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -33,6 +35,7 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/plans", plansRouter);
 app.use("/plans-request", plansRequestRouter);
+app.use("/admin", adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -49,5 +52,7 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render("error");
 });
+
+startPlanCleanup();
 
 module.exports = app;

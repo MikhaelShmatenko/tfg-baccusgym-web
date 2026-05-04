@@ -1,1 +1,58 @@
-<p>account-details works!</p>
+<div class="background-container">
+  <div class="card-details">
+    <h1 class="main-title">Detalles de cuenta</h1>
+
+    <div class="details-grid">
+      <div class="details-column">
+        <h2 class="section-title">Información del usuario</h2>
+
+        <div class="info-group">
+          <label>Nombre:</label>
+          <input type="text" readonly class="input-readonly" [value]="userDetails?.name" />
+        </div>
+
+        <div class="info-group">
+          <label>Correo electrónico:</label>
+          <input type="email" readonly class="input-readonly" [value]="userDetails?.email" />
+        </div>
+
+        <div class="action-links">
+          <div class="row-actions">
+            <button class="btn-action" routerLink="/baccus-gym/user/change-password">
+              Modificar contraseña
+            </button>
+            <button class="btn-action" routerLink="/baccus-gym/user/change-name">
+              Modificar nombre
+            </button>
+          </div>
+          <button class="btn-action" routerLink="/baccus-gym/user/delete-account">
+            Eliminar cuenta
+          </button>
+        </div>
+      </div>
+
+      <div class="details-column">
+        <h2 class="section-title">Plan actual</h2>
+
+        @if (userDetails?.is_active) {
+          <div class="plan-info-container">
+            <div class="plan-data">
+              <label>Nombre del plan</label>
+              <p class="plan-value">{{ userDetails?.plan_name }}</p>
+            </div>
+            <div class="plan-data">
+              <label>Días restantes</label>
+              <p class="plan-value">{{ calculatedRemainingDays }} días</p>
+            </div>
+          </div>
+        } @else {
+          <div class="plan-info-container">
+            <p class="plan-value">No dispones de ningún plan o todavía no ha sido activado.</p>
+          </div>
+        }
+
+        <button routerLink="/plans" class="btn-action">Consultar planes</button>
+      </div>
+    </div>
+  </div>
+</div>
