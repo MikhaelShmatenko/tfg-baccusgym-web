@@ -22,6 +22,13 @@ router.post(
   templateExercisesController.addExerciseToTemplate,
 );
 
+router.post(
+  "/add-user",
+  authMiddleware,
+  adminMiddleware,
+  usersController.addUser,
+);
+
 router.put(
   "/set-user-plan",
   authMiddleware,

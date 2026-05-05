@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UserDetails } from '../interfaces/user-details';
+import { User } from '../interfaces/user';
 import { Template } from '../interfaces/template';
 import { TemplateExercises } from '../interfaces/template-exercises';
 import { LocalStorageService } from './local-storage-service';
@@ -77,5 +78,11 @@ export class AdminService {
     const token = this.localStorageService.getToken();
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.put(`${this.apiUrl}/set-user-plan`, planData, { headers });
+  }
+
+  addUser(userData: Partial<User>): Observable<User> {
+    const token = this.localStorageService.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.post<User>(`${this.apiUrl}/add-user`, userData, { headers });
   }
 }

@@ -451,6 +451,39 @@ tr:hover td {
   color: #d62121;
 }
 
+/* Contenedor relativo para posicionar el botón */
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Espacio a la derecha del input para que el texto no se solape con el ojo */
+.password-wrapper input {
+  padding-right: 50px !important;
+}
+
+/* Estilo del botón del ojo */
+.toggle-btn {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #a8a8a8;
+  font-size: 1.2rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+  transition: color 0.3s ease;
+}
+
+.toggle-btn:hover {
+  color: #d62121; /* El ojo se vuelve rojo al pasar el cursor */
+}
+
 .error-text {
   color: #d62121;
   font-size: 0.75rem;

@@ -12,6 +12,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { start } from 'repl';
+import { User } from '../../interfaces/user';
 
 @Component({
   selector: 'app-manage-users',
@@ -31,6 +32,10 @@ export class ManageUsers implements OnInit {
   errorMessage: string | null = null;
   calculatedRemainingDays: number | string = 0;
   isSelectOpen = false;
+  isAddUserModalOpen = false;
+  isAddSelectOpen = false;
+  userForm: FormGroup;
+  showPassword = false;
 
   constructor(
     private adminService: AdminService,
@@ -42,6 +47,13 @@ export class ManageUsers implements OnInit {
       idplan: ['', Validators.required],
       start_date: ['', Validators.required],
       is_active: [true],
+    });
+    this.userForm = this.formBuilder.group({
+      name: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      admin: [false],
+      planId: [null, Validators.required],
     });
   }
 
@@ -79,6 +91,53 @@ export class ManageUsers implements OnInit {
     this.planForm.get('idplan')?.setValue(plan.idplan);
     this.planForm.get('idplan')?.markAsDirty(); // Para que Angular sepa que cambió
     this.isSelectOpen = false;
+  }
+
+  openAddUserModal() {
+    this.userForm.reset({ admin: false, planId: null });
+    this.errorMessage = null;
+    this.showPassword = false;
+    this.isAddUserModalOpen = true;
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeAddUserModal() {
+    this.isAddUserModalOpen = false;
+    this.isAddSelectOpen = false;
+    document.body.style.overflow = 'auto';
+  }
+
+  selectPlanForAdd(plan: Plan) {
+    this.userForm.get('planId')?.setValue(plan.idplan);
+    this.isAddSelectOpen = false;
+  }
+
+  getSelectedPlanNameForAdd(): string {
+    const selectedId = this.userForm.get('planId')?.value;
+    const plan = this.plans.find((p) => p.idplan === selectedId);
+    return plan ? `${plan.name} (${plan.type})` : '-- Selecciona un plan --';
+  }
+
+  submitAddUser() {
+    if (this.userForm.invalid) {
+      this.userForm.markAllAsTouched();
+      return;
+    }
+
+    // Mapeamos los datos del formulario a la interfaz User (Partial)
+    const newUser: Partial<User> = this.userForm.value;
+
+    this.adminService.addUser(newUser).subscribe({
+      next: () => {
+        alert('Usuario creado con éxito');
+        this.loadUsers(); // Recargamos la lista
+        this.closeAddUserModal();
+      },
+      error: (err) => {
+        this.errorMessage = err.error?.message || 'Error al crear el usuario';
+        this.changeDetectorRef.detectChanges();
+      },
+    });
   }
 
   openPlanModal(user: UserDetails) {

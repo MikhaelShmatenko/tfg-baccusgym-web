@@ -1,16 +1,13 @@
 import { Routes } from '@angular/router';
 import { Home } from './components/home/home';
 import { Login } from './components/login/login';
-import { ActualPlan } from './components/actual-plan/actual-plan';
 import { AdminPanel } from './components/admin-panel/admin-panel';
-import { Calendar } from './components/calendar/calendar';
 import { Contact } from './components/contact/contact';
 import { DeleteAccount } from './components/delete-account/delete-account';
 import { ExerciseTemplates } from './components/exercise-templates/exercise-templates';
 import { Exercises } from './components/exercises/exercises';
 import { Facilities } from './components/facilities/facilities';
 import { ManageUsers } from './components/manage-users/manage-users';
-import { ModifyAccount } from './components/modify-account/modify-account';
 import { PlanForm } from './components/plan-form/plan-form';
 import { Register } from './components/register/register';
 import { SeePlans } from './components/see-plans/see-plans';
@@ -38,8 +35,6 @@ export const routes: Routes = [
   { path: 'baccus-gym/user/change-password', component: ChangePassword, canActivate: [authGuard] },
   { path: 'baccus-gym/user/change-name', component: ChangeName, canActivate: [authGuard] },
   { path: 'baccus-gym/user/delete-account', component: DeleteAccount, canActivate: [authGuard] },
-  { path: 'baccus-gym/user/actual-plan', component: ActualPlan, canActivate: [authGuard] },
-  { path: 'baccus-gym/user/calendar', component: Calendar, canActivate: [authGuard] },
   {
     path: 'baccus-gym/user/exercise-templates',
     component: ExerciseTemplates,
