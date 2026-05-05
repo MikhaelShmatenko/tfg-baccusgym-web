@@ -9,7 +9,6 @@ import { Exercises } from './components/exercises/exercises';
 import { Facilities } from './components/facilities/facilities';
 import { ManageUsers } from './components/manage-users/manage-users';
 import { PlanForm } from './components/plan-form/plan-form';
-import { Register } from './components/register/register';
 import { SeePlans } from './components/see-plans/see-plans';
 import { WhoWeAre } from './components/who-we-are/who-we-are';
 import { RecoverPassword } from './components/recover-password/recover-password';
@@ -20,18 +19,12 @@ import { ChangePassword } from './components/change-password/change-password';
 import { ManageTemplates } from './components/manage-templates/manage-templates';
 import { authGuard } from './guards/auth-guard';
 import { publicGuard } from './guards/public-guard';
-import { planSelectionGuard } from './guards/plan-selection-guard';
 import { adminGuard } from './guards/admin-guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'baccus-gym', pathMatch: 'full' },
   { path: 'baccus-gym', component: Home },
   { path: 'baccus-gym/user/login', component: Login, canActivate: [publicGuard] },
-  {
-    path: 'baccus-gym/user/register',
-    component: Register,
-    canActivate: [publicGuard, planSelectionGuard],
-  },
   { path: 'baccus-gym/user/change-password', component: ChangePassword, canActivate: [authGuard] },
   { path: 'baccus-gym/user/change-name', component: ChangeName, canActivate: [authGuard] },
   { path: 'baccus-gym/user/delete-account', component: DeleteAccount, canActivate: [authGuard] },

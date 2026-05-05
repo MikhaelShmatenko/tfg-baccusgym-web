@@ -44,6 +44,10 @@ export class LocalStorageService {
     return localStorage.getItem(this.TOKEN_KEY);
   }
 
+  getUserEmail(): string | null {
+    return this.getUser()?.email ?? null;
+  }
+
   updateUser(newData: Partial<User>): void {
     const currentUser = this.getUser();
     if (currentUser) {

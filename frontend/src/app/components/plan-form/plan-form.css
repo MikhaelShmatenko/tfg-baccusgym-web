@@ -158,6 +158,31 @@ h3 {
   animation: slideIn 0.3s ease;
 }
 
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.toggle-btn {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #a8a8a8;
+  font-size: 1.2rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+}
+
+.password-wrapper input {
+  padding-right: 50px !important;
+}
+
 .checkbox-group {
   margin-bottom: 25px;
 }

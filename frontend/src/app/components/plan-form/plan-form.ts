@@ -5,7 +5,9 @@ import { PlansRequestService } from '../../services/plans-request-service';
 import { PlanRequest } from '../../interfaces/plan-request';
 import { PlansService } from '../../services/plans-service';
 import { LocalStorageService } from '../../services/local-storage-service';
+import { AuthService } from '../../services/auth-service';
 import { Plan } from '../../interfaces/plan';
+import { User } from '../../interfaces/user';
 
 @Component({
   selector: 'app-plan-form',
@@ -19,12 +21,15 @@ export class PlanForm implements OnInit {
   selectedPlan: Plan | null = null;
   errorMessage: string | null = null;
   showTerms: boolean = false;
+  isAuthenticated: boolean = false;
+  showPassword: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private plansService: PlansService,
     private plansRequestService: PlansRequestService,
     private localStorageService: LocalStorageService,
+    private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
     private changeDetectorRef: ChangeDetectorRef,
@@ -37,19 +42,28 @@ export class PlanForm implements OnInit {
       address: ['', [Validators.required]],
       iban: ['', [Validators.required, Validators.pattern('^ES[0-9]{22}$')]],
       acceptTerms: [false, [Validators.requiredTrue]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
+    this.isAuthenticated = !!this.localStorageService.getUser();
 
+    if (this.isAuthenticated) {
+      this.planForm.get('email')?.clearValidators();
+      this.planForm.get('email')?.updateValueAndValidity();
+      this.planForm.get('password')?.clearValidators();
+      this.planForm.get('password')?.updateValueAndValidity();
+    }
+
+    const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.plansService.getPlanById(id).subscribe({
         next: (plan) => {
           this.selectedPlan = plan;
           this.changeDetectorRef.detectChanges();
         },
-        error: (err) => {
+        error: () => {
           this.errorMessage = 'No se pudo cargar la información del plan seleccionado';
           this.changeDetectorRef.detectChanges();
         },
@@ -76,10 +90,14 @@ export class PlanForm implements OnInit {
 
     this.errorMessage = null;
 
+    const email = this.isAuthenticated
+      ? (this.localStorageService.getUserEmail() ?? '')
+      : this.planForm.value.email;
+
     const requestData: PlanRequest = {
       name: this.planForm.value.name,
       lastName: this.planForm.value.lastName,
-      email: this.planForm.value.email,
+      email: email,
       dni: this.planForm.value.dni,
       address: this.planForm.value.address,
       iban: this.planForm.value.iban,
@@ -87,17 +105,47 @@ export class PlanForm implements OnInit {
       acceptTerms: this.planForm.value.acceptTerms,
     };
 
-    this.plansRequestService.sendPlanRequest(requestData).subscribe({
-      next: (response) => {
-        this.localStorageService.savePlanRequest(requestData);
-        alert('Solicitud de plan enviada correctamente');
-        this.router.navigate(['/baccus-gym/user/register']);
-      },
-      error: (error) => {
-        this.errorMessage =
-          error.error?.message || 'Hubo un error al procesar tu solicitud. Intentelo mas tarde';
-        this.changeDetectorRef.detectChanges();
-      },
-    });
+    if (!this.isAuthenticated) {
+      const userData: User = {
+        idUser: null,
+        name: this.planForm.value.name,
+        email: this.planForm.value.email,
+        password: this.planForm.value.password,
+        admin: false,
+        planId: this.selectedPlan?.idplan ?? null,
+      };
+
+      this.authService.register(userData).subscribe({
+        next: () => {
+          this.plansRequestService.sendPlanRequest(requestData).subscribe({
+            next: () => {
+              alert('Solicitud enviada y cuenta creada correctamente. Ahora puedes iniciar sesión.');
+              this.router.navigate(['/baccus-gym/user/login']);
+            },
+            error: (error) => {
+              this.errorMessage =
+                error.error?.message || 'Cuenta creada, pero hubo un error al enviar la solicitud.';
+              this.changeDetectorRef.detectChanges();
+            },
+          });
+        },
+        error: (error) => {
+          this.errorMessage = error.error?.message || 'Error al registrar el usuario.';
+          this.changeDetectorRef.detectChanges();
+        },
+      });
+    } else {
+      this.plansRequestService.sendPlanRequest(requestData).subscribe({
+        next: () => {
+          alert('Solicitud de plan enviada correctamente');
+          this.router.navigate(['/baccus-gym']);
+        },
+        error: (error) => {
+          this.errorMessage =
+            error.error?.message || 'Hubo un error al procesar tu solicitud. Intentelo mas tarde';
+          this.changeDetectorRef.detectChanges();
+        },
+      });
+    }
   }
 }
