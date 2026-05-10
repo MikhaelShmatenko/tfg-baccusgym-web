@@ -27,11 +27,10 @@ class TemplateService {
             name: template_name,
             description,
             type,
-            exercises: [], // Aquí irán los ejercicios
+            exercises: [],
           };
         }
 
-        // Si existe un ejercicio en esta fila (no es null por el LEFT JOIN), lo añadimos
         if (exercise.idtemplate_exercise) {
           acc[idtemplate].exercises.push(exercise);
         }

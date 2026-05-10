@@ -1,4 +1,3 @@
-/* Contenedor Principal */
 .manage-users-container {
   max-width: 1400px;
   margin: 0 auto;
@@ -6,7 +5,6 @@
   color: white;
 }
 
-/* Header Estilo Plantillas */
 .manage-users-header {
   text-align: center;
   margin-bottom: 30px;
@@ -38,7 +36,6 @@
   font-size: 1.2rem;
 }
 
-/* Buscador con efecto de escala */
 .search-box {
   display: flex;
   justify-content: left;
@@ -66,9 +63,8 @@
   transform: scale(1.02);
 }
 
-/* Tabla y Contenedor */
 .table-container {
-  background: linear-gradient(135deg, #000000 0%, #1a0000 100%);
+  background: linear-gradient(135deg, #000000 0%, #4d0000 100%);
   border-radius: 15px;
   padding: 20px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
@@ -79,12 +75,12 @@
 table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 1000px; /* Asegura legibilidad */
+  min-width: 1000px;
 }
 
 .table-container::-webkit-scrollbar {
-  width: 8px; /* Ancho para scroll vertical */
-  height: 8px; /* ALTO para scroll horizontal (esto es lo que te falta) */
+  width: 8px;
+  height: 8px;
 }
 
 .table-container::-webkit-scrollbar-track {
@@ -94,7 +90,7 @@ table {
 .table-container::-webkit-scrollbar-thumb {
   background: #333;
   border-radius: 10px;
-  border: 2px solid #0a0a0a; /* Opcional: añade un borde para que se vea más estilizado */
+  border: 2px solid #0a0a0a;
 }
 
 th {
@@ -123,7 +119,6 @@ tr:hover td {
   text-align: center !important;
 }
 
-/* Detalles específicos de la tabla */
 .user-important {
   font-weight: bold;
   color: #fff;
@@ -143,7 +138,6 @@ tr:hover td {
   font-weight: bold;
 }
 
-/* Estados */
 .status-active {
   color: #00ff88;
   font-weight: bold;
@@ -164,7 +158,6 @@ tr:hover td {
   border-radius: 20px;
 }
 
-/* Botones de Acción */
 .action-buttons {
   display: flex;
   flex-direction: column;
@@ -243,23 +236,23 @@ tr:hover td {
 }
 
 .modal-header .template-badge {
-  margin-bottom: 0; /* Quitamos margen extra ya que usamos gap */
+  margin-bottom: 0;
   font-size: 0.9rem;
   padding: 6px 15px;
 }
 
 .modal-header {
   display: flex;
-  flex-direction: column; /* Apila los elementos uno sobre otro */
-  align-items: flex-start; /* Alinea todo a la izquierda */
-  gap: 10px; /* Espacio entre el badge y el título */
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
   margin-bottom: 20px;
 }
 
 .modal-header h1 {
   font-size: 2.8rem;
   text-transform: uppercase;
-  margin: 0; /* Quitamos márgenes para controlarlos con el gap del padre */
+  margin: 0;
   border-bottom: 2px solid #d62121;
   display: inline-block;
   line-height: 1.1;
@@ -289,8 +282,8 @@ tr:hover td {
 }
 
 .modal-content::-webkit-scrollbar {
-  width: 8px; /* Ancho para scroll vertical */
-  height: 8px; /* ALTO para scroll horizontal (esto es lo que te falta) */
+  width: 8px;
+  height: 8px;
 }
 
 .modal-content::-webkit-scrollbar-track {
@@ -300,7 +293,7 @@ tr:hover td {
 .modal-content::-webkit-scrollbar-thumb {
   background: #333;
   border-radius: 10px;
-  border: 2px solid #0a0a0a; /* Opcional: añade un borde para que se vea más estilizado */
+  border: 2px solid #0a0a0a;
 }
 
 .modal-body .form-group {
@@ -308,8 +301,6 @@ tr:hover td {
   text-align: left;
   margin-bottom: 25px;
 }
-
-/* Form Groups */
 
 .modal-body .form-group label {
   display: block;
@@ -338,7 +329,11 @@ tr:hover td {
 }
 
 .modal-body .form-group input[type='date']::-webkit-calendar-picker-indicator {
-  filter: invert(1); /* Hace que el icono del calendario sea blanco */
+  filter: invert(1);
+  cursor: pointer;
+}
+
+.modal-body .form-group input[type='checkbox'] {
   cursor: pointer;
 }
 
@@ -346,12 +341,12 @@ tr:hover td {
 .modal-body .form-group select:focus {
   outline: none;
   border-color: #d62121;
-  transform: scale(1.02); /* El efecto de crecimiento que pediste */
+  transform: scale(1.02);
 }
 
 .custom-select-wrapper {
   position: relative;
-  width: 100%; /* Ajustado al 100% del form-group */
+  width: 100%;
   user-select: none;
 }
 
@@ -374,7 +369,7 @@ tr:hover td {
   padding: 18px;
   background-color: #0a0a0a;
   border: 1px solid #222;
-  border-radius: 5px; /* Más redondeado como pediste */
+  border-radius: 5px;
   color: #fff;
   font-size: 1.1rem;
   cursor: pointer;
@@ -384,7 +379,6 @@ tr:hover td {
   transition: border-color 0.3s ease;
 }
 
-/* Efecto cuando el formulario da error */
 .input-error + .custom-select-wrapper .custom-select-trigger {
   border-color: #d62121;
 }
@@ -400,23 +394,20 @@ tr:hover td {
   overflow: hidden;
   z-index: 1000;
   cursor: pointer;
-
-  /* --- CAMBIOS AQUÍ --- */
   opacity: 0;
   visibility: hidden;
-  max-height: 0; /* Colapsa el alto para que no ocupe espacio */
-  pointer-events: none; /* Evita interacciones accidentales */
+  max-height: 0;
+  pointer-events: none;
   transform: translateY(-10px);
   transition:
     all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55),
     max-height 0s 0.4s;
-  /* El retraso en max-height permite que la animación de salida se vea */
 }
 
 .custom-select-wrapper.active .custom-options {
   opacity: 1;
   visibility: visible;
-  max-height: 500px; /* Un valor lo suficientemente grande para tus opciones */
+  max-height: 500px;
   pointer-events: auto;
   transform: translateY(0);
   transition:
@@ -451,18 +442,15 @@ tr:hover td {
   color: #d62121;
 }
 
-/* Contenedor relativo para posicionar el botón */
 .password-wrapper {
   position: relative;
   width: 100%;
 }
 
-/* Espacio a la derecha del input para que el texto no se solape con el ojo */
 .password-wrapper input {
   padding-right: 50px !important;
 }
 
-/* Estilo del botón del ojo */
 .toggle-btn {
   position: absolute;
   right: 15px;
@@ -471,8 +459,7 @@ tr:hover td {
   background: none;
   border: none;
   cursor: pointer;
-  color: #a8a8a8;
-  font-size: 1.2rem;
+  color: #d62121;
   padding: 0;
   display: flex;
   align-items: center;
@@ -481,7 +468,7 @@ tr:hover td {
 }
 
 .toggle-btn:hover {
-  color: #d62121; /* El ojo se vuelve rojo al pasar el cursor */
+  color: #700000;
 }
 
 .error-text {
@@ -494,7 +481,6 @@ tr:hover td {
   letter-spacing: 1px;
 }
 
-/* Actions */
 .form-actions {
   display: flex;
   gap: 15px;
@@ -527,6 +513,20 @@ tr:hover td {
   transform: scale(0.98);
 }
 
+.alert-success {
+  background-color: #00a855;
+  color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 15px rgba(0, 168, 85, 0.3);
+  animation: slideIn 0.3s ease;
+}
+
 .alert-error {
   background-color: #d62121;
   color: #fff;
@@ -541,7 +541,6 @@ tr:hover td {
   animation: slideIn 0.3s ease;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .manage-users-header h1 {
     font-size: 2rem;
@@ -558,7 +557,7 @@ tr:hover td {
   }
 
   .modal-content {
-    width: 90%; /* Casi todo el ancho, pero sin pasarse */
+    width: 90%;
     padding: 40px 15px 20px;
     margin: 0 auto;
   }

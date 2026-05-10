@@ -1,0 +1,243 @@
+.exercises-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  color: white;
+}
+
+.exercises-header {
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+.exercises-header h1 {
+  position: relative;
+  display: inline-block;
+  font-size: 3rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.exercises-header h1::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  width: 100%;
+  height: 2px;
+  background-color: #d62121;
+}
+
+.exercises-header p {
+  color: #a8a8a8;
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+}
+
+.search-box {
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 15px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.search-box input {
+  padding: 18px;
+  width: 30%;
+  background-color: #0a0a0a;
+  border: 1px solid #222;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 1.1rem;
+  box-sizing: border-box;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease;
+  display: block;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: #d62121;
+  transform: scale(1.02);
+}
+
+.tutorials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 30px;
+  width: 100%;
+}
+
+.tutorial-card {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  min-height: 260px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+
+.tutorial-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0px 40px #d62121;
+}
+
+.tutorial-video-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.tutorial-overlay {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 30px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.35) 100%);
+}
+
+.tutorial-info {
+  flex: 1;
+}
+
+.tutorial-info h2 {
+  font-size: 1.6rem;
+  font-weight: 900;
+  margin-bottom: 10px;
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+.tutorial-info .description {
+  color: #ddd;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+}
+
+.click-indicator {
+  font-size: 0.8rem;
+  color: #d62121;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.no-tutorials {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 100px;
+  border: 2px dashed #333;
+  border-radius: 15px;
+  color: #666;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.video-modal-content {
+  background: #0a0a0a;
+  width: 100%;
+  max-width: 900px;
+  border-radius: 15px;
+  position: relative;
+  padding: 50px 30px 30px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+  animation: modalIn 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-sizing: border-box;
+}
+
+@keyframes modalIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2.5rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+  color: #d62121;
+}
+
+.video-modal-title {
+  font-size: 1.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #d62121;
+  display: inline-block;
+  padding-bottom: 6px;
+}
+
+.video-player {
+  width: 100%;
+  border-radius: 10px;
+  max-height: 70vh;
+  background: #000;
+}
+
+.video-modal-description {
+  color: #a8a8a8;
+  margin-top: 16px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .tutorials-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .exercises-header h1 {
+    font-size: 2.2rem;
+  }
+
+  .search-box input {
+    width: 100%;
+  }
+
+  .video-modal-content {
+    width: 90%;
+    padding: 40px 15px 20px;
+    margin: 0 auto;
+  }
+}

@@ -1,10 +1,8 @@
 <section class="templates-container">
-  <!-- CABECERA CENTRADA -->
   <header class="templates-header">
     <h1>Plantillas de Entrenamiento</h1>
     <p>Explora nuestras rutinas diseñadas por expertos para optimizar tu progreso</p>
 
-    <!-- BUSCADOR Y SELECTOR PERSONALIZADO -->
     <div class="search-box">
       <div class="custom-select-wrapper" [class.active]="isSelectOpen">
         <div class="custom-select-trigger" (click)="toggleSelect()">
@@ -27,7 +25,6 @@
     </div>
   </header>
 
-  <!-- GRID DE TARJETAS -->
   <div class="templates-grid">
     @for (template of filteredTemplates; track template.idtemplate) {
       <article class="template-card" (click)="openModal(template)">
@@ -37,6 +34,12 @@
           <p class="description">{{ template.description }}</p>
         </div>
         <div class="click-indicator">Ver ejercicios detallados</div>
+        <a
+          routerLink="/baccus-gym/exercises"
+          class="exercises-link"
+          (click)="$event.stopPropagation()"
+          >Consultar tutoriales</a
+        >
       </article>
     } @empty {
       <div class="no-templates">
@@ -45,7 +48,6 @@
     }
   </div>
 
-  <!-- MODAL DETALLES (RENDERIZADO CONDICIONAL) -->
   @if (isModalOpen && selectedTemplate) {
     <div class="modal-overlay" (click)="closeModal()">
       <div class="modal-content" (click)="$event.stopPropagation()">
@@ -83,6 +85,9 @@
               </tbody>
             </table>
           </div>
+          <a routerLink="/baccus-gym/exercises" class="exercises-link" (click)="closeModal()"
+            >Consultar tutoriales</a
+          >
         </div>
       </div>
     </div>

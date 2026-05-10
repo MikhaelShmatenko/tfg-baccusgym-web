@@ -132,7 +132,7 @@ const changePassword = async (req, res) => {
       .json({ message: "Contraseña actualizada con exito" });
   } catch (error) {
     if (error.message === "INVALID_CURRENT_PASSWORD") {
-      res.status(401).json({ message: "La contraseña actual no es correcta" });
+      res.status(400).json({ message: "La contraseña actual no es correcta" });
     } else if (error.message === "USER_NOT_FOUND") {
       res.status(404).json({ message: "Usuario no encontrado" });
     } else {
@@ -159,7 +159,7 @@ const changeName = async (req, res) => {
       .json({ message: "Nombre de usuario actualizado con éxito" });
   } catch (error) {
     if (error.message === "INVALID_PASSWORD") {
-      res.status(401).json({ message: "La contraseña no es correcta" });
+      res.status(400).json({ message: "La contraseña no es correcta" });
     } else if (error.message === "USER_NOT_FOUND") {
       res.status(404).json({ message: "Usuario no encontrado" });
     } else {

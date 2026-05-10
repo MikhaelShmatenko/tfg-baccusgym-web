@@ -52,7 +52,7 @@ export class Login {
           };
           this.localStorageService.setSession(response.token, userData);
           this.authService.updateAuthState();
-          alert('Sesion iniciada exitosamente.');
+          // alert('Sesion iniciada exitosamente.');
           this.router.navigate(['/baccus-gym']);
         }
       },

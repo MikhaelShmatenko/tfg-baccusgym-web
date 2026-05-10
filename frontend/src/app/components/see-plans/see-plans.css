@@ -1,37 +1,33 @@
-/* Contenedor Principal */
 .plans-container {
-  /* Aumentamos el ancho máximo para que las cards lleguen más cerca de los bordes */
   max-width: 1400px;
   margin: 0 auto;
-  /* Reducimos el padding lateral de 20px a 10px */
   padding: 10px 10px 40px 10px;
   color: white;
 }
 
 .plans-header {
   text-align: center;
-  /* Reducimos el margen inferior del header si es necesario */
   margin-bottom: 30px;
 }
 
 .plans-header h1 {
-  position: relative; /* Necesario para posicionar la línea respecto al texto */
-  display: inline-block; /* Para que la línea mida lo mismo que el texto o se centre bien */
+  position: relative;
+  display: inline-block;
   font-size: 3rem;
   font-weight: 900;
   text-transform: uppercase;
-  margin-bottom: 20px; /* Espacio para la línea y el párrafo de abajo */
+  margin-bottom: 20px;
 }
 
 .plans-header h1::after {
   content: '';
   position: absolute;
   left: 50%;
-  bottom: -10px; /* Ajusta qué tan pegada está la línea al texto */
-  transform: translateX(-50%); /* Centra la línea perfectamente */
-  width: 100%; /* Largo de la línea roja */
-  height: 2px; /* Grosor de la línea */
-  background-color: #d62121; /* El rojo característico de Baccus */
+  bottom: -10px;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 2px;
+  background-color: #d62121;
 }
 
 .plans-header p {
@@ -39,24 +35,21 @@
   font-size: 1.1rem;
 }
 
-/* Grid Dinámico */
 .plans-grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  /* Reducimos un poco el gap si quieres que las cards estén más juntas entre sí */
   gap: 50px;
   width: 100%;
 }
 
-/* Card Estilo Baccus */
 .plan-card {
   flex: 0 1 calc(25% - 20px);
   min-width: 300px;
   position: relative;
   width: 100%;
   max-width: 350px;
-  height: 500px; /* Altura fija para uniformidad */
+  height: 500px;
   border-radius: 15px;
   overflow: hidden;
   background-color: #000000;
@@ -68,10 +61,9 @@
 
 .plan-card:hover {
   transform: translateY(-10px);
-  box-shadow: 0 0px 40px #d62121; /* Brillo rojo al pasar el cursor */
+  box-shadow: 0 0px 40px #d62121;
 }
 
-/* Imagen de fondo completa */
 .plan-background {
   position: absolute;
   top: 0;
@@ -85,7 +77,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.7; /* Para que no brille tanto y deje leer el texto */
+  opacity: 0.7;
   transition: transform 0.5s ease;
 }
 
@@ -93,7 +85,6 @@
   transform: scale(1.1);
 }
 
-/* Contenedor de contenido con degradado */
 .plan-content {
   position: relative;
   z-index: 2;
@@ -101,7 +92,6 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* Degradado: transparente arriba, negro opaco abajo */
   background: linear-gradient(
     to bottom,
     rgba(0, 0, 0, 0.1) 0%,
@@ -112,7 +102,6 @@
   box-sizing: border-box;
 }
 
-/* Parte Superior (Nombre) */
 .plan-info-top h2 {
   font-size: 2.2rem;
   font-weight: 900;
@@ -120,19 +109,17 @@
   margin: 0;
 }
 
-/* Parte Inferior (Datos y Botón) */
 .plan-info-bottom {
-  border-top: 2px solid #d62121; /* Línea roja divisoria */
+  border-top: 2px solid #d62121;
   padding-top: 20px;
 }
 
 .plan-extra-info {
-  color: #ffffff; /* Gris suave para que sea informativo pero no principal */
+  color: #ffffff;
   font-size: 1rem;
   font-weight: bold;
   margin-bottom: 12px;
   text-align: center;
-  /* Opcional: una pequeña línea de acento si quieres resaltar que es una promo */
   padding-left: 10px;
 }
 
@@ -166,7 +153,6 @@
   margin-left: 5px;
 }
 
-/* Botón Solicitar */
 .btn-solicitar {
   width: 100%;
   background-color: #d62121;
@@ -191,7 +177,6 @@
   transform: scale(0.98);
 }
 
-/* Mensaje cuando no hay planes */
 .no-plans {
   grid-column: 1 / -1;
   text-align: center;
@@ -209,7 +194,6 @@
   }
 
   .plan-card {
-    /* Definimos un ancho base para que en flex se vean uniformes */
     flex: 0 1 calc(33.333% - 30px);
     min-width: 300px;
   }

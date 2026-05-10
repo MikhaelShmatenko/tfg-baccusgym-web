@@ -27,7 +27,7 @@ export class AccountDetails implements OnInit {
         this.changeDetectorRef.detectChanges();
       },
       error: (err) => {
-        console.error('Error fetching user details:', err);
+        // console.error('Error fetching user details:', err);
       },
     });
   }

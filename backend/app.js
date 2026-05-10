@@ -20,6 +20,8 @@ var usersRouter = require("./routes/users");
 var plansRouter = require("./routes/plans");
 var plansRequestRouter = require("./routes/plans-request");
 var adminRouter = require("./routes/admin");
+var contactRouter = require("./routes/contact");
+var exerciseTutorialsRouter = require("./routes/exercise-tutorials");
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -36,6 +38,8 @@ app.use("/users", usersRouter);
 app.use("/plans", plansRouter);
 app.use("/plans-request", plansRequestRouter);
 app.use("/admin", adminRouter);
+app.use("/contact", contactRouter);
+app.use("/exercise-tutorials", exerciseTutorialsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

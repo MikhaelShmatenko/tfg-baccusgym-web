@@ -63,9 +63,9 @@ export class ResetPassword implements OnInit {
     if (this.token) {
       this.authService.resetPassword(this.token, this.resetPassForm.value.password).subscribe({
         next: () => {
-          alert(
-            'Contraseña restablecida exitosamente. Ahora puedes iniciar sesión con tu nueva contraseña.',
-          );
+          // alert(
+          //   'Contraseña restablecida exitosamente. Ahora puedes iniciar sesión con tu nueva contraseña.',
+          // );
           this.router.navigate(['/baccus-gym/user/login']);
         },
         error: (error) => {

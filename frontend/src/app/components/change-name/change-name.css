@@ -1,11 +1,10 @@
 .background-container {
-  /* Ocupa todo el alto de la ventana menos el header */
   min-height: calc(100vh - 100px);
   width: 100%;
   display: flex;
-  justify-content: center; /* Centra horizontalmente */
-  align-items: center; /* Centra verticalmente */
-  padding: 40px 20px; /* Espacio de seguridad para cuando crezca */
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
   box-sizing: border-box;
 }
 
@@ -21,7 +20,7 @@
 }
 
 h2 {
-  font-size: 3.5rem; /* Título mucho más grande */
+  font-size: 3.5rem;
   font-weight: 900;
   margin-bottom: 5px;
   text-transform: uppercase;
@@ -74,17 +73,15 @@ h2 {
 }
 
 .form-group input:focus {
-  outline: none; /* Quitamos el borde azul por defecto del navegador */
-  border-color: #d62121; /* Opcional: que el borde se ponga rojo */
-
-  /* Movimiento a la izquierda (valor negativo) */
+  outline: none;
+  border-color: #d62121;
   transform: scale(1.02);
 }
 
 .form-options {
   width: 100%;
-  text-align: left; /* Lo mueve a la izquierda */
-  margin-top: 8px; /* Espacio pequeño justo debajo del input */
+  text-align: left;
+  margin-top: 8px;
 }
 
 .forgot-link {
@@ -96,7 +93,7 @@ h2 {
 }
 
 .forgot-link:hover {
-  color: #d62121; /* Cambio a rojo Baccus al pasar el ratón */
+  color: #d62121;
 }
 
 .password-wrapper {
@@ -112,12 +109,16 @@ h2 {
   background: none;
   border: none;
   cursor: pointer;
-  color: #a8a8a8;
-  font-size: 1.2rem;
+  color: #d62121;
   padding: 0;
   display: flex;
   align-items: center;
-  z-index: 10; /* Asegura que esté por encima */
+  z-index: 10;
+  transition: color 0.3s ease;
+}
+
+.toggle-btn:hover {
+  color: #700000;
 }
 
 .password-wrapper input {
@@ -125,15 +126,14 @@ h2 {
 }
 
 .btn-enviar {
-  width: 100%;
-  max-width: 300px;
-  padding: 20px;
-  background-color: #d62121;
-  color: #fff;
+  padding: 8px 12px;
   border: none;
   border-radius: 5px;
-  font-weight: 900;
-  font-size: 1.1rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  background-color: #d62121;
+  color: #fff;
+  text-transform: uppercase;
   cursor: pointer;
   transition:
     background 0.3s ease,
@@ -187,8 +187,6 @@ h2 {
   box-shadow: 0 4px 15px rgba(219, 0, 0, 0.3);
   animation: slideIn 0.3s ease;
 }
-
-/* --- RESPONSIVE --- */
 
 @media (max-width: 768px) {
   .background-container {

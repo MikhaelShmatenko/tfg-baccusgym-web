@@ -1,4 +1,3 @@
-/* Contenedor Principal */
 .templates-container {
   max-width: 1400px;
   margin: 0 auto;
@@ -6,9 +5,8 @@
   color: white;
 }
 
-/* Header Centrado */
 .templates-header {
-  text-align: center; /* Centra el h1 y el p */
+  text-align: center;
   margin-bottom: 30px;
 }
 
@@ -27,7 +25,7 @@
   left: 50%;
   bottom: -10px;
   transform: translateX(-50%);
-  width: 100%; /* La línea se ajusta al tamaño del texto */
+  width: 100%;
   max-width: 1100px;
   height: 2px;
   background-color: #d62121;
@@ -39,7 +37,6 @@
   margin-bottom: 30px;
 }
 
-/* Buscador (Alineado a la izquierda dentro del flujo estándar) */
 .search-box {
   display: flex;
   justify-content: flex-start;
@@ -66,7 +63,7 @@
 }
 
 .search-box input:focus {
-  outline: none; /* Quitamos el borde azul por defecto del navegador */
+  outline: none;
   border-color: #d62121;
   transform: scale(1.02);
 }
@@ -105,7 +102,7 @@
   padding: 18px;
   background-color: #0a0a0a;
   border: 1px solid #222;
-  border-radius: 5px; /* Más redondeado como pediste */
+  border-radius: 5px;
   color: #fff;
   font-size: 1.1rem;
   cursor: pointer;
@@ -141,21 +138,19 @@
   right: 0;
   background-color: #0a0a0a;
   border: 1px solid #d62121;
-  border-radius: 5px; /* Bordes muy redondeados */
+  border-radius: 5px;
   overflow: hidden;
   z-index: 100;
-
-  /* Estado inicial para la animación */
   opacity: 0;
   visibility: hidden;
-  transform: translateY(-20px); /* Empieza un poco más arriba */
-  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Efecto rebote/caída */
+  transform: translateY(-20px);
+  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .custom-select-wrapper.active .custom-options {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0); /* Cae a su posición original */
+  transform: translateY(0);
 }
 
 .option {
@@ -167,11 +162,10 @@
 }
 
 .option:hover {
-  background-color: #d62121; /* El azul ahora es ROJO */
+  background-color: #d62121;
   color: white;
 }
 
-/* Grid de Plantillas */
 .templates-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
@@ -179,7 +173,6 @@
   width: 100%;
 }
 
-/* Card con Gradiente Rojo a Negro */
 .template-card {
   background: linear-gradient(135deg, #000000 0%, #4d0000 100%);
   border-radius: 15px;
@@ -191,7 +184,7 @@
   display: flex;
   flex-direction: column;
   cursor: pointer;
-  text-align: left; /* Alineación estándar a la izquierda */
+  text-align: left;
 }
 
 .template-card:hover {
@@ -199,7 +192,6 @@
   box-shadow: 0 0px 40px #d62121;
 }
 
-/* Información de la Plantilla */
 .template-badge {
   display: inline-block;
   background-color: #d62121;
@@ -226,7 +218,6 @@
   margin-bottom: 25px;
 }
 
-/* Listado de Ejercicios y Tabla */
 .exercises-list h3 {
   font-size: 1.2rem;
   border-left: 2px solid #d62121;
@@ -251,8 +242,8 @@ th {
 }
 
 .table-container::-webkit-scrollbar {
-  width: 8px; /* Ancho para scroll vertical */
-  height: 8px; /* ALTO para scroll horizontal (esto es lo que te falta) */
+  width: 8px;
+  height: 8px;
 }
 
 .table-container::-webkit-scrollbar-track {
@@ -262,7 +253,7 @@ th {
 .table-container::-webkit-scrollbar-thumb {
   background: #333;
   border-radius: 10px;
-  border: 2px solid #0a0a0a; /* Opcional: añade un borde para que se vea más estilizado */
+  border: 2px solid #0a0a0a;
 }
 
 td {
@@ -283,6 +274,22 @@ td {
   text-transform: uppercase;
   font-weight: bold;
   opacity: 0.6;
+}
+
+.exercises-link {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: none;
+  align-self: flex-start;
+  transition: color 0.2s ease;
+}
+
+.exercises-link:hover {
+  color: #d62121;
 }
 
 .modal-overlay {
@@ -315,8 +322,8 @@ td {
 }
 
 .modal-content::-webkit-scrollbar {
-  width: 8px; /* Ancho para scroll vertical */
-  height: 8px; /* ALTO para scroll horizontal (esto es lo que te falta) */
+  width: 8px;
+  height: 8px;
 }
 
 .modal-content::-webkit-scrollbar-track {
@@ -326,13 +333,13 @@ td {
 .modal-content::-webkit-scrollbar-thumb {
   background: #333;
   border-radius: 10px;
-  border: 2px solid #0a0a0a; /* Opcional: añade un borde para que se vea más estilizado */
+  border: 2px solid #0a0a0a;
 }
 
 .managment-buttons {
   display: flex;
   gap: 15px;
-  margin-top: auto; /* Empuja los botones hacia abajo */
+  margin-top: auto;
 }
 
 @keyframes modalIn {
@@ -365,14 +372,14 @@ td {
 
 .modal-header {
   display: flex;
-  flex-direction: column; /* Apila los elementos uno sobre otro */
-  align-items: flex-start; /* Alinea todo a la izquierda */
-  gap: 10px; /* Espacio entre el badge y el título */
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
   margin-bottom: 20px;
 }
 
 .modal-header .template-badge {
-  margin-bottom: 0; /* Quitamos margen extra ya que usamos gap */
+  margin-bottom: 0;
   font-size: 0.9rem;
   padding: 6px 15px;
 }
@@ -380,7 +387,7 @@ td {
 .modal-header h1 {
   font-size: 2.8rem;
   text-transform: uppercase;
-  margin: 0; /* Quitamos márgenes para controlarlos con el gap del padre */
+  margin: 0;
   border-bottom: 2px solid #d62121;
   display: inline-block;
   line-height: 1.1;
@@ -400,17 +407,16 @@ td {
   border-radius: 10px;
   margin-top: 15px;
   padding: 5px;
-  width: 100%; /* Asegura que ocupe el total del modal */
+  width: 100%;
   box-sizing: border-box;
 }
 
 .table-container table {
   width: 100%;
-  min-width: 450px; /* IMPORTANTE: Esto evita que la tabla se "apriete" y se corte en el móvil */
+  min-width: 450px;
   border-collapse: collapse;
 }
 
-/* Estado Vacío */
 .no-templates {
   grid-column: 1 / -1;
   text-align: center;
@@ -456,7 +462,7 @@ td {
 .modal-body .form-group textarea:focus {
   outline: none;
   border-color: #d62121;
-  transform: scale(1.02); /* El efecto de crecimiento que pediste */
+  transform: scale(1.02);
 }
 
 .error-text {
@@ -500,6 +506,20 @@ td {
 .btn-enviar:active {
   transform: scale(0.98);
 }
+.alert-success {
+  background-color: #00a855;
+  color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 0.9rem;
+  box-shadow: 0 4px 15px rgba(0, 168, 85, 0.3);
+  animation: slideIn 0.3s ease;
+}
+
 .alert-error {
   background-color: #d62121;
   color: #fff;
@@ -537,7 +557,139 @@ td {
   transform: scale(0.98);
 }
 
-/* Responsive */
+.section-divider {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #d62121, transparent);
+  margin: 60px 0;
+}
+
+.tutorial-card {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  min-height: 260px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+
+.tutorial-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0px 40px #d62121;
+}
+
+.tutorial-video-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.tutorial-overlay {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 30px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.35) 100%);
+}
+
+.tutorial-info {
+  flex: 1;
+}
+
+.tutorial-info h2 {
+  font-size: 1.6rem;
+  font-weight: 900;
+  margin-bottom: 10px;
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+}
+
+.tutorial-info .description {
+  color: #ddd;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+}
+
+.video-modal-content {
+  background: #0a0a0a;
+  width: 100%;
+  max-width: 900px;
+  border-radius: 15px;
+  position: relative;
+  padding: 50px 30px 30px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+  animation: modalIn 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-sizing: border-box;
+}
+
+.video-modal-title {
+  font-size: 1.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #d62121;
+  display: inline-block;
+  padding-bottom: 6px;
+}
+
+.video-player {
+  width: 100%;
+  border-radius: 10px;
+  max-height: 70vh;
+  background: #000;
+}
+
+.video-modal-description {
+  color: #a8a8a8;
+  margin-top: 16px;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.file-input-wrapper {
+  width: 100%;
+}
+
+.file-input-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px;
+  background-color: #0a0a0a;
+  border: 1px dashed #444;
+  border-radius: 5px;
+  color: #888;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: border-color 0.3s ease, color 0.3s ease;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.file-input-label.file-selected {
+  border-color: #d62121;
+  color: #fff;
+}
+
+.file-input-label:hover {
+  border-color: #d62121;
+  color: #fff;
+}
+
+.file-input-hidden {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .templates-grid {
     grid-template-columns: 1fr;
@@ -556,7 +708,7 @@ td {
   }
 
   .modal-content {
-    width: 90%; /* Casi todo el ancho, pero sin pasarse */
+    width: 90%;
     padding: 40px 15px 20px;
     margin: 0 auto;
   }

@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Template } from '../../interfaces/template';
 import { TemplateExercises } from '../../interfaces/template-exercises';
+import { ExerciseTutorial } from '../../interfaces/exercise-tutorial';
 import { AdminService } from '../../services/admin-service';
 import {
   FormsModule,
@@ -9,11 +10,13 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-manage-templates',
   standalone: true,
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [FormsModule, ReactiveFormsModule, RouterLink],
   templateUrl: './manage-templates.html',
   styleUrl: './manage-templates.css',
 })
@@ -30,6 +33,19 @@ export class ManageTemplates implements OnInit {
   addTemplateForm: FormGroup;
   addExerciseForm: FormGroup;
   errorMessage: string | null = null;
+  successMessage: string | null = null;
+
+  tutorials: ExerciseTutorial[] = [];
+  filteredTutorials: ExerciseTutorial[] = [];
+  tutorialSearchText: string = '';
+  isAddTutorialModalOpen: boolean = false;
+  isVideoModalOpen: boolean = false;
+  selectedTutorial: ExerciseTutorial | null = null;
+  addTutorialForm: FormGroup;
+  selectedVideoFile: File | null = null;
+  tutorialErrorMessage: string | null = null;
+  tutorialSuccessMessage: string | null = null;
+  tutorialFormSubmitted: boolean = false;
 
   constructor(
     private adminService: AdminService,
@@ -50,6 +66,11 @@ export class ManageTemplates implements OnInit {
       resting_time: ['', [Validators.required]],
       order_number: [null, [Validators.required, Validators.min(1)]],
     });
+
+    this.addTutorialForm = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      description: ['', [Validators.required]],
+    });
   }
 
   ngOnInit(): void {
@@ -60,11 +81,24 @@ export class ManageTemplates implements OnInit {
         this.changeDetectorRef.detectChanges();
       },
       error: (error) => {
-        console.error('Error fetching templates:', error);
+        // console.error('Error fetching templates:', error);
+        this.changeDetectorRef.detectChanges();
+      },
+    });
+
+    this.adminService.getAllExerciseTutorials().subscribe({
+      next: (data) => {
+        this.tutorials = data;
+        this.filteredTutorials = data;
+        this.changeDetectorRef.detectChanges();
+      },
+      error: (error) => {
+        // console.error('Error fetching tutorials:', error);
         this.changeDetectorRef.detectChanges();
       },
     });
   }
+
   toggleSelect(): void {
     this.isSelectOpen = !this.isSelectOpen;
   }
@@ -72,7 +106,7 @@ export class ManageTemplates implements OnInit {
   selectOption(option: string) {
     this.searchCriteria = option;
     this.isSelectOpen = false;
-    this.onSearchChange(); // Tu función de búsqueda
+    this.onSearchChange();
   }
 
   openModal(template: any) {
@@ -88,7 +122,9 @@ export class ManageTemplates implements OnInit {
   }
 
   openAddModal() {
-    this.addTemplateForm.reset({ type: '' }); // Limpia el formulario
+    this.addTemplateForm.reset({ type: '' });
+    this.errorMessage = null;
+    this.successMessage = null;
     this.isAddModalOpen = true;
     document.body.style.overflow = 'hidden';
   }
@@ -101,6 +137,8 @@ export class ManageTemplates implements OnInit {
   openAddExerciseModal(event: Event, template: Template) {
     event.stopPropagation();
     this.addExerciseForm.reset({ idtemplate: template.idtemplate });
+    this.errorMessage = null;
+    this.successMessage = null;
     this.isAddExerciseModalOpen = true;
     document.body.style.overflow = 'hidden';
   }
@@ -120,7 +158,6 @@ export class ManageTemplates implements OnInit {
     const exercisePayload: TemplateExercises & { idtemplate: number } = this.addExerciseForm.value;
     this.adminService.addExerciseToTemplate(exercisePayload).subscribe({
       next: (newExercise: TemplateExercises) => {
-        alert('Ejercicio añadido con éxito');
         const template = this.templates.find((t) => t.idtemplate === exercisePayload.idtemplate);
         if (template) {
           if (!template.exercises) {
@@ -128,13 +165,13 @@ export class ManageTemplates implements OnInit {
           }
           template.exercises.push(newExercise);
         }
-
-        this.closeAddExerciseModal();
+        this.addExerciseForm.reset({ idtemplate: exercisePayload.idtemplate });
         this.onSearchChange();
+        this.successMessage = 'Ejercicio añadido con éxito.';
         this.changeDetectorRef.detectChanges();
       },
       error: (err) => {
-        console.error('Error:', err);
+        // console.error('Error:', err);
         this.errorMessage = err.error?.message || 'Error al añadir el ejercicio';
         this.changeDetectorRef.detectChanges();
       },
@@ -143,7 +180,7 @@ export class ManageTemplates implements OnInit {
 
   submitTemplate() {
     if (this.addTemplateForm.invalid) {
-      this.addTemplateForm.markAllAsTouched(); // Activa todos los mensajes de error
+      this.addTemplateForm.markAllAsTouched();
       this.changeDetectorRef.detectChanges();
       return;
     }
@@ -151,14 +188,14 @@ export class ManageTemplates implements OnInit {
     this.errorMessage = null;
     this.adminService.addTemplate(newTemplate).subscribe({
       next: (createdTemplate) => {
-        alert('Plantilla creada correctamente');
         this.templates = [...this.templates, createdTemplate];
         this.onSearchChange();
-        this.closeAddModal();
+        this.addTemplateForm.reset({ type: '' });
+        this.successMessage = 'Plantilla creada correctamente.';
         this.changeDetectorRef.detectChanges();
       },
       error: (err) => {
-        console.error(err);
+        // console.error(err);
         this.errorMessage =
           err.error?.message || 'Error al añadir la plantilla. Por favor, inténtalo de nuevo.';
         this.changeDetectorRef.detectChanges();
@@ -168,7 +205,6 @@ export class ManageTemplates implements OnInit {
 
   deleteTemplate(event: Event, templateId: number) {
     event.stopPropagation();
-
     if (
       confirm(
         '¿Estás seguro de que deseas eliminar esta plantilla? Esta acción no se puede deshacer.',
@@ -176,15 +212,14 @@ export class ManageTemplates implements OnInit {
     ) {
       this.adminService.deleteTemplate(templateId).subscribe({
         next: () => {
-          alert('Plantilla eliminada correctamente');
-          // Filtramos localmente para actualizar la UI sin recargar toda la página
+          // alert('Plantilla eliminada correctamente');
           this.templates = this.templates.filter((t) => t.idtemplate !== templateId);
-          this.onSearchChange(); // Actualiza la lista filtrada
+          this.onSearchChange();
           this.changeDetectorRef.detectChanges();
         },
         error: (error) => {
-          console.error('Error al eliminar:', error);
-          alert(error.error?.message || 'No se pudo eliminar la plantilla');
+          // console.error('Error al eliminar:', error);
+          // alert(error.error?.message || 'No se pudo eliminar la plantilla');
         },
       });
     }
@@ -192,7 +227,6 @@ export class ManageTemplates implements OnInit {
 
   onSearchChange(): void {
     const text = this.searchText.toLowerCase().trim();
-
     if (!text) {
       this.filteredTemplates = this.templates;
     } else {
@@ -202,5 +236,115 @@ export class ManageTemplates implements OnInit {
       });
     }
     this.changeDetectorRef.detectChanges();
+  }
+
+  onTutorialSearchChange(): void {
+    const text = this.tutorialSearchText.toLowerCase().trim();
+    if (!text) {
+      this.filteredTutorials = this.tutorials;
+    } else {
+      this.filteredTutorials = this.tutorials.filter((t) => t.name.toLowerCase().includes(text));
+    }
+    this.changeDetectorRef.detectChanges();
+  }
+
+  openAddTutorialModal() {
+    this.addTutorialForm.reset();
+    this.selectedVideoFile = null;
+    this.tutorialErrorMessage = null;
+    this.tutorialSuccessMessage = null;
+    this.tutorialFormSubmitted = false;
+    this.isAddTutorialModalOpen = true;
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeAddTutorialModal() {
+    this.isAddTutorialModalOpen = false;
+    this.tutorialFormSubmitted = false;
+    document.body.style.overflow = 'auto';
+  }
+
+  onVideoFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      if (!file.type.startsWith('video/')) {
+        this.tutorialErrorMessage = 'Solo se permiten archivos de vídeo.';
+        input.value = '';
+        this.selectedVideoFile = null;
+        return;
+      }
+      this.tutorialErrorMessage = null;
+      this.selectedVideoFile = file;
+    }
+  }
+
+  submitTutorial() {
+    this.tutorialFormSubmitted = true;
+    if (this.addTutorialForm.invalid) {
+      this.addTutorialForm.markAllAsTouched();
+      return;
+    }
+    if (!this.selectedVideoFile) {
+      this.tutorialErrorMessage = 'Debes seleccionar un archivo de vídeo.';
+      return;
+    }
+    this.tutorialErrorMessage = null;
+    const { name, description } = this.addTutorialForm.value;
+    this.adminService
+      .addExerciseTutorial({ name, description, videoFile: this.selectedVideoFile })
+      .subscribe({
+        next: (created) => {
+          this.tutorials = [...this.tutorials, created];
+          this.onTutorialSearchChange();
+          this.tutorialSuccessMessage = 'Tutorial creado correctamente.';
+          this.addTutorialForm.reset();
+          this.selectedVideoFile = null;
+          this.changeDetectorRef.detectChanges();
+        },
+        error: (err) => {
+          // console.error(err);
+          this.tutorialErrorMessage =
+            err.error?.message || 'Error al crear el tutorial. Inténtalo de nuevo.';
+          this.changeDetectorRef.detectChanges();
+        },
+      });
+  }
+
+  deleteTutorial(event: Event, id: number) {
+    event.stopPropagation();
+    if (
+      confirm(
+        '¿Estás seguro de que deseas eliminar este tutorial? Esta acción no se puede deshacer.',
+      )
+    ) {
+      this.adminService.deleteExerciseTutorial(id).subscribe({
+        next: () => {
+          this.tutorials = this.tutorials.filter((t) => t.id !== id);
+          this.onTutorialSearchChange();
+          this.changeDetectorRef.detectChanges();
+        },
+        error: (error) => {
+          // console.error('Error al eliminar:', error);
+          // alert(error.error?.message || 'No se pudo eliminar el tutorial');
+        },
+      });
+    }
+  }
+
+  openVideoModal(tutorial: ExerciseTutorial) {
+    this.selectedTutorial = tutorial;
+    this.isVideoModalOpen = true;
+    document.body.style.overflow = 'hidden';
+  }
+
+  closeVideoModal() {
+    this.isVideoModalOpen = false;
+    this.selectedTutorial = null;
+    document.body.style.overflow = 'auto';
+  }
+
+  getVideoUrl(filename: string): string {
+    return `${environment.apiUrl}/videos/exercise-tutorials/${filename}`;
   }
 }

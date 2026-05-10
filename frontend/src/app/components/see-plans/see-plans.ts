@@ -25,7 +25,7 @@ export class SeePlans implements OnInit {
         this.changeDetectorRef.detectChanges();
       },
       error: (error) => {
-        console.error('Error fetching plans:', error);
+        // console.error('Error fetching plans:', error);
       },
     });
   }

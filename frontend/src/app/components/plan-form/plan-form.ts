@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { PlansRequestService } from '../../services/plans-request-service';
 import { PlanRequest } from '../../interfaces/plan-request';
@@ -20,6 +20,7 @@ export class PlanForm implements OnInit {
   planForm: FormGroup;
   selectedPlan: Plan | null = null;
   errorMessage: string | null = null;
+  successMessage: string | null = null;
   showTerms: boolean = false;
   isAuthenticated: boolean = false;
   showPassword: boolean = false;
@@ -31,7 +32,6 @@ export class PlanForm implements OnInit {
     private localStorageService: LocalStorageService,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private router: Router,
     private changeDetectorRef: ChangeDetectorRef,
   ) {
     this.planForm = this.formBuilder.group({
@@ -119,8 +119,10 @@ export class PlanForm implements OnInit {
         next: () => {
           this.plansRequestService.sendPlanRequest(requestData).subscribe({
             next: () => {
-              alert('Solicitud enviada y cuenta creada correctamente. Ahora puedes iniciar sesión.');
-              this.router.navigate(['/baccus-gym/user/login']);
+              this.successMessage =
+                'Solicitud enviada y cuenta creada correctamente. Ya puedes iniciar sesión.';
+              this.planForm.reset();
+              this.changeDetectorRef.detectChanges();
             },
             error: (error) => {
               this.errorMessage =
@@ -137,8 +139,9 @@ export class PlanForm implements OnInit {
     } else {
       this.plansRequestService.sendPlanRequest(requestData).subscribe({
         next: () => {
-          alert('Solicitud de plan enviada correctamente');
-          this.router.navigate(['/baccus-gym']);
+          this.successMessage = 'Solicitud de plan enviada correctamente.';
+          this.planForm.reset();
+          this.changeDetectorRef.detectChanges();
         },
         error: (error) => {
           this.errorMessage =

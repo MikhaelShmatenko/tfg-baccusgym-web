@@ -4,11 +4,6 @@ const usersController = require("../controllers/users-controller");
 const templateController = require("../controllers/template-controller");
 const authMiddleware = require("../middlewares/auth-middleware");
 
-/* GET users listing. */
-// router.get('/', function(req, res, next) {
-//   res.send('respond with a resource');
-// });
-
 router.post("/register", usersController.addUser);
 
 router.post("/login", usersController.login);

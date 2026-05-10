@@ -5,6 +5,7 @@ import { UserDetails } from '../interfaces/user-details';
 import { User } from '../interfaces/user';
 import { Template } from '../interfaces/template';
 import { TemplateExercises } from '../interfaces/template-exercises';
+import { ExerciseTutorial } from '../interfaces/exercise-tutorial';
 import { LocalStorageService } from './local-storage-service';
 import { environment } from '../../environments/environment';
 
@@ -84,5 +85,33 @@ export class AdminService {
     const token = this.localStorageService.getToken();
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
     return this.http.post<User>(`${this.apiUrl}/add-user`, userData, { headers });
+  }
+
+  getAllExerciseTutorials(): Observable<ExerciseTutorial[]> {
+    const token = this.localStorageService.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<ExerciseTutorial[]>(`${this.apiUrl}/all-exercise-tutorials`, { headers });
+  }
+
+  addExerciseTutorial(data: {
+    name: string;
+    description: string;
+    videoFile: File;
+  }): Observable<ExerciseTutorial> {
+    const token = this.localStorageService.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('description', data.description);
+    formData.append('video', data.videoFile);
+    return this.http.post<ExerciseTutorial>(`${this.apiUrl}/add-exercise-tutorial`, formData, {
+      headers,
+    });
+  }
+
+  deleteExerciseTutorial(id: number): Observable<any> {
+    const token = this.localStorageService.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.delete(`${this.apiUrl}/delete-exercise-tutorial/${id}`, { headers });
   }
 }

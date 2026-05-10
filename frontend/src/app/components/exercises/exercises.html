@@ -1,1 +1,55 @@
-<p>exercises works!</p>
+<section class="exercises-container">
+  <header class="exercises-header">
+    <h1>Tutoriales de Ejercicios</h1>
+    <p>Aprende la técnica correcta de cada ejercicio con nuestros vídeos</p>
+
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Buscar ejercicio..."
+        [(ngModel)]="searchText"
+        (input)="onSearchChange()"
+      />
+    </div>
+  </header>
+
+  <div class="tutorials-grid">
+    @for (tutorial of filteredTutorials; track tutorial.id) {
+      <article class="tutorial-card" (click)="openVideoModal(tutorial)">
+        <video
+          class="tutorial-video-bg"
+          [src]="getVideoUrl(tutorial.url_video)"
+          muted
+          preload="metadata"
+        ></video>
+        <div class="tutorial-overlay">
+          <div class="tutorial-info">
+            <h2>{{ tutorial.name }}</h2>
+            <p class="description">{{ tutorial.description }}</p>
+          </div>
+          <div class="click-indicator">&#9654; Ver tutorial</div>
+        </div>
+      </article>
+    } @empty {
+      <div class="no-tutorials">
+        <p>No se han encontrado tutoriales que coincidan con tu búsqueda.</p>
+      </div>
+    }
+  </div>
+
+  @if (isVideoModalOpen && selectedTutorial) {
+    <div class="modal-overlay" (click)="closeVideoModal()">
+      <div class="video-modal-content" (click)="$event.stopPropagation()">
+        <button class="close-btn" (click)="closeVideoModal()">&times;</button>
+        <h2 class="video-modal-title">{{ selectedTutorial.name }}</h2>
+        <video
+          class="video-player"
+          controls
+          autoplay
+          [src]="getVideoUrl(selectedTutorial.url_video)"
+        ></video>
+        <p class="video-modal-description">{{ selectedTutorial.description }}</p>
+      </div>
+    </div>
+  }
+</section>

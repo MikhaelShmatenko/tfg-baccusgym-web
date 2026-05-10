@@ -1,6 +1,3 @@
-/* Contenedor Principal */
-
-/* Sidebar: Totalmente fuera + Brillo */
 .admin-sidebar {
   position: fixed;
   top: 0;
@@ -13,52 +10,40 @@
   z-index: 1001;
   box-sizing: border-box;
   display: flex;
-  flex-direction: column; /* Apila título y lista */
-  justify-content: center; /* Centrado vertical */
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-
-  /* La movemos exactamente su ancho para que no se vea nada del fondo negro */
-  /* Pero le añadimos un box-shadow rojo que sí entrará en la pantalla */
   transform: translateX(-100%);
   box-shadow: none;
-
   transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
-/* El disparador: un pseudo-elemento invisible en el borde de la pantalla */
-/* Esto asegura que incluso si la sidebar es -100%, haya una zona que detecte el ratón */
 .admin-sidebar::after {
-  content: '>'; /* Flecha simple, puedes cambiarlo por un icono si prefieres */
+  content: '>';
   font-family: Arial, sans-serif;
   font-size: 20px;
   font-weight: bold;
   color: #fff;
-
-  /* Posicionamiento en el centro vertical */
   position: absolute;
   top: 120px;
-  right: -40px; /* La flecha vive fuera de la barra */
+  right: -40px;
   transform: translateY(-50%);
-
-  /* Círculo rojo de fondo para la flecha */
   width: 40px;
   height: 40px;
   background-color: #d62121;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 0 5px 5px 0; /* Redondeado solo en el lado exterior */
-
+  border-radius: 0 5px 5px 0;
   cursor: pointer;
   transition:
     opacity 0.3s ease,
     right 0.3s ease;
 }
 
-/* Cuando el ratón entra en la sidebar (o en su zona invisible ::after) */
 .admin-sidebar:hover {
   transform: translateX(0);
-  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5); /* Cambiamos el brillo al abrir */
+  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
 }
 
 .admin-sidebar:hover::after {
@@ -66,7 +51,6 @@
   right: 0;
 }
 
-/* Estilos de los Enlaces (se mantienen) */
 .admin-sidebar h2 {
   color: #d62121;
   text-transform: uppercase;
@@ -96,44 +80,33 @@
   color: #d62121;
 }
 
-/* Contenido Principal */
-
-/* Oscurecer contenido cuando la sidebar está abierta */
-
 @media (max-width: 768px) {
-  /* 1. Ajustamos el contenedor principal para que los elementos se apilen verticalmente */
-
-  /* 2. Reubicamos la sidebar arriba */
   .admin-sidebar {
-    position: relative; /* Pasa de estar fija a estar en el flujo del documento */
-    width: 100%; /* Ocupa todo el ancho */
-    height: auto; /* Su altura dependerá del contenido */
-    transform: translateX(0); /* Forzamos que esté desplegada siempre */
+    position: relative;
+    width: 100%;
+    height: auto;
+    transform: translateX(0);
     border-right: none;
-    border-bottom: 1.5px solid #d62121; /* El brillo/borde ahora es inferior */
+    border-bottom: 1.5px solid #d62121;
     padding: 20px;
     z-index: 1;
     box-shadow: none;
-
-    /* Desactivamos el centrado vertical total para que no flote en medio de la nada */
     justify-content: flex-start;
   }
 
-  /* 3. Quitamos el "disparador" invisible de la izquierda ya que no hay hover */
   .admin-sidebar::after {
     display: none;
   }
 
-  /* 4. Alineamos el título y los enlaces de forma más compacta */
   .admin-sidebar h2 {
     font-size: 1.2rem;
     margin-bottom: 15px;
   }
 
   .admin-sidebar ul {
-    display: flex; /* Enlaces uno al lado del otro */
+    display: flex;
     flex-direction: row;
-    flex-wrap: wrap; /* Si no caben, bajan a la siguiente línea */
+    flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
     width: 100%;
@@ -145,8 +118,4 @@
     border-radius: 5px;
     font-size: 0.8rem;
   }
-
-  /* 5. El contenido principal ya no necesita opacidad ni efectos de hover */
-
-  /* Desactivamos el efecto de oscurecer el fondo en móvil */
 }

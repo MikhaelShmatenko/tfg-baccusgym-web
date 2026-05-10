@@ -1,1 +1,73 @@
-<p>facilities works!</p>
+<div class="facilities-container">
+  <section class="hero-section">
+    <h1 class="hero-title">INSTALACIONES</h1>
+  </section>
+
+  <section class="carousel-section">
+    <div class="carousel-viewport">
+      @for (image of images; track image; let i = $index) {
+        <div [class]="'carousel-card ' + getCardClass(i)">
+          <img [src]="image" [alt]="'Instalación ' + (i + 1)" />
+        </div>
+      }
+      <button class="carousel-btn prev-btn" (click)="prev()">&#10094;</button>
+      <button class="carousel-btn next-btn" (click)="next()">&#10095;</button>
+    </div>
+    <div class="carousel-dots">
+      @for (image of images; track image; let i = $index) {
+        <button
+          class="dot"
+          [class.dot-active]="i === currentIndex()"
+          (click)="currentIndex.set(i)"
+        ></button>
+      }
+    </div>
+  </section>
+
+  <section class="highlights-section">
+    <div class="highlight-card" style="background-image: url('/images/facilities/space.jpeg')">
+      <div class="highlight-overlay">
+        <h3 class="highlight-title">Amplias instalaciones y aforo limitado</h3>
+        <p class="highlight-desc">
+          Disfruta de un espacio amplio y bien distribuido donde podrás entrenar con total comodidad.
+          El aforo limitado garantiza que siempre tengas sitio y tranquilidad para centrarte en tu entrenamiento.
+        </p>
+      </div>
+    </div>
+    <div class="highlight-card" style="background-image: url('/images/facilities/machines.jpeg')">
+      <div class="highlight-overlay">
+        <h3 class="highlight-title">Maquinaria de alta gama</h3>
+        <p class="highlight-desc">
+          Equipamiento profesional de marcas como Panatta, Nautilus, Cybex, Arsenal Strength y Maniak.
+          Tecnología de élite al alcance de todos los niveles para maximizar cada sesión.
+        </p>
+      </div>
+    </div>
+    <div class="highlight-card" style="background-image: url('/images/facilities/weigth.jpeg')">
+      <div class="highlight-overlay">
+        <h3 class="highlight-title">Discos y pesos calibrados y profesionales</h3>
+        <p class="highlight-desc">
+          Zona equipada con discos calibrados, barras olímpicas y mancuernas de precisión profesional.
+          Todo lo necesario para el powerlifting y el entrenamiento de fuerza más exigente.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="location-section">
+    <h2 class="location-title">DÓNDE ESTAMOS</h2>
+    <p class="location-address">
+      <span class="material-symbols-outlined location-icon">location_on</span>
+      C. Circunde, 6, 26006 Logroño, La Rioja
+    </p>
+    <div class="map-wrapper">
+      <iframe
+        src="https://maps.google.com/maps?q=C+Circunde+6+26006+Logroño+La+Rioja+España&z=16&output=embed"
+        allowfullscreen
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        title="Ubicación de Baccus Gym"
+      ></iframe>
+    </div>
+  </section>
+</div>

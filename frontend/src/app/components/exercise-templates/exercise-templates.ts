@@ -2,11 +2,12 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Template } from '../../interfaces/template';
 import { TemplatesService } from '../../services/templates-service';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-exercise-templates',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './exercise-templates.html',
   styleUrl: './exercise-templates.css',
 })
@@ -32,7 +33,7 @@ export class ExerciseTemplates implements OnInit {
         this.changeDetectorRef.detectChanges();
       },
       error: (error) => {
-        console.error('Error fetching templates:', error);
+        // console.error('Error fetching templates:', error);
         this.changeDetectorRef.detectChanges();
       },
     });

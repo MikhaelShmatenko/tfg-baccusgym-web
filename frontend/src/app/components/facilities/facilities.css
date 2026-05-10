@@ -1,0 +1,342 @@
+.facilities-container {
+  background-color: #0c0c0c;
+  color: #fff;
+}
+
+.hero-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 20px;
+  text-align: center;
+  background-color: #0c0c0c;
+}
+
+.hero-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  color: #d62121;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.carousel-section {
+  background-color: #000000;
+  padding: 20px 0 60px;
+}
+
+.carousel-viewport {
+  position: relative;
+  height: 34vw;
+  overflow: hidden;
+}
+
+.carousel-card {
+  position: absolute;
+  width: 52%;
+  left: 50%;
+  top: 50%;
+  transform: translateX(-50%) translateY(-50%);
+  border-radius: 12px;
+  overflow: hidden;
+  transition:
+    transform 0.5s ease,
+    opacity 0.5s ease,
+    filter 0.5s ease;
+  opacity: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.carousel-card img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+}
+
+.carousel-card.active {
+  transform: translateX(-50%) translateY(-50%) scale(1);
+  z-index: 3;
+  opacity: 1;
+  pointer-events: auto;
+  filter: none;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+}
+
+.carousel-card.prev {
+  transform: translateX(calc(-50% - 55%)) translateY(-50%) scale(0.82);
+  z-index: 2;
+  opacity: 0.55;
+  filter: blur(1.5px);
+}
+
+.carousel-card.next {
+  transform: translateX(calc(-50% + 55%)) translateY(-50%) scale(0.82);
+  z-index: 2;
+  opacity: 0.55;
+  filter: blur(1.5px);
+}
+
+.carousel-card.hidden {
+  opacity: 0;
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.12);
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  color: #fff;
+  font-size: 1.4rem;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.carousel-btn:hover {
+  background: rgba(214, 33, 33, 0.55);
+  border-color: #d62121;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.prev-btn {
+  left: 4%;
+}
+
+.next-btn {
+  right: 4%;
+}
+
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.25);
+  cursor: pointer;
+  padding: 0;
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.dot:hover {
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.dot.dot-active {
+  background: #d62121;
+  transform: scale(1.35);
+}
+
+.highlights-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  background-color: #0c0c0c;
+  padding: 40px 80px 60px;
+}
+
+.highlight-card {
+  position: relative;
+  height: 500px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.highlight-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+  z-index: 1;
+}
+
+.highlight-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background:
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.75) 0%, transparent 45%),
+    linear-gradient(to top, #0c0c0c 0%, transparent 40%);
+}
+
+.highlight-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: center;
+  padding: 28px 20px 24px;
+  z-index: 3;
+}
+
+.highlight-title {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.highlight-desc {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 20px;
+  line-height: 1.7;
+  max-width: 360px;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+}
+
+.location-section {
+  background-color: #0c0c0c;
+  padding: 60px 80px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.location-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  color: #d62121;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.location-address {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 1rem;
+  color: #aaa;
+  margin: 0;
+}
+
+.location-icon {
+  font-size: 1.2rem;
+  color: #d62121;
+}
+
+.map-wrapper {
+  width: 100%;
+  max-width: 900px;
+  margin-top: 16px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+}
+
+.map-wrapper iframe {
+  width: 100%;
+  height: 420px;
+  border: none;
+  display: block;
+}
+
+@media (max-width: 1024px) {
+  .highlights-section {
+    padding: 40px 40px 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .highlights-section {
+    grid-template-columns: 1fr;
+    padding: 30px 20px 40px;
+    gap: 16px;
+  }
+
+  .highlight-card {
+    height: 320px;
+  }
+
+  .location-section {
+    padding: 50px 20px 60px;
+  }
+
+  .map-wrapper iframe {
+    height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 25px 20px;
+  }
+
+  .carousel-viewport {
+    height: 52vw;
+  }
+
+  .carousel-card {
+    width: 68%;
+  }
+
+  .carousel-card.prev {
+    transform: translateX(calc(-50% - 72%)) translateY(-50%) scale(0.82);
+  }
+
+  .carousel-card.next {
+    transform: translateX(calc(-50% + 72%)) translateY(-50%) scale(0.82);
+  }
+
+  .carousel-btn {
+    width: 42px;
+    height: 42px;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-viewport {
+    height: 60vw;
+  }
+
+  .carousel-card {
+    width: 78%;
+  }
+
+  .prev-btn {
+    left: 2%;
+  }
+
+  .next-btn {
+    right: 2%;
+  }
+}

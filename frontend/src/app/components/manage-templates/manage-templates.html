@@ -1,10 +1,8 @@
 <section class="templates-container">
-  <!-- CABECERA CENTRADA -->
   <header class="templates-header">
     <h1>Gestión de Plantillas de Entrenamiento</h1>
     <p>Modifica las plantillas de entrenamiento existentes o crea nuevas</p>
 
-    <!-- BUSCADOR Y SELECTOR PERSONALIZADO -->
     <div class="search-box">
       <div class="custom-select-wrapper" [class.active]="isSelectOpen">
         <div class="custom-select-trigger" (click)="toggleSelect()">
@@ -28,7 +26,6 @@
     </div>
   </header>
 
-  <!-- GRID DE TARJETAS -->
   <div class="templates-grid">
     @for (template of filteredTemplates; track template.idtemplate) {
       <article class="template-card" (click)="openModal(template)">
@@ -38,6 +35,12 @@
           <p class="description">{{ template.description }}</p>
         </div>
         <div class="click-indicator">Ver ejercicios detallados</div>
+        <a
+          routerLink="/baccus-gym/exercises"
+          class="exercises-link"
+          (click)="$event.stopPropagation()"
+          >Consultar tutoriales</a
+        >
         <div class="managment-buttons">
           <button class="delete-btn" (click)="deleteTemplate($event, template.idtemplate)">
             Eliminar plantilla
@@ -54,7 +57,52 @@
     }
   </div>
 
-  <!-- MODAL DETALLES (RENDERIZADO CONDICIONAL) -->
+  <div class="section-divider"></div>
+
+  <header class="templates-header">
+    <h1>Gestión de Tutoriales</h1>
+    <p>Añade o elimina vídeos tutoriales de ejercicios para los usuarios</p>
+
+    <div class="search-box">
+      <input
+        type="text"
+        placeholder="Buscar tutorial..."
+        [(ngModel)]="tutorialSearchText"
+        (input)="onTutorialSearchChange()"
+      />
+      <button class="add-btn" (click)="openAddTutorialModal()">AÑADIR TUTORIAL</button>
+    </div>
+  </header>
+
+  <div class="templates-grid tutorials-grid">
+    @for (tutorial of filteredTutorials; track tutorial.id) {
+      <article class="tutorial-card" (click)="openVideoModal(tutorial)">
+        <video
+          class="tutorial-video-bg"
+          [src]="getVideoUrl(tutorial.url_video)"
+          muted
+          preload="metadata"
+        ></video>
+        <div class="tutorial-overlay">
+          <div class="tutorial-info">
+            <h2>{{ tutorial.name }}</h2>
+            <p class="description">{{ tutorial.description }}</p>
+          </div>
+          <div class="click-indicator">&#9654; Ver tutorial</div>
+          <div class="managment-buttons">
+            <button class="delete-btn" (click)="deleteTutorial($event, tutorial.id)">
+              Eliminar tutorial
+            </button>
+          </div>
+        </div>
+      </article>
+    } @empty {
+      <div class="no-templates">
+        <p>No se han encontrado tutoriales que coincidan con tu búsqueda.</p>
+      </div>
+    }
+  </div>
+
   @if (isModalOpen && selectedTemplate) {
     <div class="modal-overlay" (click)="closeModal()">
       <div class="modal-content" (click)="$event.stopPropagation()">
@@ -92,10 +140,14 @@
               </tbody>
             </table>
           </div>
+          <a routerLink="/baccus-gym/exercises" class="exercises-link" (click)="closeModal()"
+            >Consultar tutoriales</a
+          >
         </div>
       </div>
     </div>
   }
+
   @if (isAddModalOpen) {
     <div class="modal-overlay" (click)="closeAddModal()">
       <div class="modal-content" (click)="$event.stopPropagation()">
@@ -106,10 +158,11 @@
           <p class="modal-description">Configura los detalles básicos de la rutina</p>
         </header>
 
+        @if (successMessage) {
+          <div class="alert-success">{{ successMessage }}</div>
+        }
         @if (errorMessage) {
-          <div class="alert-error">
-            {{ errorMessage }}
-          </div>
+          <div class="alert-error">{{ errorMessage }}</div>
         }
 
         <div class="modal-body">
@@ -177,6 +230,7 @@
       </div>
     </div>
   }
+
   @if (isAddExerciseModalOpen) {
     <div class="modal-overlay" (click)="closeAddExerciseModal()">
       <div class="modal-content" (click)="$event.stopPropagation()">
@@ -187,6 +241,9 @@
           <p class="modal-description">Añade un ejercicio a la plantilla seleccionada</p>
         </header>
 
+        @if (successMessage) {
+          <div class="alert-success">{{ successMessage }}</div>
+        }
         @if (errorMessage) {
           <div class="alert-error">{{ errorMessage }}</div>
         }
@@ -204,7 +261,6 @@
               }
             </div>
 
-            <!-- Dos columnas para Series y Reps -->
             <div style="display: flex; gap: 15px">
               <div class="form-group" style="flex: 1">
                 <label>Series</label>
@@ -255,6 +311,110 @@
             </div>
           </form>
         </div>
+      </div>
+    </div>
+  }
+
+  @if (isAddTutorialModalOpen) {
+    <div class="modal-overlay" (click)="closeAddTutorialModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <button class="close-btn" (click)="closeAddTutorialModal()">&times;</button>
+
+        <header class="modal-header">
+          <h1>Nuevo Tutorial</h1>
+          <p class="modal-description">Sube un vídeo tutorial de ejercicio</p>
+        </header>
+
+        @if (tutorialSuccessMessage) {
+          <div class="alert-success">{{ tutorialSuccessMessage }}</div>
+        }
+        @if (tutorialErrorMessage) {
+          <div class="alert-error">{{ tutorialErrorMessage }}</div>
+        }
+
+        <div class="modal-body">
+          <form [formGroup]="addTutorialForm" (ngSubmit)="submitTutorial()" class="forgot-form">
+            <div class="form-group">
+              <label>Nombre del ejercicio</label>
+              <input
+                type="text"
+                formControlName="name"
+                placeholder="Ej: Sentadilla con barra"
+                [class.input-error]="
+                  addTutorialForm.get('name')?.invalid && addTutorialForm.get('name')?.touched
+                "
+              />
+              @if (addTutorialForm.get('name')?.invalid && addTutorialForm.get('name')?.touched) {
+                <small class="error-text">
+                  @if (addTutorialForm.get('name')?.errors?.['required']) {
+                    El nombre es obligatorio.
+                  } @else if (addTutorialForm.get('name')?.errors?.['minlength']) {
+                    Mínimo 3 caracteres.
+                  }
+                </small>
+              }
+            </div>
+
+            <div class="form-group">
+              <label>Descripción</label>
+              <textarea
+                formControlName="description"
+                rows="3"
+                placeholder="Describe brevemente la técnica del ejercicio..."
+                [class.input-error]="
+                  addTutorialForm.get('description')?.invalid &&
+                  addTutorialForm.get('description')?.touched
+                "
+              ></textarea>
+              @if (
+                addTutorialForm.get('description')?.invalid &&
+                addTutorialForm.get('description')?.touched
+              ) {
+                <small class="error-text">La descripción es obligatoria.</small>
+              }
+            </div>
+
+            <div class="form-group">
+              <label>Vídeo del ejercicio</label>
+              <div class="file-input-wrapper">
+                <label class="file-input-label" [class.file-selected]="selectedVideoFile">
+                  <span>{{
+                    selectedVideoFile ? selectedVideoFile.name : 'Seleccionar vídeo...'
+                  }}</span>
+                  <input
+                    type="file"
+                    accept="video/*"
+                    (change)="onVideoFileSelected($event)"
+                    class="file-input-hidden"
+                  />
+                </label>
+              </div>
+              @if (!selectedVideoFile && tutorialFormSubmitted) {
+                <small class="error-text">Debes seleccionar un vídeo.</small>
+              }
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn-enviar">GUARDAR TUTORIAL</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (isVideoModalOpen && selectedTutorial) {
+    <div class="modal-overlay" (click)="closeVideoModal()">
+      <div class="video-modal-content" (click)="$event.stopPropagation()">
+        <button class="close-btn" (click)="closeVideoModal()">&times;</button>
+        <h2 class="video-modal-title">{{ selectedTutorial.name }}</h2>
+        <video
+          class="video-player"
+          controls
+          autoplay
+          [src]="getVideoUrl(selectedTutorial.url_video)"
+        ></video>
+        <p class="video-modal-description">{{ selectedTutorial.description }}</p>
       </div>
     </div>
   }

@@ -28,8 +28,6 @@ export class DeleteAccount {
     if (confirm('¿Estás completamente seguro? Esta acción no se puede deshacer.')) {
       this.userService.deleteAccount().subscribe({
         next: (res) => {
-          alert(res.message);
-          // Limpiamos la sesión y redirigimos
           this.authService.logout();
         },
         error: (err) => {

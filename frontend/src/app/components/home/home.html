@@ -1,1 +1,95 @@
-<p>home works!</p>
+<div class="home-container">
+  <section class="hero-section">
+    <p class="hero-welcome">Bienvenido a</p>
+    <img class="hero-logo" src="/images/logo.png" alt="Baccus Gym" />
+  </section>
+
+  <section class="video-section">
+    <div class="video-wrapper">
+      <video autoplay [muted]="true" loop playsinline>
+        <source src="/videos/home/home-video.mp4" type="video/mp4" />
+      </video>
+    </div>
+  </section>
+
+  <section class="features-section">
+    <div
+      class="feature-card"
+      style="background-image: url('/images/home/professional-equipment.jpeg')"
+    >
+      <div class="feature-overlay">
+        <h3 class="feature-title">Equipamiento profesional</h3>
+        <p class="feature-text">
+          Entrena con maquinaria de alta gama diseñada para llevar tu rendimiento al siguiente
+          nivel. Nuestras instalaciones cuentan con el equipamiento más completo para cada
+          disciplina.
+        </p>
+      </div>
+    </div>
+    <div class="feature-card" style="background-image: url('/images/home/personal_advice.jpeg')">
+      <div class="feature-overlay">
+        <h3 class="feature-title">Asesorías personales</h3>
+        <p class="feature-text">
+          Entrenamiento, planes y asesoramiento nutricional personalizados adaptado al nivel de cada
+          persona
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <p class="cta-eyebrow">Tu cambio empieza hoy</p>
+    <h2 class="cta-title">¿Listo para dar el primer paso?</h2>
+    <p class="cta-subtitle">
+      Elige el plan que se adapta a ti o ponte en contacto con nuestro equipo. Estamos aquí para
+      ayudarte a alcanzar tus metas.
+    </p>
+    <div class="cta-buttons">
+      <a class="btn-primary" routerLink="/baccus-gym/see-plans">Ver planes</a>
+      <a class="btn-secondary" routerLink="/baccus-gym/contact">Contáctanos</a>
+    </div>
+  </section>
+
+  <section class="info-grid">
+    <div class="info-card" style="background-image: url('/images/home/schedule.jpeg')">
+      <div class="info-overlay">
+        <span class="material-symbols-outlined info-icon">schedule</span>
+        <h3 class="info-title">Horario</h3>
+        <p class="info-text">
+          Abrimos todos los días del año para que puedas entrenar cuando mejor te venga, sin
+          excusas. De lunes a viernes de 6:00 a 23:00, sábados y domingos de 8:00 a 21:00.
+        </p>
+      </div>
+    </div>
+    <div class="info-card" style="background-image: url('/images/home/powerlifting.jpeg')">
+      <div class="info-overlay">
+        <span class="material-symbols-outlined info-icon">fitness_center</span>
+        <h3 class="info-title">Powerlifting</h3>
+        <p class="info-text">
+          Zona especializada con plataformas, barras olímpicas, discos calibrados y todo lo
+          necesario para llevar tu fuerza al límite.
+        </p>
+      </div>
+    </div>
+    <div class="info-card" style="background-image: url('/images/home/arsenal_strength.jpeg')">
+      <div class="info-overlay">
+        <span class="material-symbols-outlined info-icon">precision_manufacturing</span>
+        <h3 class="info-title">Maquinaria profesional</h3>
+        <p class="info-text">
+          Equipamiento de alta gama para cada grupo muscular. Tecnología de élite al alcance de
+          todos los niveles. Panatta, Nautilus, Cybex, Arsenal strength, Maniak y mucho más.
+        </p>
+      </div>
+    </div>
+    <div class="info-card" style="background-image: url('/images/home/enviroment.jpeg')">
+      <div class="info-overlay">
+        <span class="material-symbols-outlined info-icon">groups</span>
+        <h3 class="info-title">Ambiente motivador</h3>
+        <p class="info-text">
+          Una comunidad que te impulsa. El ambiente ideal para superarte cada día y disfrutar del
+          proceso.
+        </p>
+      </div>
+    </div>
+  </section>
+</div>

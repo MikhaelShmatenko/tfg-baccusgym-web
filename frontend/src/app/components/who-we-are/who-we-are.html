@@ -1,1 +1,65 @@
-<p>who-we-are works!</p>
+<div class="who-we-are-container">
+  <section class="hero-section">
+    <h1 class="hero-title">QUIÉNES SOMOS</h1>
+  </section>
+
+  <section class="video-section">
+    <div class="video-wrapper">
+      <video
+        #videoRef
+        playsinline
+        (ended)="onVideoEnded()"
+        (click)="togglePlay(videoRef)"
+      >
+        <source src="/videos/home/home-video.mp4" type="video/mp4" />
+      </video>
+
+      @if (!isPlaying()) {
+        <div class="play-overlay" (click)="togglePlay(videoRef)">
+          <span class="material-symbols-outlined play-icon">play_circle</span>
+        </div>
+      }
+
+      <div class="video-controls">
+        <button class="control-btn" (click)="togglePlay(videoRef)">
+          <span class="material-symbols-outlined">
+            {{ isPlaying() ? 'pause' : 'play_arrow' }}
+          </span>
+        </button>
+        <div class="volume-control">
+          <button class="control-btn" (click)="toggleMuteIcon(videoRef)">
+            <span class="material-symbols-outlined">{{ volumeIcon() }}</span>
+          </button>
+          <input
+            type="range"
+            class="volume-slider"
+            min="0"
+            max="1"
+            step="0.01"
+            [value]="volume()"
+            (input)="onVolumeChange(videoRef, $event)"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="history-section">
+    <div class="history-card">
+      <div class="history-overlay">
+        <h2 class="history-title">NUESTRA HISTORIA</h2>
+        <p class="history-text">
+          Baccus Gym nació de la pasión por el deporte y la convicción de que cada persona merece
+          un espacio donde superarse. Fundado por deportistas para deportistas, desde el primer día
+          apostamos por la calidad: maquinaria profesional, un entorno motivador y un equipo
+          comprometido con tu progreso.
+        </p>
+        <p class="history-text">
+          Con los años hemos crecido, pero nunca hemos perdido la esencia: el trato cercano, el
+          aforo limitado que garantiza tu comodidad y la filosofía de que el esfuerzo constante
+          es el único camino hacia los resultados. Esto es Baccus Gym.
+        </p>
+      </div>
+    </div>
+  </section>
+</div>

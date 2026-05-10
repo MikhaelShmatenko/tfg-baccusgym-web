@@ -20,7 +20,7 @@ class PlanRequestService {
 
     await transporter.sendMail({
       from: '"Sistema de Solicitudes Baccus" <noreply@baccusgym.com>',
-      to: "mikhael88888@gmail.com",
+      to: process.env.EMAIL_USER,
       subject: `Nueva solicitud de Plan: ${plan.name} - ${data.name} ${data.lastName}`,
       html: `
         <h1>Nueva solicitud de inscripción</h1>

@@ -1,11 +1,10 @@
 .background-container {
-  /* Ocupa todo el alto de la ventana menos el header */
   min-height: calc(100vh - 100px);
   width: 100%;
   display: flex;
-  justify-content: center; /* Centra horizontalmente */
-  align-items: center; /* Centra verticalmente */
-  padding: 40px 20px; /* Espacio de seguridad para cuando crezca */
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
   box-sizing: border-box;
 }
 
@@ -21,12 +20,26 @@
 }
 
 h2 {
-  font-size: 3.5rem; /* Título mucho más grande */
+  font-size: 3.5rem;
   font-weight: 900;
   margin-bottom: 5px;
   text-transform: uppercase;
   letter-spacing: -2px;
   margin-top: 0;
+}
+
+h3 {
+  font-size: 1.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -2px;
+}
+
+h3 {
+  font-size: 1.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -2px;
 }
 
 .instruction-text {
@@ -39,7 +52,6 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
 }
 
 .form-group {
@@ -74,66 +86,20 @@ h2 {
 }
 
 .form-group input:focus {
-  outline: none; /* Quitamos el borde azul por defecto del navegador */
-  border-color: #d62121; /* Opcional: que el borde se ponga rojo */
-
-  /* Movimiento a la izquierda (valor negativo) */
+  outline: none;
+  border-color: #d62121;
   transform: scale(1.02);
 }
 
-.form-options {
-  width: 100%;
-  text-align: left; /* Lo mueve a la izquierda */
-  margin-top: 8px; /* Espacio pequeño justo debajo del input */
-}
-
-.forgot-link {
-  color: #ffffff;
-  font-size: 0.85rem;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.3s ease;
-}
-
-.forgot-link:hover {
-  color: #d62121; /* Cambio a rojo Baccus al pasar el ratón */
-}
-
-.password-wrapper {
-  position: relative;
-  width: 100%;
-}
-
-.toggle-btn {
-  position: absolute;
-  right: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #a8a8a8;
-  font-size: 1.2rem;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  z-index: 10; /* Asegura que esté por encima */
-}
-
-.password-wrapper input {
-  padding-right: 50px !important;
-}
-
 .btn-enviar {
-  width: 100%;
-  max-width: 300px;
-  padding: 20px;
-  background-color: #d62121;
-  color: #fff;
+  padding: 8px 12px;
   border: none;
   border-radius: 5px;
-  font-weight: 900;
-  font-size: 1.1rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  background-color: #d62121;
+  color: #fff;
+  text-transform: uppercase;
   cursor: pointer;
   transition:
     background 0.3s ease,
@@ -175,7 +141,7 @@ h2 {
 }
 
 .alert-success {
-  background-color: #d62121;
+  background-color: #00a855;
   color: #fff;
   padding: 15px;
   border-radius: 5px;
@@ -184,11 +150,200 @@ h2 {
   text-transform: uppercase;
   text-align: center;
   font-size: 0.9rem;
-  box-shadow: 0 4px 15px rgba(219, 0, 0, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 168, 85, 0.3);
   animation: slideIn 0.3s ease;
 }
 
-/* --- RESPONSIVE --- */
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.toggle-btn {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #d62121;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  z-index: 10;
+  transition: color 0.3s ease;
+}
+
+.toggle-btn:hover {
+  color: #700000;
+}
+
+.password-wrapper input {
+  padding-right: 50px !important;
+}
+
+.checkbox-group {
+  margin-bottom: 25px;
+}
+
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+}
+
+.checkbox-wrapper input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #d62121;
+}
+
+.checkbox-wrapper label {
+  text-transform: none;
+  font-size: 0.95rem;
+  color: #ccc;
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+.checkbox-wrapper a {
+  color: #ffffff;
+  font-size: 0.95rem;
+  text-decoration: underline;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.checkbox-wrapper a:hover {
+  color: #d62121;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background-color: #0a0a0a;
+  width: 90%;
+  max-width: 800px;
+  max-height: 80vh;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  animation: modalFall 0.4s ease-out forwards;
+  will-change: transform, opacity;
+}
+
+.modal-header {
+  padding: 20px;
+  border-bottom: 2px solid #d62121;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  margin: 0;
+  color: #ffffff;
+  font-size: 1.8rem;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+  color: #d62121;
+}
+
+.modal-body {
+  padding: 30px;
+  overflow-y: auto;
+  color: #ffffff;
+  text-align: left;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.modal-body h4,
+.modal-body h5 {
+  color: #d62121;
+  margin-top: 20px;
+  text-transform: uppercase;
+}
+
+.modal-body::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 10px;
+  border: 2px solid #0a0a0a;
+}
+
+.modal-footer {
+  padding: 15px;
+  border-top: 1px solid #222;
+  text-align: right;
+}
+
+.btn-close-modal {
+  padding: 10px 25px;
+  background: #d62121;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+.btn-close-modal:hover {
+  background-color: #700000;
+  transform: scale(1.05);
+}
+
+.btn-close-modal:active {
+  transform: scale(0.98);
+}
+
+@keyframes modalFall {
+  0% {
+    opacity: 0;
+    transform: translateY(-100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 @media (max-width: 768px) {
   .background-container {

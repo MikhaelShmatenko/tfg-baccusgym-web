@@ -25,7 +25,7 @@ export class Header {
   }
 
   onLogout() {
-    this.isSidebarOpen = false; // Close the sidebar on logout
+    this.isSidebarOpen = false;
     this.authService.logout();
   }
 }

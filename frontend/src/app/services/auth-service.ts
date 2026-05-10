@@ -31,7 +31,7 @@ export class AuthService {
   logout() {
     this.localStorageService.clearSession();
     this.currentUserSubject.next(null);
-    this.router.navigate(['/baccus-gym/user/login']);
+    this.router.navigate(['/baccus-gym/']);
   }
 
   sendRecoveryEmail(email: string): Observable<any> {

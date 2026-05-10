@@ -11,7 +11,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { start } from 'repl';
 import { User } from '../../interfaces/user';
 
 @Component({
@@ -30,6 +29,7 @@ export class ManageUsers implements OnInit {
   filteredUsers: UserDetails[] = [];
   searchText: string = '';
   errorMessage: string | null = null;
+  successMessage: string | null = null;
   calculatedRemainingDays: number | string = 0;
   isSelectOpen = false;
   isAddUserModalOpen = false;
@@ -96,6 +96,7 @@ export class ManageUsers implements OnInit {
   openAddUserModal() {
     this.userForm.reset({ admin: false, planId: null });
     this.errorMessage = null;
+    this.successMessage = null;
     this.showPassword = false;
     this.isAddUserModalOpen = true;
     document.body.style.overflow = 'hidden';
@@ -129,9 +130,10 @@ export class ManageUsers implements OnInit {
 
     this.adminService.addUser(newUser).subscribe({
       next: () => {
-        alert('Usuario creado con éxito');
-        this.loadUsers(); // Recargamos la lista
-        this.closeAddUserModal();
+        this.loadUsers();
+        this.userForm.reset({ admin: false, planId: null });
+        this.successMessage = 'Usuario creado con éxito.';
+        this.changeDetectorRef.detectChanges();
       },
       error: (err) => {
         this.errorMessage = err.error?.message || 'Error al crear el usuario';
@@ -143,10 +145,8 @@ export class ManageUsers implements OnInit {
   openPlanModal(user: UserDetails) {
     this.selectedUser = user;
     this.errorMessage = null;
+    this.successMessage = null;
     this.isPlanModalOpen = true;
-
-    // Pre-configuración de fecha de hoy
-    const today = new Date().toISOString().split('T')[0];
 
     this.planForm.patchValue({
       idplan: user.idplan || '',
@@ -177,9 +177,9 @@ export class ManageUsers implements OnInit {
 
     this.adminService.setUserPlan(payload).subscribe({
       next: () => {
-        alert('Plan actualizado con éxito');
         this.loadUsers();
-        this.closePlanModal();
+        this.successMessage = 'Plan actualizado con éxito.';
+        this.changeDetectorRef.detectChanges();
       },
       error: (err) => {
         this.errorMessage = err.error?.message || 'Error al actualizar el plan';
@@ -207,7 +207,7 @@ export class ManageUsers implements OnInit {
         this.changeDetectorRef.detectChanges();
       },
       error: (err) => {
-        console.error('Error al canjear día:', err);
+        // console.error('Error al canjear día:', err);
         alert(err.error?.message || 'No se pudo canjear el día. Verifica que el bono esté activo.');
       },
     });
@@ -230,7 +230,7 @@ export class ManageUsers implements OnInit {
         this.changeDetectorRef.detectChanges();
       },
       error: (err) => {
-        console.error('Error al desactivar plan:', err);
+        // console.error('Error al desactivar plan:', err);
         alert(err.error?.message || 'No se pudo desactivar el plan. Inténtalo de nuevo.');
       },
     });
