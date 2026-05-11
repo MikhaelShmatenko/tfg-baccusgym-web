@@ -172,6 +172,12 @@
 
       <div class="form-group checkbox-group">
         <div class="checkbox-wrapper">
+          <label for="acceptTerms">
+            Acepto los
+            <a href="javascript:void(0)" (click)="toggleTerms(); $event.stopPropagation()"
+              >términos y condiciones</a
+            >
+          </label>
           <input
             type="checkbox"
             id="acceptTerms"
@@ -180,12 +186,6 @@
               planForm.get('acceptTerms')?.invalid && planForm.get('acceptTerms')?.touched
             "
           />
-          <label for="acceptTerms">
-            Acepto los
-            <a href="javascript:void(0)" (click)="toggleTerms(); $event.stopPropagation()"
-              >términos y condiciones</a
-            >
-          </label>
         </div>
 
         @if (planForm.get('acceptTerms')?.invalid && planForm.get('acceptTerms')?.touched) {

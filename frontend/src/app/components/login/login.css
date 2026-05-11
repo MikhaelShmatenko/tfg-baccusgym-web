@@ -1,3 +1,18 @@
+.form-options {
+  margin-top: 12px;
+}
+
+.forgot-link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: color 0.2s ease;
+}
+
+.forgot-link:hover {
+  color: #d62121;
+}
+
 .background-container {
   min-height: calc(100vh - 100px);
   width: 100%;
